@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "repeats": 3,
+  "warmups": 0,
+  "seed": 42,
+  "max_trials": 36,
+  "assessment_seconds": 600,
+  "limits": {
+    "memory_mib": 1024,
+    "cpus": 1,
+    "cpu_seconds": 30,
+    "wall_seconds": 45,
+    "scratch_mib": 64,
+    "output_bytes": 1048576,
+    "pids": 64
+  }
+}

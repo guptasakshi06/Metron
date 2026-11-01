@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "observed_at_utc": "2026-11-01T21:14:10.429814+00:00",
+  "image_id": "sha256:2408f9bd11b4153494e1dc1bb4fe960f2151a00e971b98b1334f763ffa011ed6",
+  "fixture_sha256": "01974a491f9de8f7d8790b4f999fef94b6219cd7c6246f971f1e6d6598ab1167",
+  "original_unchanged": true,
+  "orphan_containers": 0,
+  "cli": "extracted_wheel_in_separate_working_directory",
+  "raw_reports": [
+    "s06-benchmark-fresh.json",
+    "s06-benchmark-warm.json"
+  ],
+  "probes": [
+    {
+      "probe": "wall",
+      "limits": {
+        "memory_mib": 1024,
+        "cpus": 1,
+        "cpu_seconds": 30,
+        "wall_seconds": 0.4,
+        "scratch_mib": 64,
+        "output_bytes": 1048576,
+        "pids": 64
+      },
+      "status": "timeout",
+      "reason": "timeout",
+      "stdout": "",
+      "elapsed_seconds": 0.401743976999569,
+      "exit_code": null,
+      "oom_killed": false
+    },
+    {
+      "probe": "memory",
+      "limits": {
+        "memory_mib": 64,
+        "cpus": 1,
+        "cpu_seconds": 30,
+        "wall_seconds": 45,
+        "scratch_mib": 64,
+        "output_bytes": 1048576,
+        "pids": 64
+      },
+      "status": "memory_limit",
+      "reason": "container_exit",
+      "stdout": "",
+      "elapsed_seconds": 0.20415293499900145,
+      "exit_code": 137,
+      "oom_killed": true
+    },
+    {
+      "probe": "cpu",
+      "limits": {
+        "memory_mib": 1024,
+        "cpus": 1,
+        "cpu_seconds": 1,
+        "wall_seconds": 45,
+        "scratch_mib": 64,
+        "output_bytes": 1048576,
+        "pids": 64
+      },
+      "status": "cpu_limit",
+      "reason": "container_exit",
+      "stdout": "",
+      "elapsed_seconds": 1.1546006169992324,
+      "exit_code": 152,
+      "oom_killed": false
+    },
+    {
+      "probe": "output",
+      "limits": {
+        "memory_mib": 1024,
+        "cpus": 1,
+        "cpu_seconds": 30,
+        "wall_seconds": 45,
+        "scratch_mib": 64,
+        "output_bytes": 1024,
+        "pids": 64
+      },
+      "status": "output_limit",
+      "reason": "combined_stdout_stderr_quota",
+      "stdout": "",
+      "elapsed_seconds": 0.12461763900137157,
+      "exit_code": null,
+      "oom_killed": false
+    },
+    {
+      "probe": "cancellation",
+      "status": "cancelled",
+      "reason": "cancelled",
+      "stdout": "",
+      "elapsed_seconds": 0.4521258369968564,
+      "exit_code": null,
+      "oom_killed": false
+    }
+  ]
+}

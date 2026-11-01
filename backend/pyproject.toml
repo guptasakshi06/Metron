@@ -41,8 +41,11 @@ force-include = { "migrations" = "data_optimizer/migrations" }
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
-addopts = "-m 'not integration'"
-markers = ["integration: requires the local PostgreSQL and MinIO services"]
+addopts = "-m 'not integration and not benchmark_sandbox'"
+markers = [
+  "integration: requires the local PostgreSQL and MinIO services",
+  "benchmark_sandbox: requires Docker and the local benchmark image",
+]
 
 [tool.ruff]
 line-length = 100

@@ -65,3 +65,11 @@ build:
 demo:
 	@echo 'The assessment pipeline is not implemented until later sprints. No demo results are available.' >&2
 	@exit 2
+
+.PHONY: benchmark-image test-benchmark
+benchmark-image:
+	$(UV) export --locked --no-dev --no-emit-project --project backend --output-file infra/worker/requirements.lock >/dev/null
+	docker build -t data-optimizer-benchmark:s06 -f infra/worker/Dockerfile .
+
+test-benchmark:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend pytest -m benchmark_sandbox backend/tests/test_benchmark_sandbox.py

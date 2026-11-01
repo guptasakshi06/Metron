@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 02:22, Asia/Kolkata
+**Last updated:** 2026-11-02 02:47, Asia/Kolkata
 **Current sprint:** None
-**Next sprint:** S06
-**MVP status:** S01 through S05 complete; MVP implementation in progress
+**Next sprint:** S07
+**MVP status:** S01 through S06 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -245,7 +245,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S03 | Typed profiling and the local privacy workflow | S02 | completed | 35 profile tests, 18 real service integration tests, live CLI/HTTP import, resource evidence, strict checks and builds; see execution record |
 | S04 | Workload specifications and semantic integrity checks | S03 | completed | 60 S04 tests, full check/test/build, real CLI pass/rejection and packaged worker; see execution record and docs/evidence/s04-verification.md |
 | S05 | Candidate generation and lossless conversion | S04 | completed | 25 conversion tests, full check/test/build, real CLI matrix/reuse and packaged worker; see docs/evidence/s05-verification.md |
-| S06 | Bounded benchmark execution and evidence capture | S05 | not_started | None |
+| S06 | Bounded benchmark execution and evidence capture | S05 | completed | 191 backend + 3 frontend tests, 9 real Docker tests, extracted-wheel CLI fresh/warm matrix and resource evidence; see execution record |
 | S07 | Versioned pricing and total cost calculations | S06 | not_started | None |
 | S08 | Evidence based ranking and adaptive experiment selection | S07 | not_started | None |
 | S09 | Asynchronous assessments and complete API integration | S08 | not_started | None |
@@ -255,7 +255,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S06 is the next unfinished sprint. S01 through S05 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S07 is the next unfinished sprint. S01 through S06 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -499,21 +499,21 @@ Record candidate defaults, codec versions, artifact conventions, compatibility r
 
 ### S06 Bounded benchmark execution and evidence capture
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S05  
 **Outcome:** Measure candidate performance fairly inside a constrained execution environment.  
 **Expected code and document areas:** backend/src/data_optimizer/{benchmarking,sandbox}; infra/worker/; backend/tests/integration/; docs/benchmark-method.md
 
 #### Tasks
 
-- [ ] S06.01 Implement a benchmark runner in isolated containers or an equivalent enforceable process boundary with CPU, memory, disk, wall-clock and output limits. Document the actual boundary and unsupported isolation controls.
-- [ ] S06.02 Disable unnecessary network access, engine extensions, arbitrary paths and executable input. Limit query compilation to S04 workload operations and allowlisted assessment artifacts.
-- [ ] S06.03 Run baseline and candidates under the same environment and limits. Randomize/interleave order where useful to reduce drift; record repeat counts and warm-up behavior.
-- [ ] S06.04 Measure query timings, conversion cost, CPU, peak memory, physical bytes and scanned bytes only where actually available. Keep missing metrics null with a reason.
-- [ ] S06.05 Distinguish warm runs, fresh-process runs and genuine cold-cache runs. Never label OS-cache-cold measurements unless the cache procedure actually controls that cache.
-- [ ] S06.06 Record raw timings and compute suitable summaries. Define minimum observations for tail latency; show unvalidated tail behavior when observations are insufficient.
-- [ ] S06.07 Make timeouts, memory failures, integrity failures, cancellation and experiment-budget exhaustion explicit results. Never rank failed trials as fast or free.
-- [ ] S06.08 Persist environment and workload fingerprints, engine versions, parameters, raw measurements and artifact references. Add a CLI benchmark report suitable for reproduction.
+- [x] S06.01 Implement a benchmark runner in isolated containers or an equivalent enforceable process boundary with CPU, memory, disk, wall-clock and output limits. Document the actual boundary and unsupported isolation controls.
+- [x] S06.02 Disable unnecessary network access, engine extensions, arbitrary paths and executable input. Limit query compilation to S04 workload operations and allowlisted assessment artifacts.
+- [x] S06.03 Run baseline and candidates under the same environment and limits. Randomize/interleave order where useful to reduce drift; record repeat counts and warm-up behavior.
+- [x] S06.04 Measure query timings, conversion cost, CPU, peak memory, physical bytes and scanned bytes only where actually available. Keep missing metrics null with a reason.
+- [x] S06.05 Distinguish warm runs, fresh-process runs and genuine cold-cache runs. Never label OS-cache-cold measurements unless the cache procedure actually controls that cache.
+- [x] S06.06 Record raw timings and compute suitable summaries. Define minimum observations for tail latency; show unvalidated tail behavior when observations are insufficient.
+- [x] S06.07 Make timeouts, memory failures, integrity failures, cancellation and experiment-budget exhaustion explicit results. Never rank failed trials as fast or free.
+- [x] S06.08 Persist environment and workload fingerprints, engine versions, parameters, raw measurements and artifact references. Add a CLI benchmark report suitable for reproduction.
 
 #### Acceptance gates
 
@@ -531,18 +531,19 @@ Record hardware/environment, limits, cache procedure, metric coverage, benchmark
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S06.01 after its dependencies are verified.
+- Started: 2026-11-02 (Asia/Kolkata)
+- Updated: 2026-11-02 02:47 (Asia/Kolkata)
+- Completed: 2026-11-02 (Asia/Kolkata)
+- Branch and commit if available: `main`, `d150931` (existing subject `S06`). The initial tree had S01–S05 code and no benchmark implementation; the handoff correctly pointed to S06. Clean worktree at start; no agent commit/push/history change.
+- Delivered behavior: Linux Docker/cgroup v2 benchmark boundary with CPU quota/time, memory without swap, bounded tmpfs/files/output, read-only snapshots/root, unprivileged user, network none and disabled engine extensions/external paths. Baseline and verified alternatives run under one immutable image and identical settings, with seeded interleaved rounds, fresh/warm process labels, full typed load plus in-memory query timings, repeated result-hash checks, explicit failures/stops, raw observations, median/ranges/sample standard deviation and null unvalidated tails/scanned bytes. Atomic new-file CLI reports preserve complete configuration/request/input/workload/integrity/artifact lineage and S05 conversion metrics.
+- Files changed: `backend/src/data_optimizer/benchmarking/`, `sandbox/`, shared typed loader in `workloads/runner.py`, `cli.py`, `backend/pyproject.toml`; `backend/tests/test_benchmarking.py`, `test_benchmark_sandbox.py`; `infra/worker/Dockerfile`, hash-locked `requirements.lock`, `.dockerignore`, `Makefile`; `examples/s06-benchmark-request.json`, `scripts/verify-s06.py`; `docs/benchmark-method.md`, `docs/decisions/0006-s06-benchmark-boundary.md`, `docs/evidence/s06-*`; README and this handoff. No backend dependency/uv lockfile, API, schema or frontend code change.
+- Setup and run commands: `UV_OFFLINE=1 make benchmark-image` exports the existing lock and builds `data-optimizer-benchmark:s06` (initial image build downloaded pinned dependencies). Existing `convert` creates verified artifacts; `uv run --locked --project backend data-optimizer benchmark ARTIFACT_DIR... --request examples/s06-benchmark-request.json --output NEW_REPORT.json` runs the matrix including exactly one baseline. `make test-benchmark` requires local Docker/cgroup v2 and that image. Full reproduction commands in `docs/benchmark-method.md`.
+- Verification commands and outcomes: `UV_OFFLINE=1 make check` passed Ruff, strict mypy on 58 source files, ESLint and TypeScript. `UV_OFFLINE=1 make test` passed 191 backend and 3 frontend tests (12 new deterministic S06 tests); 18 service and 9 Docker tests deselected; pre-existing TestClient warning remains. `UV_OFFLINE=1 make test-benchmark` passed all 9 actual Docker tests in 27.10 seconds, including fresh/warm baseline-plus-three, multi-part loading, filesystem/network/engine restrictions, wall/CPU/memory/tmpfs/output limits, concurrent independent assessment, cancellation and active budget exhaustion. `UV_OFFLINE=1 make build` passed Python wheel/sdist and Vite. `UV_OFFLINE=1 UV_CACHE_DIR=.tools/uv-cache .tools/uv-bin/uv run --locked --project backend python scripts/verify-s06.py --output-dir docs/evidence` passed real CLI from extracted wheel in a separate working directory, 24 measured fresh/warm trials and actual resource probes. Script Ruff and saved report/request/environment/manifest/integrity/query fingerprint readback passed. `git diff --check` passed after final handoff reconciliation.
+- Evidence and report paths: `docs/evidence/s06-benchmark-fresh.json`, `s06-benchmark-warm.json`, `s06-resource-results.json`, `s06-verification.md`. Intel i7-12650H, Linux 7.0.0-28-generic x86_64, Docker 29.1.3, Python 3.12.3, PyArrow/Arrow 26.0.0, DuckDB 1.5.6, container zlib 1.2.13. Image ID `sha256:2408f9bd11b4153494e1dc1bb4fe960f2151a00e971b98b1334f763ffa011ed6`. Three-record primary fixture, 3 repeats per candidate/cache mode; original unchanged and zero labeled containers left. Actual 0.4s wall probe stopped at ~0.402s after attach; 64MiB excessive allocation OOM at ~0.204s; 1 CPU-second loop at ~1.155s. See evidence for variance rather than universal performance thresholds.
+- Decisions and deviations: D021 / decision 0006. Default benchmark request: 1 CPU, 1024MiB memory/no swap, 64MiB tmpfs, 64 pids, 30/31 soft/hard CPU seconds, 45 wall seconds, 1MiB combined output, 600 assessment seconds, 512MiB total staged data, 3 repeats (maximum 5) and 0 warmups (maximum 2). S04 typed loading was extracted for multi-part use without changing interpretation; queries follow full materialization. This measures typed import-and-query, not native Parquet scans/pushdown. OS cache is uncontrolled and pre-read by hashing; no cold claim. p95 requires at least 100 observations and stays null. Conversion metrics retain S05 process provenance. CPU/alarm signal handlers use explicit exits to avoid host core-dump handling; ambiguous non-OOM hard kills remain unknown failures.
+- Blockers or unverified checks: No S06 acceptance blocker. No service integration rerun (no API/storage/migration changes), native file scan/pushdown, true cold-cache, tail/concurrency/cloud latency, maximum upload-capacity, production, provider or customer/pilot validation. Docker creation/removal have separate bounded control timeouts; no exclusive CPU/I/O guarantees. Parent-SIGKILL/power-loss/daemon-loss cleanup was not tested; kernel worker alarm/CPU bounds limit execution but stopped containers/private snapshots may remain. S09 owns queue/authenticated persistence/admission/crash recovery. S14 retains operational capacity calibration. See method and evidence for full metric/isolation scope.
+- Completion checklist: All eight tasks and three local gates verified; integration/CLI/package path checked; source and Git history preserved; full checks/build plus dedicated Docker tests pass; defaults, decisions, raw evidence and limitations documented; ledger/current/next/date/history reconciled. No commit, push, public deployment or paid provisioning.
+- Resume from: Start S07.01 immutable price snapshots and total-cost calculations. Read this handoff, decision 0006 and `docs/benchmark-method.md`; consume actual measurements and preserve null/failed/partial coverage. Do not infer native/cloud performance or savings from the typed in-memory query timings. Do not start S08 or later in the S07 chat.
 
 ### S07 Versioned pricing and total cost calculations
 
@@ -965,16 +966,18 @@ This checklist is a reusable template. Copy its result into the active Execution
 
 | D020 | 2026-11-02 | Bounded local candidates, exact post-conversion integrity and locked atomic manifest publication | Preserve originals/semantics, bound layouts and reuse only compatible verified data; local CLI ownership is organizational until S09; see decision 0005 |
 
+| D021 | 2026-11-02 | Docker/cgroup v2 benchmark trials, manifest snapshots and typed load/query evidence | Enforce local resources/network/filesystem limits, retain exact lineage and distinguish uncontrolled cache/native-scan gaps; see decision 0006 |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S06. S01 through S05 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S07. S01 through S06 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
 | Runtime availability, Docker and local service support | Verified in S01: Python 3.12.3; Node 24.22.2/npm 11.19.1 and uv 0.13.6 installed under `.tools`; Docker 29.1.3 plus legacy Compose 1.29.2; S01 containers healthy on alternate loopback ports. Compose v2 plugin is absent, so Make auto-selects legacy Compose where needed. |
-| Exact workload limits and benchmark reliability | Establish configured bounds, then calibrate in S06/S14 |
+| Exact workload limits and benchmark reliability | S06 verified configured controls and repeated fixture measurements; S14 retains maximum-capacity calibration, native-scan/concurrency and operational reliability work |
 | LLM provider credentials | Optional for the local MVP; configure a real adapter when available and record unverified live tests |
 | Real cloud pricing or customer discounts | Use explicitly synthetic offline fixtures until official rates or customer inputs are verified |
 | Customer interviews, representative private data and bills | Pending external pilot validation; never fabricate completion |
@@ -1058,6 +1061,19 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 - Main advanced externally to `9b80b88` during work; agent made no commit/push and preserved all history. No service integration rerun, query benchmark, production sandbox, provider/cloud/customer validation or S06 implementation claimed.
 - D020 records local atomic prefixes and multi-file concatenation validation; operational/version/codec boundaries are in `docs/candidate-support.md` and `docs/evidence/s05-verification.md`.
 - Handoff reconciled: S05 completed; Current sprint None; Next sprint S06. Resume bounded benchmark execution in the next implementation chat.
+
+### S06 start on 2026-11-02
+
+- Selected S06 after reading handoff/architecture and inspecting clean main at `d150931`. S01–S05 code is present. Marked in_progress before implementation.
+- Resume at Docker runtime with bounded scratch, CPU/memory/time/output and manifest-bound S04 workload execution. No later sprint work.
+
+### S06 completion on 2026-11-02
+
+- Completed S06.01–S06.08: enforceable local Docker boundary; manifest-bound seeded baseline/candidate trials; fresh/warm process evidence with OS cache uncontrolled; full typed load and in-memory query timings, CPU/RSS, conversion/bytes lineage, explicit failures/stops and reproducible CLI JSON.
+- Passed full check/test/build (191 backend + 3 frontend), 9 real Docker tests and extracted-wheel CLI fresh/warm matrix (24 measured trials). Actual CPU/memory/wall/tmpfs/output, network/filesystem/engine, multi-part, cancellation/budget and independent concurrent-assessment paths verified. See `docs/evidence/s06-verification.md` and raw reports.
+- Decision D021/0006 records the actual boundary and metric limits. No cold-cache, native pushdown, tail/concurrency/cloud, supported-capacity, customer or savings claim. No service integration rerun or crash/daemon-loss cleanup test; normal cleanup leaves no labeled containers.
+- Initial clean `main` at `d150931` had commit subject `S06` but no S06 benchmark code. Followed actual tree and canonical handoff; no agent commit/push, deployment/provisioning or history change.
+- Handoff reconciled: S06 completed; Current sprint None; Next sprint S07. Resume versioned pricing and economics in the next implementation chat.
 
 ### Template for subsequent session entries
 

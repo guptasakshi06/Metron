@@ -72,6 +72,49 @@ def logical_types(baseline: Baseline) -> tuple[dict[str, str], dict[str, str]]:
     return logical, sql
 
 
+def load_relation(
+    db: duckdb.DuckDBPyConnection,
+    paths: tuple[Path, ...],
+    options: ProfileOptions,
+    baseline: Baseline,
+    limits: IntegrityOptions,
+) -> None:
+    """Same typed loading for integrity and benchmarks; all manifest parts share one budget."""
+    _, types = logical_types(baseline)
+    columns = tuple(types)
+    definition = ", ".join(f"{identifier(name)} {types[name]}" for name in columns)
+    db.execute(f"CREATE TABLE {TABLE} ({definition})")
+    insert = f"INSERT INTO {TABLE} VALUES ({','.join('?' for _ in columns)})"
+    batch: list[tuple[Any, ...]] = []
+    count = 0
+    budget = Budget(options.max_decoded_bytes)
+    source_rows = (row for path in paths for row in rows(path, options, budget))
+    for row in source_rows:
+        count += 1
+        if count > limits.max_rows:
+            raise ProfileError("integrity_row_quota")
+        if set(row) != set(columns):
+            raise ProfileError("input_changed_during_integrity")
+        values = tuple(row[name] for name in columns)
+        for value in values:
+            if isinstance(value, int) and not isinstance(value, bool):
+                if not -(2**63) <= value < 2**63:
+                    raise ProfileError("workload_integer_range_unsupported")
+            if isinstance(value, datetime):
+                if value.replace(tzinfo=None) in {datetime.min, datetime.max}:
+                    raise ProfileError("workload_timestamp_sentinel_unsupported")
+            elif isinstance(value, date) and value in {date.min, date.max}:
+                raise ProfileError("workload_date_sentinel_unsupported")
+        batch.append(values)
+        if len(batch) == 128:
+            db.executemany(insert, batch)
+            batch.clear()
+    if batch:
+        db.executemany(insert, batch)
+    if count != baseline.row_count:
+        raise ProfileError("input_changed_during_integrity")
+
+
 def execute_workload(
     path: Path,
     options: ProfileOptions,
@@ -79,40 +122,11 @@ def execute_workload(
     workload: Workload,
     limits: IntegrityOptions,
 ) -> dict[str, list[tuple[Any, ...]]]:
-    logical, types = logical_types(baseline)
+    logical, _ = logical_types(baseline)
     queries = {q.id: compile_query(q, logical) for q in workload.queries}
     with connection(limits) as db:
-        columns = tuple(types)
-        definition = ", ".join(f"{identifier(name)} {types[name]}" for name in columns)
-        db.execute(f"CREATE TABLE {TABLE} ({definition})")
-        insert = f"INSERT INTO {TABLE} VALUES ({','.join('?' for _ in columns)})"
-        batch: list[tuple[Any, ...]] = []
-        count = 0
-        for row in rows(path, options, Budget(options.max_decoded_bytes)):
-            count += 1
-            if count > limits.max_rows:
-                raise ProfileError("integrity_row_quota")
-            if set(row) != set(columns):
-                raise ProfileError("input_changed_during_integrity")
-            values = tuple(row[name] for name in columns)
-            for value in values:
-                if isinstance(value, int) and not isinstance(value, bool):
-                    if not -(2**63) <= value < 2**63:
-                        raise ProfileError("workload_integer_range_unsupported")
-                if isinstance(value, datetime):
-                    if value.replace(tzinfo=None) in {datetime.min, datetime.max}:
-                        raise ProfileError("workload_timestamp_sentinel_unsupported")
-                elif isinstance(value, date) and value in {date.min, date.max}:
-                    raise ProfileError("workload_date_sentinel_unsupported")
-            batch.append(values)
-            if len(batch) == 128:
-                db.executemany(insert, batch)
-                batch.clear()
-        if batch:
-            db.executemany(insert, batch)
-        if count != baseline.row_count or input_digest(path, options.max_raw_bytes) != (
-            baseline.input_fingerprint
-        ):
+        load_relation(db, (path,), options, baseline, limits)
+        if input_digest(path, options.max_raw_bytes) != baseline.input_fingerprint:
             raise ProfileError("input_changed_during_integrity")
         output = {}
         for name, compiled in queries.items():

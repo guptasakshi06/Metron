@@ -2,7 +2,7 @@
 
 Data Optimizer compares analytical dataset representations against a stated workload. It is designed to recommend the best tested feasible option, explain its evidence and preserve unknowns. This repository is being implemented one sprint at a time; the current sprint is recorded in [SPRINT_HANDOFF.md](SPRINT_HANDOFF.md).
 
-## Current implementation: S05
+## Current implementation: S06
 
 The application has versioned contracts, real health/readiness checks, tenant-scoped project and dataset metadata, authenticated bounded uploads for CSV, NDJSON and Parquet, structural validation, private MinIO object storage, immutable dataset versions, retention/deletion recovery, bounded local typed profiling, reproducible sampling, metadata-only exports and reviewed tenant-scoped profile import. The frontend is still a connectivity shell; assessment, recommendation and assessment-report workflows are scheduled for later sprints. It does not display fabricated assessment results.
 
@@ -16,7 +16,10 @@ S05 adds bounded candidate enumeration and atomic local assessment copies: basel
 gzip NDJSON, Snappy/Zstandard Parquet and workload-guided layouts, with exact integrity,
 resource/byte manifests and verified reuse. Run `data-optimizer candidate-list` or
 `data-optimizer convert`; see [candidate support and commands](docs/candidate-support.md).
-Benchmarking and server assessment orchestration remain future sprints.
+S06 adds Docker-isolated local benchmarking of verified manifests, seeded interleaved
+repeats, typed load/query timings, honest cache labels, raw evidence and explicit resource
+failures. See [benchmark method and reproduction](docs/benchmark-method.md).
+Server assessment orchestration remains S09.
 
 ### Runtime versions
 
@@ -69,19 +72,29 @@ make setup       # locked Python sync and npm ci
 make check       # Ruff, mypy, ESLint and TypeScript
 make test        # backend contract/API checks and frontend status checks
 make test-integration # real PostgreSQL/MinIO tests; not run by make test
+make benchmark-image # build the locked local Linux benchmark image
+make test-benchmark # real Docker benchmark and isolation tests; not run by make test
 make build       # Python wheel/sdist and Vite production output
 make demo        # exits nonzero until the measured assessment pipeline exists
 ```
 
 See [the ingestion runbook](docs/runbooks/ingestion.md) for API examples, the local identity boundary, file validation and retention cleanup. The runbook uses the synthetic fixture at `examples/s02-events.csv`.
 
-The local processing limits in `.env.example` are provisional policy defaults, not measured capacity: 256 MiB raw upload, a separate 1 GiB decompressed limit, at most 12 candidates and 5 timed repeats, 60 seconds per query, 15 minutes per assessment and a 2 GiB worker memory budget. S06 and S14 must calibrate these values on recorded hardware.
+The local processing limits in `.env.example` remain provisional policy defaults. The S06
+offline benchmark has separate explicit request limits: 1 CPU, 1 GiB memory without swap,
+64 MiB scratch, 30 CPU seconds, 45 wall seconds per trial and 600 seconds per matrix.
+The fixture/resource evidence establishes those tested paths, not maximum supported dataset
+capacity. See the benchmark method; S14 retains operational capacity calibration.
 
 ### Dataset and evidence boundaries
 
 The data scope is CSV, NDJSON and Parquet. S02 accepts CSV and NDJSON text plus gzip-wrapped NDJSON and Parquet files, validates actual structure under byte and subprocess resource bounds, fingerprints original bytes, and stores them tenant-scoped. Dataset IDs are stable UUIDs and every replacement is a new immutable version. S03 adds local profiles with conservative, explicit typed semantics; S05 adds bounded local lossless conversion. Existing contracts preserve timezone-aware timestamps, explicit units, decimal precision and unknown values. Future recommendations must distinguish user-supplied, local-profile, server-measured, synthetic and projected evidence. A `change` decision requires measured evidence, an experiment reference and passed integrity.
 
-No benchmark, savings calculation, assessment table, queue or live external identity-provider integration is implemented. Local auth is only for loopback development; see [decision 0002](docs/decisions/0002-s02-ingestion.md) and the runbook before changing auth/storage settings. The upload and decompression limits are configurable policy bounds, not measured capacity or cloud guarantees.
+The benchmark measures full typed decoding/loading followed by in-memory queries; it does
+not establish native Parquet pushdown, cloud latency or concurrency. Savings calculations,
+assessment tables, queues and live external identity-provider integration remain future
+work. Local auth is only for loopback development; see
+[decision 0002](docs/decisions/0002-s02-ingestion.md) before changing auth/storage settings.
 
 ### Local profiling (S03)
 

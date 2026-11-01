@@ -4,6 +4,8 @@ import argparse
 from collections.abc import Sequence
 
 from data_optimizer import __version__
+from data_optimizer.benchmarking.commands import add_commands as add_benchmark_commands
+from data_optimizer.benchmarking.commands import run as run_benchmark
 from data_optimizer.config import settings
 from data_optimizer.conversion.commands import add_commands as add_conversion_commands
 from data_optimizer.conversion.commands import run as run_conversion
@@ -29,7 +31,11 @@ def main(argv: Sequence[str] | None = None) -> None:
     add_commands(commands)
     add_integrity_commands(commands)
     add_conversion_commands(commands)
+    add_benchmark_commands(commands)
     args = parser.parse_args(argv)
+    if args.command == "benchmark":
+        run_benchmark(args, parser)
+        return
     if args.command in {"candidate-list", "convert"}:
         run_conversion(args, parser)
         return
