@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "data-optimizer"
+version = "0.1.0"
+description = "Evidence-based analytical dataset optimization"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "boto3>=1.35,<2",
+  "fastapi>=0.115,<1",
+  "httpx>=0.28,<1",
+  "psycopg[binary]>=3.2,<4",
+  "pyarrow>=18,<27",
+  "pydantic>=2.10,<3",
+  "pydantic-settings>=2.7,<3",
+  "pyjwt[crypto]>=2.10,<3",
+  "redis>=5,<7",
+  "uvicorn[standard]>=0.34,<1",
+]
+
+[dependency-groups]
+dev = [
+  "build>=1.2,<2",
+  "hatchling>=1.27,<2",
+  "mypy>=1.14,<2",
+  "pytest>=8.3,<9",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+data-optimizer = "data_optimizer.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/data_optimizer"]
+force-include = { "migrations" = "data_optimizer/migrations" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+mypy_path = "backend/src"
+strict = true
+plugins = ["pydantic.mypy"]
+

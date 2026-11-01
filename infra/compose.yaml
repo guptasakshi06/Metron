@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:17.11-alpine3.23
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-data_optimizer}
+      POSTGRES_USER: ${POSTGRES_USER:-data_optimizer}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-data_optimizer_dev_only}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-55432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.4.12-alpine3.21
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-56379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+  minio:
+    image: data-optimizer-minio:RELEASE.2025-10-15T17-29-55Z
+    build:
+      context: ./minio
+      dockerfile: Dockerfile
+      args:
+        MINIO_COMMIT: 9e49d5e7a648f00e26f2246f4dc28e6b07f8c84a
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-data_optimizer}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-data_optimizer_dev_only}
+    ports:
+      - "127.0.0.1:${MINIO_API_PORT:-59000}:9000"
+      - "127.0.0.1:${MINIO_CONSOLE_PORT:-59001}:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9000/minio/health/ready >/dev/null"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
