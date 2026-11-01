@@ -329,3 +329,56 @@ def test_schema_and_budget_validation() -> None:
         request(max_candidates=100)
     assert request().tenant_id == UUID("10000000-0000-0000-0000-000000000001")
     assert Workload().queries == ()
+
+
+def test_output_quota_failure_preserves_source(event: Path, tmp_path: Path) -> None:
+    before = event.read_bytes()
+    out = convert(event, tmp_path / "store", request(max_output_bytes=1024), config())
+    assert out.status == "failed" and out.reasons == ("conversion_output_byte_quota",)
+    assert event.read_bytes() == before
+    assert not list((tmp_path / "store").rglob(".partial-*"))
+    assert not list((tmp_path / "store").rglob("manifest.json"))
+
+
+def test_multifile_gzip_preserves_decimal_scale_and_duplicates(tmp_path: Path) -> None:
+    path = tmp_path / "data.ndjson"
+    path.write_text('{"value":1.20,"text":"' + "a" * 300 + '"}\n')
+    path.write_bytes(path.read_bytes() * 12)
+    out = convert(
+        path,
+        tmp_path / "store",
+        request(source={"format": "ndjson"}, workload={}),
+        config(format="ndjson", codec="gzip", compression_level=6, target_file_bytes=1024),
+    )
+    assert out.status == "validated" and out.manifest
+    assert out.manifest.file_count > 1
+    assert out.manifest.integrity.candidate and out.manifest.integrity.candidate.row_count == 12
+
+
+def test_unsupported_workload_cannot_publish_as_validated(tmp_path: Path) -> None:
+    path = tmp_path / "data.ndjson"
+    path.write_text('{"a":{"x":1}}\n')
+    req = request(
+        source={"format": "ndjson"}, workload={"queries": [{"id": "q", "kind": "full_scan"}]}
+    )
+    out = convert(
+        path, tmp_path / "store", req, config(format="ndjson", codec="gzip", compression_level=6)
+    )
+    assert out.status == "failed" and "integrity_not_checked" in out.reasons
+    assert not list((tmp_path / "store").rglob("manifest.json"))
+
+
+def test_metadata_corruption_and_unlisted_files_fail_closed(event: Path, tmp_path: Path) -> None:
+    out = convert(event, tmp_path / "store", request(), config())
+    assert out.artifact_prefix
+    directory = Path(out.artifact_prefix)
+    unexpected = directory / "extra"
+    unexpected.write_text("unlisted")
+    with pytest.raises(ProfileError, match="invalid_conversion_manifest"):
+        read_manifest(directory)
+    unexpected.unlink()
+    data = json.loads((directory / "manifest.json").read_text())
+    data["configuration"]["compression_level"] = 8
+    (directory / "manifest.json").write_text(json.dumps(data))
+    with pytest.raises(ProfileError, match="invalid_conversion_manifest"):
+        read_manifest(directory)

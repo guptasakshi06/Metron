@@ -1,0 +1,146 @@
+{
+  "evidence": "actual_local_synthetic_fixture_execution",
+  "input_sha256": "01974a491f9de8f7d8790b4f999fef94b6219cd7c6246f971f1e6d6598ab1167",
+  "candidate_count": 7,
+  "first_run": [
+    {
+      "format": "ndjson",
+      "codec": "original",
+      "row_group_rows": 65536,
+      "partition_by": [],
+      "sort_by": [],
+      "status": "validated",
+      "reasons": [],
+      "physical_bytes": 287,
+      "file_count": 1,
+      "integrity_status": "passed",
+      "workload_status": "passed",
+      "conversion_seconds": 0.00019768000129261054,
+      "peak_rss_kib": 137768
+    },
+    {
+      "format": "ndjson",
+      "codec": "gzip",
+      "row_group_rows": 65536,
+      "partition_by": [],
+      "sort_by": [],
+      "status": "validated",
+      "reasons": [],
+      "physical_bytes": 138,
+      "file_count": 1,
+      "integrity_status": "passed",
+      "workload_status": "passed",
+      "conversion_seconds": 0.00045407899960991926,
+      "peak_rss_kib": 139048
+    },
+    {
+      "format": "parquet",
+      "codec": "snappy",
+      "row_group_rows": 65536,
+      "partition_by": [],
+      "sort_by": [],
+      "status": "validated",
+      "reasons": [],
+      "physical_bytes": 1523,
+      "file_count": 1,
+      "integrity_status": "passed",
+      "workload_status": "passed",
+      "conversion_seconds": 0.001217634002387058,
+      "peak_rss_kib": 139636
+    },
+    {
+      "format": "parquet",
+      "codec": "zstd",
+      "row_group_rows": 65536,
+      "partition_by": [],
+      "sort_by": [],
+      "status": "validated",
+      "reasons": [],
+      "physical_bytes": 1593,
+      "file_count": 1,
+      "integrity_status": "passed",
+      "workload_status": "passed",
+      "conversion_seconds": 0.0013112390006426722,
+      "peak_rss_kib": 140144
+    },
+    {
+      "format": "parquet",
+      "codec": "zstd",
+      "row_group_rows": 16384,
+      "partition_by": [],
+      "sort_by": [],
+      "status": "validated",
+      "reasons": [],
+      "physical_bytes": 1593,
+      "file_count": 1,
+      "integrity_status": "passed",
+      "workload_status": "passed",
+      "conversion_seconds": 0.001137421997555066,
+      "peak_rss_kib": 140312
+    },
+    {
+      "format": "parquet",
+      "codec": "zstd",
+      "row_group_rows": 65536,
+      "partition_by": [],
+      "sort_by": [
+        "timestamp"
+      ],
+      "status": "validated",
+      "reasons": [],
+      "physical_bytes": 1593,
+      "file_count": 1,
+      "integrity_status": "passed",
+      "workload_status": "passed",
+      "conversion_seconds": 0.01944382100191433,
+      "peak_rss_kib": 150964
+    },
+    {
+      "format": "parquet",
+      "codec": "zstd",
+      "row_group_rows": 65536,
+      "partition_by": [
+        "category"
+      ],
+      "sort_by": [],
+      "status": "excluded",
+      "reasons": [
+        "partition_small_file_amplification"
+      ],
+      "physical_bytes": null,
+      "file_count": null,
+      "integrity_status": null,
+      "workload_status": null,
+      "conversion_seconds": null,
+      "peak_rss_kib": null
+    }
+  ],
+  "repeat_statuses": [
+    "reused",
+    "reused",
+    "reused",
+    "reused",
+    "reused",
+    "reused",
+    "excluded"
+  ],
+  "manifest_count_before_after_reuse": [
+    6,
+    6
+  ],
+  "semantic_loss_rejected": [
+    "integrity_failed",
+    "typed_content_or_duplicate_multiplicity_changed"
+  ],
+  "source_unchanged": true,
+  "unpublished_partials_remaining": 0,
+  "extracted_wheel_cli_and_worker": "passed",
+  "engine_versions": {
+    "python": "3.12.3",
+    "pyarrow": "26.0.0",
+    "arrow_cpp": "26.0.0",
+    "duckdb": "1.5.6",
+    "canonical": "s04.1",
+    "zlib": "1.3"
+  }
+}

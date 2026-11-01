@@ -43,7 +43,14 @@ def run(args: argparse.Namespace, parser: argparse.ArgumentParser) -> None:
         outcomes = [convert(args.source, args.root, request, config) for config in configs]
         print(
             json.dumps(
-                {"version": 1, "outcomes": [o.model_dump(mode="json") for o in outcomes]}, indent=2
+                {
+                    "version": 1,
+                    "outcomes": [
+                        dict(configuration=c.model_dump(mode="json"), **o.model_dump(mode="json"))
+                        for c, o in zip(configs, outcomes, strict=True)
+                    ],
+                },
+                indent=2,
             )
         )
         if any(o.status in {"failed", "cancelled"} for o in outcomes):

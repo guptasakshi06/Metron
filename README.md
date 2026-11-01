@@ -2,7 +2,7 @@
 
 Data Optimizer compares analytical dataset representations against a stated workload. It is designed to recommend the best tested feasible option, explain its evidence and preserve unknowns. This repository is being implemented one sprint at a time; the current sprint is recorded in [SPRINT_HANDOFF.md](SPRINT_HANDOFF.md).
 
-## Current implementation: S04
+## Current implementation: S05
 
 The application has versioned contracts, real health/readiness checks, tenant-scoped project and dataset metadata, authenticated bounded uploads for CSV, NDJSON and Parquet, structural validation, private MinIO object storage, immutable dataset versions, retention/deletion recovery, bounded local typed profiling, reproducible sampling, metadata-only exports and reviewed tenant-scoped profile import. The frontend is still a connectivity shell; assessment, recommendation and assessment-report workflows are scheduled for later sprints. It does not display fabricated assessment results.
 
@@ -11,6 +11,12 @@ in-memory DuckDB dataset, exact typed cross-format integrity checks preserving d
 counts, capability exclusions and versioned local JSON evidence. See the
 [workload/integrity runbook](docs/runbooks/workloads-integrity.md) for a passing and a
 rejected CLI example. Output equality is a correctness check; performance remains unmeasured.
+
+S05 adds bounded candidate enumeration and atomic local assessment copies: baseline,
+gzip NDJSON, Snappy/Zstandard Parquet and workload-guided layouts, with exact integrity,
+resource/byte manifests and verified reuse. Run `data-optimizer candidate-list` or
+`data-optimizer convert`; see [candidate support and commands](docs/candidate-support.md).
+Benchmarking and server assessment orchestration remain future sprints.
 
 ### Runtime versions
 
@@ -73,7 +79,7 @@ The local processing limits in `.env.example` are provisional policy defaults, n
 
 ### Dataset and evidence boundaries
 
-The data scope is CSV, NDJSON and Parquet. S02 accepts CSV and NDJSON text plus gzip-wrapped NDJSON and Parquet files, validates actual structure under byte and subprocess resource bounds, fingerprints original bytes, and stores them tenant-scoped. Dataset IDs are stable UUIDs and every replacement is a new immutable version. S03 adds local profiles with conservative, explicit typed semantics; transformations remain future work. Existing contracts preserve timezone-aware timestamps, explicit units, decimal precision and unknown values. Future recommendations must distinguish user-supplied, local-profile, server-measured, synthetic and projected evidence. A `change` decision requires measured evidence, an experiment reference and passed integrity.
+The data scope is CSV, NDJSON and Parquet. S02 accepts CSV and NDJSON text plus gzip-wrapped NDJSON and Parquet files, validates actual structure under byte and subprocess resource bounds, fingerprints original bytes, and stores them tenant-scoped. Dataset IDs are stable UUIDs and every replacement is a new immutable version. S03 adds local profiles with conservative, explicit typed semantics; S05 adds bounded local lossless conversion. Existing contracts preserve timezone-aware timestamps, explicit units, decimal precision and unknown values. Future recommendations must distinguish user-supplied, local-profile, server-measured, synthetic and projected evidence. A `change` decision requires measured evidence, an experiment reference and passed integrity.
 
 No benchmark, savings calculation, assessment table, queue or live external identity-provider integration is implemented. Local auth is only for loopback development; see [decision 0002](docs/decisions/0002-s02-ingestion.md) and the runbook before changing auth/storage settings. The upload and decompression limits are configurable policy bounds, not measured capacity or cloud guarantees.
 

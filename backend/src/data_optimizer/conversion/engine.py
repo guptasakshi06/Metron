@@ -229,12 +229,13 @@ def run(
         baseline=request.source, candidate=reader, limits=request.limits, workload=request.workload
     )
     combined = directory / ".combined"
-    validation_path = concatenate(outputs, combined, config, request)
     validation_started = time.perf_counter()
+    validation_path = concatenate(outputs, combined, config, request)
     validation = verify(path, validation_path, validation_request, scratch_root=directory)
     if validation.status != "passed":
         return {
             "status": "failed",
+            "integrity": validation.model_dump(mode="json"),
             "reasons": ["integrity_" + validation.status]
             + [c.reason for c in validation.checks if c.status != "passed"]
             + [q.reason for q in validation.queries if q.status != "passed"],

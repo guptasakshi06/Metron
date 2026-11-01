@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 02:13, Asia/Kolkata
-**Current sprint:** S05
-**Next sprint:** S05
-**MVP status:** S01 through S04 complete; MVP implementation in progress
+**Last updated:** 2026-11-02 02:22, Asia/Kolkata
+**Current sprint:** None
+**Next sprint:** S06
+**MVP status:** S01 through S05 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -244,7 +244,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S02 | Tenant data model and secure dataset ingestion | S01 | completed | 15 real PostgreSQL/MinIO integration tests, live HTTP smoke, full check/test/build; see S02 execution record |
 | S03 | Typed profiling and the local privacy workflow | S02 | completed | 35 profile tests, 18 real service integration tests, live CLI/HTTP import, resource evidence, strict checks and builds; see execution record |
 | S04 | Workload specifications and semantic integrity checks | S03 | completed | 60 S04 tests, full check/test/build, real CLI pass/rejection and packaged worker; see execution record and docs/evidence/s04-verification.md |
-| S05 | Candidate generation and lossless conversion | S04 | in_progress | Implementation and verification underway |
+| S05 | Candidate generation and lossless conversion | S04 | completed | 25 conversion tests, full check/test/build, real CLI matrix/reuse and packaged worker; see docs/evidence/s05-verification.md |
 | S06 | Bounded benchmark execution and evidence capture | S05 | not_started | None |
 | S07 | Versioned pricing and total cost calculations | S06 | not_started | None |
 | S08 | Evidence based ranking and adaptive experiment selection | S07 | not_started | None |
@@ -255,7 +255,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S05 is in progress and remains the next unfinished sprint. S01 through S04 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S06 is the next unfinished sprint. S01 through S05 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -451,21 +451,21 @@ Record the workload schema, supported operations, numerical tolerance policy, ca
 
 ### S05 Candidate generation and lossless conversion
 
-**Status:** in_progress  
+**Status:** completed
 **Dependencies:** S04  
 **Outcome:** Generate reproducible eligible alternatives while retaining the original setup.  
 **Expected code and document areas:** backend/src/data_optimizer/{candidates,conversion}; backend/tests/integration/; docs/candidate-support.md
 
 #### Tasks
 
-- [ ] S05.01 Define a typed candidate configuration and stable hash covering format, codec/level, file-size target, row-group size, partitioning, sorting and fixed execution context.
-- [ ] S05.02 Always include the current representation. Add compressed NDJSON, Parquet Snappy and Parquet Zstandard where the reader and semantics permit; record exclusion reasons instead of silently omitting options.
-- [ ] S05.03 Implement conversion into new assessment-owned artifact prefixes. Preserve originals and make output publication atomic so interrupted conversions cannot appear complete.
-- [ ] S05.04 Generate a bounded set of row-group and layout alternatives guided by available workload columns. Include an unpartitioned candidate and cap partition counts and small-file amplification.
-- [ ] S05.05 Use the S04 integrity checks after conversion. Record conversion time, bytes, file counts, peak resources where available and validation status.
-- [ ] S05.06 Represent unsupported codecs, nested semantics and reader incompatibilities as explicit candidate outcomes. Do not silently cast or drop fields to make conversion succeed.
-- [ ] S05.07 Support idempotent conversion reuse for matching input and candidate fingerprints. Clean temporary partial outputs after failure or cancellation.
-- [ ] S05.08 Add CLI conversion and candidate-list commands with output manifests and reproducibility metadata.
+- [x] S05.01 Define a typed candidate configuration and stable hash covering format, codec/level, file-size target, row-group size, partitioning, sorting and fixed execution context.
+- [x] S05.02 Always include the current representation. Add compressed NDJSON, Parquet Snappy and Parquet Zstandard where the reader and semantics permit; record exclusion reasons instead of silently omitting options.
+- [x] S05.03 Implement conversion into new assessment-owned artifact prefixes. Preserve originals and make output publication atomic so interrupted conversions cannot appear complete.
+- [x] S05.04 Generate a bounded set of row-group and layout alternatives guided by available workload columns. Include an unpartitioned candidate and cap partition counts and small-file amplification.
+- [x] S05.05 Use the S04 integrity checks after conversion. Record conversion time, bytes, file counts, peak resources where available and validation status.
+- [x] S05.06 Represent unsupported codecs, nested semantics and reader incompatibilities as explicit candidate outcomes. Do not silently cast or drop fields to make conversion succeed.
+- [x] S05.07 Support idempotent conversion reuse for matching input and candidate fingerprints. Clean temporary partial outputs after failure or cancellation.
+- [x] S05.08 Add CLI conversion and candidate-list commands with output manifests and reproducibility metadata.
 
 #### Acceptance gates
 
@@ -484,17 +484,18 @@ Record candidate defaults, codec versions, artifact conventions, compatibility r
 #### Execution record
 
 - Started: 2026-11-02 02:13 (Asia/Kolkata)
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Implement candidate contracts, bounded conversion and verified atomic manifests; exercise round-trips, exclusions, cancellation and reuse.
+- Updated: 2026-11-02 02:22 (Asia/Kolkata)
+- Completed: 2026-11-02 (Asia/Kolkata)
+- Branch and commit if available: `main`; session began at `869c28e` with uncommitted S03/S04 changes. An external/user-side commit during this session advanced HEAD to `9b80b88` (`S04 done`), including the initial S05 files. This agent did not stage, commit, push or change history; subsequent S05 work remains in the worktree. Existing history and changes preserved.
+- Delivered behavior: Versioned typed candidate configuration and stable full-configuration hashes; bounded enumeration always retains current representation plus gzip NDJSON and Snappy/Zstandard Parquet where supported. Workload-guided row-group/sort/partition alternatives, explicit semantic/codec/layout exclusions, full exact S04 integrity and supplied-query checks, manifests with bytes/files/partitions/time/CPU/Linux peak RSS, original preservation, private tenant/assessment local prefixes, atomic publication, compatible verified reuse, concurrent same-key locking and handled cancellation/orphan-partial cleanup. CLI `candidate-list` and `convert` return reproducible configuration/outcome JSON; failed integrity reports are retained in failure outcomes.
+- Files changed: `backend/src/data_optimizer/candidates/`, `conversion/`, `cli.py`; `backend/tests/test_conversion.py`; `examples/s05-conversion-request.json`; `scripts/verify-s05.py`; `docs/candidate-support.md`, `docs/decisions/0005-s05-candidates-conversion.md`, `docs/evidence/s05-cli-results.json`, `docs/evidence/s05-verification.md`; README and this handoff. Earlier S03/S04 work preserved; no new dependency or migration.
+- Setup and run commands: Existing locked setup is sufficient. `uv run --locked --project backend data-optimizer candidate-list examples/s04-events.ndjson --request examples/s05-conversion-request.json`; `uv run --locked --project backend data-optimizer convert examples/s04-events.ndjson --request examples/s05-conversion-request.json --root /tmp/data-optimizer-s05-artifacts`. Optional `--configuration CONFIG.json` runs one typed configuration. Repeat to reuse verified outputs. See candidate support for exits, limits and artifact conventions.
+- Verification commands and outcomes: `UV_OFFLINE=1 make check` passed Ruff, strict mypy on 51 source files, ESLint and TypeScript. `UV_OFFLINE=1 make test` passed 179 backend tests (25 S05) and 3 frontend tests; 18 service-dependent tests deselected, one existing TestClient deprecation warning. `UV_OFFLINE=1 make build` passed Python sdist/wheel and Vite build. `UV_OFFLINE=1 UV_CACHE_DIR=.tools/uv-cache .tools/uv-bin/uv run --locked --project backend python scripts/verify-s05.py --output docs/evidence/s05-cli-results.json` passed real CLI matrix/listing, repeat reuse, semantic-loss rejection and extracted-wheel CLI/worker. `UV_CACHE_DIR=.tools/uv-cache .tools/uv-bin/uv run --locked --project backend ruff check scripts/verify-s05.py` and `git diff --check` passed. Full evidence and limitations in `docs/evidence/s05-verification.md`.
+- Evidence and report paths: `docs/evidence/s05-cli-results.json`, `docs/evidence/s05-verification.md`; 25 conversion tests. Primary event fixture produced 6 verified configurations and 1 small-partition exclusion; baseline/gzip/Snappy/Zstandard data sizes were 287/138/1523/1593 bytes. Repeated CLI request retained exactly six manifests (6 → 6), all reused; original hash unchanged; no unpublished partials remained. These tiny local fixture observations are not performance or savings claims.
+- Decisions and deviations: D020 / decision 0005. S05 uses private local assessment prefixes; authenticated PostgreSQL/MinIO orchestration remains S09 as planned. Multi-file output is validated by ordered concatenation of actual parts using bounded private scratch and S04's existing verifier, with every part hash/size bound in the manifest. PyArrow 26.0.0/Arrow C++ 26.0.0, DuckDB 1.5.6, Python 3.12.3, zlib 1.3 recorded; independent bundled Snappy/Zstandard library versions unavailable. Defaults: up to 8 candidates, 64 MiB estimated file target, 65536/16384-row groups, gzip 6, Zstandard 3, 16 partitions, 32 data files, minimum 128 rows/partition and 512 MiB output-data policy. No stack/lockfile changes.
+- Blockers or unverified checks: No S05 acceptance blocker. This is local conversion evidence, not benchmarks or a production sandbox. Layout tables are memory-resident under resource limits; file targets are estimates and there is no filesystem-wide disk quota. Supplied unsupported workloads cannot publish as validated; missing workloads remain not_checked without performance claims. Runtime processes enforce memory/CPU/per-file/row limits and parent wall timeout, with inherited per-key locks; a parent-SIGKILL/power-loss test was not run. No OS network isolation, fsync durability, multi-host/object-store atomicity, cloud/provider/customer validation or new API/UI. Service integration suite not rerun because S05 changes no service paths. Benchmark isolation/resource calibration remain S06.
+- Completion checklist: All eight S05 tasks and three acceptance gates verified; full checks/test/build and real CLI/package paths passed; source data/unrelated changes/history preserved; defaults, restrictions, failures and evidence documented; ledger/checklists/current/next/date/decisions/history reconciled. No agent commit/push/deployment/provisioning.
+- Resume from: Start S06.01 bounded benchmark execution after reading this handoff, `docs/candidate-support.md` and decision 0005. Consume verified manifests and their ordered parts, preserve integrity/request/configuration lineage, and add enforceable benchmark isolation plus honest raw timing/cache/environment evidence. Do not start S07 or later in the S06 chat.
 
 ### S06 Bounded benchmark execution and evidence capture
 
@@ -962,11 +963,13 @@ This checklist is a reusable template. Copy its result into the active Execution
 | D018 | 2026-11-02 | Pass the backend configuration explicitly to root mypy checks | Root working directory did not load nested strict settings; annotations corrected and strict verification now passes |
 | D019 | 2026-11-02 | Executable constrained workload DSL, fixed in-memory DuckDB and exact disk-backed canonical multiset | Preserve typed content and multiplicity, bind values, exclude unsupported capabilities, and distinguish correctness from performance; see decision 0004 |
 
+| D020 | 2026-11-02 | Bounded local candidates, exact post-conversion integrity and locked atomic manifest publication | Preserve originals/semantics, bound layouts and reuse only compatible verified data; local CLI ownership is organizational until S09; see decision 0005 |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S05. S01 through S04 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S06. S01 through S05 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
@@ -1047,6 +1050,14 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 ### S05 start on 2026-11-02
 
 - S05 marked in_progress before implementation. Existing uncommitted S03/S04 work on main at 869c28e is preserved. Resume at candidate contracts and local atomic conversion. No S06 work.
+
+### S05 completion on 2026-11-02
+
+- Implemented typed candidates, baseline plus gzip/Snappy/Zstandard conversions, bounded workload layouts, exact S04 validation, atomic local manifests and fingerprint-checked concurrent reuse. Added CLI, 25 tests, candidate-support/decision documentation and reproducible smoke/evidence.
+- Full `make check`, `make test` (179 backend + 3 frontend), `make build` and actual CLI/extracted-wheel worker passed. Six verified primary-fixture outputs reused without artifact growth; one partition exclusion; failed semantic loss/cancellation/quota paths publish nothing and preserve originals.
+- Main advanced externally to `9b80b88` during work; agent made no commit/push and preserved all history. No service integration rerun, query benchmark, production sandbox, provider/cloud/customer validation or S06 implementation claimed.
+- D020 records local atomic prefixes and multi-file concatenation validation; operational/version/codec boundaries are in `docs/candidate-support.md` and `docs/evidence/s05-verification.md`.
+- Handoff reconciled: S05 completed; Current sprint None; Next sprint S06. Resume bounded benchmark execution in the next implementation chat.
 
 ### Template for subsequent session entries
 

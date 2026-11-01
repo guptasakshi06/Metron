@@ -14,6 +14,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from data_optimizer.candidates.generator import context
 from data_optimizer.candidates.models import CandidateConfig, CandidateList, ConversionRequest
 from data_optimizer.conversion.models import ConversionManifest, ConversionOutcome
 from data_optimizer.profiling.engine import input_digest
@@ -67,6 +68,7 @@ def worker(
     config: CandidateConfig | None,
     key: str,
     cancelled: Callable[[], bool] | None = None,
+    lock_fd: int | None = None,
 ) -> dict[str, Any]:
     environment = dict(os.environ)
     environment.update(OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", ARROW_NUM_THREADS="1")
@@ -91,6 +93,7 @@ def worker(
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
         env=environment,
+        pass_fds=(lock_fd,) if lock_fd is not None else (),
     )
     deadline = time.monotonic() + request.limits.timeout_seconds + 2
     try:
@@ -143,6 +146,8 @@ def convert(
 ) -> ConversionOutcome:
     request = ConversionRequest.model_validate(request.model_dump())
     config = CandidateConfig.model_validate(config.model_dump())
+    if config.context != context():
+        return ConversionOutcome(status="excluded", reasons=("execution_context_mismatch",))
     before = input_digest(path, request.source.max_raw_bytes)
     key = fingerprint(
         {
@@ -162,11 +167,14 @@ def convert(
     lock_dir = prefix / ".locks"
     lock_dir.mkdir(exist_ok=True, mode=0o700)
     with (lock_dir / key).open("a+b") as lock:
+        lock_deadline = time.monotonic() + request.limits.timeout_seconds + 2
         while True:
             try:
                 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
                 break
             except BlockingIOError:
+                if time.monotonic() >= lock_deadline:
+                    return ConversionOutcome(status="failed", reasons=("conversion_lock_timeout",))
                 if cancelled and cancelled():
                     return ConversionOutcome(status="cancelled", reasons=("conversion_cancelled",))
                 time.sleep(0.05)
@@ -181,6 +189,8 @@ def convert(
                 or manifest.input_fingerprint != before
             ):
                 raise ProfileError("incompatible_conversion_manifest")
+            if input_digest(path, request.source.max_raw_bytes) != before:
+                raise ProfileError("input_changed_during_conversion")
             return ConversionOutcome(status="reused", manifest=manifest, artifact_prefix=str(final))
         # Fixed-name partials are recoverable after a whole parent/worker crash under this lock.
         if partial.is_symlink():
@@ -189,15 +199,22 @@ def convert(
             shutil.rmtree(partial)
         partial.mkdir(mode=0o700)
         try:
-            result = worker(path, partial, request, config, key, cancelled)
+            result = worker(path, partial, request, config, key, cancelled, lock.fileno())
             if result.get("status") != "validated":
                 return ConversionOutcome.model_validate(result)
             if cancelled and cancelled():
                 return ConversionOutcome(status="cancelled", reasons=("conversion_cancelled",))
             manifest = read_manifest(partial)
+            if (
+                manifest.key != key
+                or manifest.configuration != config
+                or manifest.request_fingerprint != fingerprint(request.model_dump(mode="json"))
+                or manifest.input_fingerprint != before
+            ):
+                raise ProfileError("incompatible_conversion_manifest")
             if input_digest(path, request.source.max_raw_bytes) != before:
                 raise ProfileError("input_changed_during_conversion")
-            # All file handles are closed. Same-filesystem directory rename is the publication point.
+            # All file handles are closed; same-filesystem rename publishes the directory.
             os.rename(partial, final)
             return ConversionOutcome(
                 status="validated", manifest=manifest, artifact_prefix=str(final)

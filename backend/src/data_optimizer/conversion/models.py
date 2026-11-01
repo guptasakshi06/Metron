@@ -61,5 +61,6 @@ class ConversionManifest(Model):
 class ConversionOutcome(Model):
     status: Literal["validated", "reused", "excluded", "failed", "cancelled"]
     reasons: tuple[str, ...] = ()
+    integrity: IntegrityReport | None = None
     manifest: ConversionManifest | None = None
     artifact_prefix: str | None = None
