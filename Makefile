@@ -15,7 +15,7 @@ UV := $(LOCAL_TOOLS)/uv-bin/uv
 endif
 NODE_PATH := $(CURDIR)/$(LOCAL_TOOLS)/node24/bin
 
-.PHONY: setup setup-deps infra-up infra-down dev check test build demo
+.PHONY: setup setup-deps infra-up infra-down dev check test test-integration build demo migrate seed-local storage-init cleanup-expired
 
 setup:
 	bash scripts/bootstrap-tools.sh
@@ -42,6 +42,21 @@ check:
 test:
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend pytest backend/tests
 	cd frontend && PATH="$(NODE_PATH):$$PATH" npm test -- --run
+
+test-integration:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend pytest -m integration backend/tests/integration
+
+migrate:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend data-optimizer migrate
+
+seed-local:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend data-optimizer seed-local
+
+storage-init:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend data-optimizer storage-init
+
+cleanup-expired:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend data-optimizer cleanup-expired
 
 build:
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python -m build --no-isolation backend

@@ -5,10 +5,11 @@ small machine-readable result or a stable error code; parser diagnostics and
 input records are never returned to callers.
 
 CSV requires a non-empty unique header and rectangular records. NDJSON requires
-at least one complete JSON object per nonblank line; a final newline is optional,
-but empty input, truncated objects and non-standard numbers such as NaN are
-rejected. Parquet pages are decoded with PyArrow when that optional parser is
-installed; the file's uncompressed column metadata is checked before decoding.
+at least one complete JSON object per nonblank line; a final newline is optional.
+Duplicate keys, non-standard numbers, excessive line/string sizes and excessive
+nesting are rejected. Gzip supports concatenated members under one expanded-byte
+budget and rejects nested gzip. Parquet footer size and uncompressed column
+metadata are checked before decoding; decoded batches are bounded too.
 """
 
 from __future__ import annotations
@@ -32,9 +33,20 @@ class ValidationLimits:
     timeout_seconds: float = 10.0
     memory_mib: int = 256
     output_bytes: int = 4096
+    max_record_chars: int = 1_048_576
+    max_string_chars: int = 262_144
+    max_json_depth: int = 100
 
     def __post_init__(self) -> None:
-        for name in ("raw_bytes", "decompressed_bytes", "memory_mib", "output_bytes"):
+        for name in (
+            "raw_bytes",
+            "decompressed_bytes",
+            "memory_mib",
+            "output_bytes",
+            "max_record_chars",
+            "max_string_chars",
+            "max_json_depth",
+        ):
             if getattr(self, name) < 1:
                 raise ValueError(f"{name} must be positive")
         if self.timeout_seconds <= 0:
@@ -59,10 +71,11 @@ class ValidationError(ValueError):
 
 # The child speaks a tiny JSON protocol. Keep this self-contained so it can run
 # with `-I`, independently of the caller's import path and application state.
-_CHILD = r'''
-import codecs, csv, gzip, json, os, resource, struct, sys
+_CHILD = r"""
+import codecs, csv, gzip, json, math, os, resource, struct, sys
 
 path, declared, raw_limit, expanded_limit, memory_mib, cpu_seconds = sys.argv[1:7]
+max_record_chars, max_string_chars, max_json_depth = map(int, sys.argv[7:10])
 raw_limit, expanded_limit = int(raw_limit), int(expanded_limit)
 memory = int(memory_mib) * 1024 * 1024
 resource.setrlimit(resource.RLIMIT_AS, (memory, memory))
@@ -80,6 +93,41 @@ def answer(code=None, fmt=None, compression=None, physical=0, expanded=0):
 def reject_nonstandard_number(_value):
     raise ValueError("non-standard JSON number")
 
+def reject_duplicate_keys(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result: raise Invalid("duplicate_json_key")
+        result[key] = value
+    return result
+
+def finite_float(value):
+    parsed = float(value)
+    if not math.isfinite(parsed): raise Invalid("invalid_structure")
+    return parsed
+
+def check_json_limits(line):
+    depth, in_string, escaped, string_size = 0, False, False, 0
+    for char in line:
+        if in_string:
+            if escaped:
+                string_size += 1
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+                continue
+            else:
+                string_size += 1
+            if string_size > max_string_chars: raise Invalid("string_too_large")
+        elif char == '"':
+            in_string, string_size = True, 0
+        elif char in "[{":
+            depth += 1
+            if depth > max_json_depth: raise Invalid("json_too_deep")
+        elif char in "]}":
+            depth -= 1
+
 def bounded_chunks(stream, limit, initial=0):
     total = initial
     while True:
@@ -92,32 +140,47 @@ def bounded_chunks(stream, limit, initial=0):
 def inspect_text(stream, fmt, physical, compression):
     expanded = 0
     decoder = codecs.getincrementaldecoder("utf-8-sig")("strict")
+    prefix = bytearray()
     def lines():
-        nonlocal expanded
+        nonlocal expanded, prefix
         pending = ""
         try:
             for chunk in bounded_chunks(stream, expanded_limit):
                 expanded += len(chunk)
+                if compression == "gzip" and len(prefix) < 2:
+                    prefix.extend(chunk[:2 - len(prefix)])
+                    if prefix == b"\x1f\x8b": raise Invalid("nested_compression")
                 pending += decoder.decode(chunk)
                 while "\n" in pending:
                     line, pending = pending.split("\n", 1)
+                    if len(line) > max_record_chars: raise Invalid("record_too_large")
                     yield line + "\n"
+                if len(pending) > max_record_chars: raise Invalid("record_too_large")
             pending += decoder.decode(b"", final=True)
         except UnicodeDecodeError:
             raise Invalid("invalid_encoding")
         if pending:
+            if len(pending) > max_record_chars: raise Invalid("record_too_large")
             yield pending
     if fmt == "ndjson":
         records = 0
         for line in lines():
             if not line.strip(): continue
-            try: value = json.loads(line, parse_constant=reject_nonstandard_number)
+            check_json_limits(line)
+            try:
+                value = json.loads(
+                    line,
+                    parse_constant=reject_nonstandard_number,
+                    parse_float=finite_float,
+                    object_pairs_hook=reject_duplicate_keys,
+                )
             except (json.JSONDecodeError, ValueError): raise Invalid("invalid_structure")
             if not isinstance(value, dict): raise Invalid("invalid_structure")
             records += 1
         if not records: raise Invalid("empty_file")
     else:
         try:
+            csv.field_size_limit(max_record_chars)
             rows = csv.reader(lines(), strict=True)
             header = next(rows)
             if (
@@ -161,6 +224,13 @@ def main():
                 return
             if magic == b"PAR1":
                 if declared != "parquet": raise Invalid("format_mismatch")
+                if physical < 12: raise Invalid("invalid_structure")
+                source.seek(-8, os.SEEK_END)
+                footer = source.read(8)
+                metadata_length = struct.unpack("<I", footer[:4])[0]
+                if footer[4:] != b"PAR1": raise Invalid("invalid_structure")
+                if metadata_length > physical - 12 or metadata_length > 16 * 1024 * 1024:
+                    raise Invalid("parquet_metadata_too_large")
                 try:
                     import pyarrow.parquet as pq
                 except ImportError:
@@ -177,8 +247,13 @@ def main():
                             expanded += column_size
                             if expanded > expanded_limit: raise Invalid("decompressed_too_large")
                     if metadata.num_rows < 1: raise Invalid("empty_file")
-                    # Decode bounded batches to force page/dictionary/codec validation.
-                    for _batch in parquet.iter_batches(batch_size=128): pass
+                    # Decode one row at a time, then account for the actual Arrow buffers.
+                    decoded = 0
+                    for batch in parquet.iter_batches(batch_size=1):
+                        decoded += batch.nbytes
+                        if decoded > expanded_limit:
+                            raise Invalid("decompressed_too_large")
+                    expanded = max(expanded, decoded)
                 except Invalid: raise
                 except Exception: raise Invalid("invalid_structure")
                 answer(fmt="parquet", compression=None, physical=physical, expanded=expanded)
@@ -195,7 +270,7 @@ def main():
         answer(code="invalid_structure")
 
 main()
-'''
+"""
 
 
 def validate_file(path: Path, declared_format: str, limits: ValidationLimits) -> ValidationResult:
@@ -231,6 +306,9 @@ def validate_file(path: Path, declared_format: str, limits: ValidationLimits) ->
                 str(limits.decompressed_bytes),
                 str(limits.memory_mib),
                 str(max(1, math.ceil(limits.timeout_seconds))),
+                str(limits.max_record_chars),
+                str(limits.max_string_chars),
+                str(limits.max_json_depth),
             ],
             stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,

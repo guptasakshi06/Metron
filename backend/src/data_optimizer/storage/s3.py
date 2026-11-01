@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import BinaryIO
+from typing import Any
 
-import boto3
-from botocore.exceptions import ClientError
-from botocore.config import Config as BotoConfig
+import boto3  # type: ignore[import-untyped]
+from botocore.config import Config as BotoConfig  # type: ignore[import-untyped]
+from botocore.exceptions import ClientError  # type: ignore[import-untyped]
 
 from data_optimizer.config import Settings, settings
 
@@ -53,7 +53,7 @@ class S3Storage:
         response = self.client.head_object(Bucket=self.bucket, Key=object_key)
         return int(response["ContentLength"])
 
-    def get(self, object_key: str) -> BinaryIO:
+    def get(self, object_key: str) -> Any:
         return self.client.get_object(Bucket=self.bucket, Key=object_key)["Body"]
 
     def delete(self, object_key: str) -> None:

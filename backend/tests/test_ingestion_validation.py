@@ -48,6 +48,28 @@ def test_valid_gzip_ndjson_reports_both_sizes(tmp_path: Path) -> None:
     assert result.decompressed_bytes == len(source)
 
 
+def test_concatenated_gzip_members_share_one_expansion_budget(tmp_path: Path) -> None:
+    path = tmp_path / "records.ndjson.gz"
+    first = b'{"event":"a"}\n'
+    second = b'{"event":"b"}\n'
+    path.write_bytes(gzip.compress(first) + gzip.compress(second))
+
+    result = validate_file(path, "ndjson", LIMITS)
+
+    assert result.compression == "gzip"
+    assert result.decompressed_bytes == len(first) + len(second)
+
+
+def test_nested_gzip_is_rejected(tmp_path: Path) -> None:
+    path = tmp_path / "nested.ndjson.gz"
+    path.write_bytes(gzip.compress(gzip.compress(b'{"event":"a"}\n')))
+
+    with pytest.raises(ValidationError) as error:
+        validate_file(path, "ndjson", LIMITS)
+
+    assert error.value.code == "nested_compression"
+
+
 def test_valid_parquet_is_structurally_decoded(tmp_path: Path) -> None:
     pyarrow = pytest.importorskip("pyarrow")
     import pyarrow.parquet as parquet
@@ -81,6 +103,25 @@ def test_parquet_uncompressed_metadata_is_bounded_before_decode(tmp_path: Path) 
     assert error.value.code == "decompressed_too_large"
 
 
+def test_parquet_footer_metadata_length_is_checked_before_pyarrow(tmp_path: Path) -> None:
+    pyarrow = pytest.importorskip("pyarrow")
+    import pyarrow.parquet as parquet
+
+    path = tmp_path / "bad-footer.parquet"
+    parquet.write_table(pyarrow.table({"id": [1]}), path)
+    contents = bytearray(path.read_bytes())
+    footer_length_offset = len(contents) - 8
+    contents[footer_length_offset : footer_length_offset + 4] = (len(contents) - 11).to_bytes(
+        4, "little"
+    )
+    path.write_bytes(contents)
+
+    with pytest.raises(ValidationError) as error:
+        validate_file(path, "parquet", LIMITS)
+
+    assert error.value.code == "parquet_metadata_too_large"
+
+
 @pytest.mark.parametrize(
     ("contents", "declared", "expected"),
     [
@@ -88,6 +129,8 @@ def test_parquet_uncompressed_metadata_is_bounded_before_decode(tmp_path: Path) 
         (b'{"id":}\n', "ndjson", "invalid_structure"),
         (b'{"id":1}\n{"id":', "ndjson", "invalid_structure"),
         (b'{"id":NaN}\n', "ndjson", "invalid_structure"),
+        (b'{"id":1e999}\n', "ndjson", "invalid_structure"),
+        (b'{"id":1,"id":2}\n', "ndjson", "duplicate_json_key"),
         (b"not json\n", "ndjson", "invalid_structure"),
         (b"", "csv", "empty_file"),
         (b" \n", "ndjson", "empty_file"),
@@ -120,6 +163,61 @@ def test_gzip_expansion_limit_is_enforced(tmp_path: Path) -> None:
     assert error.value.code == "decompressed_too_large"
 
 
+def test_concatenated_gzip_expansion_limit_counts_every_member(tmp_path: Path) -> None:
+    path = tmp_path / "joined-bomb.ndjson.gz"
+    first = gzip.compress(b'{"x":"' + b"a" * 128 + b'"}\n')
+    second = gzip.compress(b'{"x":"' + b"b" * 128 + b'"}\n')
+    path.write_bytes(first + second)
+    limits = ValidationLimits(raw_bytes=1024, decompressed_bytes=200)
+
+    with pytest.raises(ValidationError) as error:
+        validate_file(path, "ndjson", limits)
+
+    assert error.value.code == "decompressed_too_large"
+
+
+@pytest.mark.parametrize(
+    ("contents", "limits", "code"),
+    [
+        (
+            b'{"value":"' + b"a" * 40 + b'"}\n',
+            ValidationLimits(raw_bytes=1024, decompressed_bytes=1024, max_record_chars=24),
+            "record_too_large",
+        ),
+        (
+            b'{"value":"' + b"a" * 24 + b'"}\n',
+            ValidationLimits(
+                raw_bytes=1024,
+                decompressed_bytes=1024,
+                max_record_chars=128,
+                max_string_chars=8,
+            ),
+            "string_too_large",
+        ),
+        (
+            b'{"value":' + b"[" * 8 + b"0" + b"]" * 8 + b"}\n",
+            ValidationLimits(
+                raw_bytes=1024,
+                decompressed_bytes=1024,
+                max_record_chars=128,
+                max_json_depth=4,
+            ),
+            "json_too_deep",
+        ),
+    ],
+)
+def test_json_record_string_and_depth_limits_are_enforced(
+    tmp_path: Path, contents: bytes, limits: ValidationLimits, code: str
+) -> None:
+    path = tmp_path / "limited.ndjson"
+    path.write_bytes(contents)
+
+    with pytest.raises(ValidationError) as error:
+        validate_file(path, "ndjson", limits)
+
+    assert error.value.code == code
+
+
 def test_raw_upload_limit_is_enforced_before_parser_starts(tmp_path: Path) -> None:
     path = tmp_path / "large.csv"
     path.write_bytes(b"a\n" + b"1\n" * 100)
@@ -148,9 +246,7 @@ def test_timeout_is_a_stable_failure(tmp_path: Path, monkeypatch: pytest.MonkeyP
     path = tmp_path / "records.csv"
     path.write_text("id\n1\n", encoding="utf-8")
     monkeypatch.setattr(validation, "_CHILD", "import time; time.sleep(1)")
-    limits = ValidationLimits(
-        raw_bytes=1024, decompressed_bytes=2048, timeout_seconds=0.05
-    )
+    limits = ValidationLimits(raw_bytes=1024, decompressed_bytes=2048, timeout_seconds=0.05)
 
     with pytest.raises(ValidationError) as error:
         validation.validate_file(path, "csv", limits)
@@ -184,17 +280,13 @@ def test_child_memory_limit_is_a_stable_failure(
     assert error.value.code == "validation_resource_limit"
 
 
-def test_child_output_limit_is_enforced(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_child_output_limit_is_enforced(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     import data_optimizer.storage.validation as validation
 
     path = tmp_path / "records.csv"
     path.write_text("id\n1\n", encoding="utf-8")
     monkeypatch.setattr(validation, "_CHILD", "print('x' * 10000)")
-    limits = ValidationLimits(
-        raw_bytes=1024, decompressed_bytes=2048, output_bytes=128
-    )
+    limits = ValidationLimits(raw_bytes=1024, decompressed_bytes=2048, output_bytes=128)
 
     with pytest.raises(ValidationError) as error:
         validation.validate_file(path, "csv", limits)

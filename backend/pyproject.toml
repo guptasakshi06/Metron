@@ -39,6 +39,8 @@ force-include = { "migrations" = "data_optimizer/migrations" }
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+addopts = "-m 'not integration'"
+markers = ["integration: requires the local PostgreSQL and MinIO services"]
 
 [tool.ruff]
 line-length = 100
@@ -53,4 +55,8 @@ python_version = "3.12"
 mypy_path = "backend/src"
 strict = true
 plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["boto3", "boto3.*", "botocore", "botocore.*"]
+ignore_missing_imports = true
 

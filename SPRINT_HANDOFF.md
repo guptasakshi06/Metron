@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02, Asia/Kolkata  
-**Current sprint:** S02  
-**Next sprint:** S02  
-**MVP status:** S01 complete; MVP implementation in progress  
+**Last updated:** 2026-11-02 01:31, Asia/Kolkata  
+**Current sprint:** None  
+**Next sprint:** S03  
+**MVP status:** S01 and S02 complete; MVP implementation in progress  
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -241,7 +241,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | ID | Sprint | Depends on | Status | Evidence |
 | --- | --- | --- | --- | --- |
 | S01 | Project foundation and executable contracts | None | completed | Locked setup, integrated checks/build, Compose service health, API readiness, direct HTTP and browser connectivity verified; see execution record below |
-| S02 | Tenant data model and secure dataset ingestion | S01 | in_progress | Implementation session 2026-11-02; see S02 execution record |
+| S02 | Tenant data model and secure dataset ingestion | S01 | completed | 15 real PostgreSQL/MinIO integration tests, live HTTP smoke, full check/test/build; see S02 execution record |
 | S03 | Typed profiling and the local privacy workflow | S02 | not_started | None |
 | S04 | Workload specifications and semantic integrity checks | S03 | not_started | None |
 | S05 | Candidate generation and lossless conversion | S04 | not_started | None |
@@ -255,7 +255,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S02 is the next unfinished sprint. S01 is complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S03 is the next unfinished sprint. S01 and S02 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -307,21 +307,21 @@ Record runtime versions, installed tooling, service ports, setup commands, contr
 
 ### S02 Tenant data model and secure dataset ingestion
 
-**Status:** in_progress  
+**Status:** completed  
 **Dependencies:** S01  
 **Outcome:** Persist projects and dataset versions and accept bounded uploads with ownership enforced.  
 **Expected code and document areas:** backend/src/data_optimizer/{api,db,storage,auth}; backend/migrations/; infra/; backend/tests/integration/
 
 #### Tasks
 
-- [ ] S02.01 Implement PostgreSQL migrations for tenants, principals, projects, datasets, artifact references, requirements snapshots and audit events. Add version columns and ownership constraints where appropriate.
-- [ ] S02.02 Introduce a maintained authentication integration and an explicit local-development identity adapter. Production mode must reject unverified identity. Keep the local adapter limited to explicit loopback development; do not accept an arbitrary tenant header as production authentication.
-- [ ] S02.03 Enforce tenant-scoped access in service and repository methods for projects, datasets and artifact downloads. Verify the same rules for listing, fetching and deleting resources.
-- [ ] S02.04 Implement project creation, dataset upload initiation, bounded transfer and upload finalization. Use scoped artifact keys and short-lived signed links, or a bounded streaming endpoint for the local MVP.
-- [ ] S02.05 Validate actual file structure rather than trusting names or MIME headers. Limit uploaded and decompressed bytes; reject unsupported archives, path traversal and malformed upload state.
-- [ ] S02.06 Calculate input fingerprints, retain immutable dataset versions and record original physical bytes, detected representation and declared semantics. Avoid reading entire large files into API memory.
-- [ ] S02.07 Implement configurable retention and deletion of the user's uploaded assessment copies, including signed-link access and failure recovery. Explain deletion scope; never touch external source systems.
-- [ ] S02.08 Add local seed/demo identities with no real customer records. Document mode switching and the requirements for an externally accessible environment.
+- [x] S02.01 Implement PostgreSQL migrations for tenants, principals, projects, datasets, artifact references, requirements snapshots and audit events. Add version columns and ownership constraints where appropriate.
+- [x] S02.02 Introduce a maintained authentication integration and an explicit local-development identity adapter. Production mode must reject unverified identity. Keep the local adapter limited to explicit loopback development; do not accept an arbitrary tenant header as production authentication.
+- [x] S02.03 Enforce tenant-scoped access in service and repository methods for projects, datasets and artifact downloads. Verify the same rules for listing, fetching and deleting resources.
+- [x] S02.04 Implement project creation, dataset upload initiation, bounded transfer and upload finalization. Use scoped artifact keys and short-lived signed links, or a bounded streaming endpoint for the local MVP.
+- [x] S02.05 Validate actual file structure rather than trusting names or MIME headers. Limit uploaded and decompressed bytes; reject unsupported archives, path traversal and malformed upload state.
+- [x] S02.06 Calculate input fingerprints, retain immutable dataset versions and record original physical bytes, detected representation and declared semantics. Avoid reading entire large files into API memory.
+- [x] S02.07 Implement configurable retention and deletion of the user's uploaded assessment copies, including signed-link access and failure recovery. Explain deletion scope; never touch external source systems.
+- [x] S02.08 Add local seed/demo identities with no real customer records. Document mode switching and the requirements for an externally accessible environment.
 
 #### Acceptance gates
 
@@ -341,16 +341,16 @@ Record migration commands, authentication mode, upload limits, storage layout, r
 
 - Started: 2026-11-02 (Asia/Kolkata)
 - Updated: 2026-11-02 (Asia/Kolkata)
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: S02.01: implement PostgreSQL tenant schema and migration wiring. S01 is recorded complete; infrastructure defaults are loopback PostgreSQL 127.0.0.1:55432, Redis 56379 and MinIO 59000/59001. Await Sol's detailed implementation plan before substantive code changes.
+- Completed: 2026-11-02 (Asia/Kolkata)
+- Branch and commit if available: `main`, existing S01 commit `715f53b` (`S01 Done`); S02 changes are uncommitted.
+- Delivered behavior: Three PostgreSQL migrations for tenants/principals/projects/versioned datasets/artifacts/requirements/audit, same-tenant and same-project constraints, packaged checksum-verified migrations, idempotent demo identities, explicit local/JWT auth, tenant-scoped APIs, quota-bounded streaming CSV/NDJSON/Parquet uploads, subprocess validation, MinIO storage, SHA-256 fingerprints, immutable dataset versions, authenticated artifact downloads, retention expiry, tombstones and retryable cleanup.
+- Files changed: `backend/migrations/0001_tenant_ingestion.sql`, `0002_same_dataset_relationships.sql`, `0003_dataset_compression.sql`; `backend/src/data_optimizer/{api,auth,db,storage}`, `config.py`, `cli.py`; `backend/pyproject.toml`, `uv.lock`; `backend/tests/test_auth.py`, `test_auth_identity.py`, `test_migrations.py`, `test_ingestion_validation.py`, `tests/integration/`; `scripts/dev.sh`, `.env.example`, `.gitignore`, `Makefile`, `README.md`, `examples/s02-events.csv`, `docs/decisions/0002-s02-ingestion.md`, `docs/runbooks/ingestion.md`, and this handoff.
+- Setup and run commands: `make setup`; `make infra-up`; `make migrate`; `make seed-local`; `make storage-init`; `make dev`; `make cleanup-expired`; `make infra-down` (preserves named volumes). `make test-integration` requires local PostgreSQL/MinIO and uses generated per-test schemas/buckets.
+- Verification commands and outcomes: Python 3.12.3, Node 24.22.2, uv 0.13.6, PostgreSQL 17.11, MinIO local build and Redis 7.4.12. Actual CLI migration applied all three migrations in order; repeat run applied zero. `seed-local` repeated safely and `storage-init` created the private local bucket. Empty isolated-schema migrations, checksum mismatch rejection/restore, and migration repeat passed. After the final validator hardening, `UV_OFFLINE=1 make check` passed (Ruff, mypy 21 source files, ESLint, TypeScript); `UV_OFFLINE=1 make test` passed (59 backend tests, 15 integration tests deselected by default, 3 frontend); `UV_OFFLINE=1 make build` passed (Python sdist/wheel and Vite production build). Escalated `UV_OFFLINE=1 make test-integration` passed all 15 tests against actual local PostgreSQL/MinIO: all three formats, cross-tenant ownership, malformed/oversized/expired/interrupted transfers, retention vs upload TTL, project/dataset deletion, audit retention, byte/concurrency/decompression quotas, S3 deletion retry, late PUT and finalize/delete races. One Starlette/httpx TestClient deprecation warning remains. Installed the generated wheel into `backend/.venv`, invoked its `data-optimizer migrate --help` from `/tmp`, verified all three packaged SQL names and SHA-256 values, then restored editable install. Direct Uvicorn HTTP smoke on loopback verified `/health` and `/ready` 200, project creation, CSV transfer/finalization, exact artifact download, and deletion. API stopped after smoke. The `data-optimizer-local` containers/network were stopped/removed at session end without `-v`; named volumes were preserved.
+- Evidence and report paths: `backend/tests/integration/`; `docs/runbooks/ingestion.md`; `docs/decisions/0002-s02-ingestion.md`. Test schemas and buckets are generated and removed by the fixture. Local external IdP/production authentication was not exercised.
+- Decisions and deviations: Use authenticated API streaming instead of presigned links so tenant, expiry and deletion are rechecked. Use static trusted RS256 public key plus exact issuer/audience and database subject mapping; the JWT tenant claim is ignored. Use psycopg numbered SQL with advisory locking and packaged resources, not an ORM/Alembic. Add later migrations rather than changing applied migration bytes. Deletion is asynchronous/retryable; the API never deletes external source data. See decision D014–D016 and `docs/decisions/0002-s02-ingestion.md`.
+- Blockers or unverified checks: No S02 acceptance blocker remains. No live external IdP, public deployment, customer records or production object-store configuration was tested; these are explicitly outside S02.
+- Resume from: Start S03.01, typed streaming readers and explicit dataset semantics, after reading this handoff. Do not start S04 or later work.
 
 ### S03 Typed profiling and the local privacy workflow
 
@@ -951,12 +951,15 @@ This checklist is a reusable template. Copy its result into the active Execution
 | D011 | 2026-11-02 | Pin Node 24.22.2 and uv 0.13.6 in project-local `.tools` bootstrap | Current Vite requires a supported Node release; local tooling avoids global system changes and makes clean setup reproducible |
 | D012 | 2026-11-02 | Build MinIO from the verified source commit in a pinned multi-stage image | No usable published image tag was verified for the selected release; revisit when a supported published image is available |
 | D013 | 2026-11-02 | Use `data-optimizer-local` with loopback ports 55432/56379/59000/59001 | Existing unrelated PostgreSQL and Redis containers occupy conventional ports; alternate defaults prevent collision |
+| D014 | 2026-11-02 | Use packaged numbered psycopg SQL migrations with advisory locks and SHA-256 ledger | Keep migration execution explicit and checksum-verifiable without an ORM dependency |
+| D015 | 2026-11-02 | Resolve tenant only from verified RS256 issuer/subject mapping or fixed loopback demo identities | Never trust a caller-supplied tenant claim/header; local identity is unavailable outside development loopback |
+| D016 | 2026-11-02 | Keep uploads private behind authenticated streaming endpoints with durable delete tombstones and bounded subprocess validation | Recheck tenant, expiry and deletion on each transfer; retain retry state across storage failures and constrain untrusted file parsing |
 
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S02. S01 completed with a local service startup and API readiness check.
+No known blocker prevents S03. S01 and S02 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
@@ -997,6 +1000,15 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 - `make setup`, `make check`, `make test` (13 backend, 3 frontend), `make build`, CLI help/version, Compose configuration, actual service health, API `/ready` HTTP 200, Vite proxy HTTP 200 and Chrome 155 browser connectivity/disconnect/recovery checks passed.
 - `make demo` returned its expected nonzero not-implemented result; it did not produce placeholder results. The runtime check invoked `make infra-down` without `-v`; that script version suppressed its output, so post-down container absence was not separately inspected. The command preserves named volumes by default.
 - No customer, cloud price or production claims were made. Provisional limits remain unmeasured and S02 is the only next sprint.
+
+### S02 completion on 2026-11-02
+
+- Continued the S02 implementation after reading the full handoff and architecture. Reconciled the actual repository history: branch `main` contains the existing S01 commit `715f53b`; no S02 commit was created.
+- Completed S02.01–S02.08 with migrations, verified tenant identity, project/dataset APIs, immutable version uploads, structural validation, storage and retryable retention/deletion. See the S02 execution record, `docs/decisions/0002-s02-ingestion.md` and `docs/runbooks/ingestion.md`.
+- A final scoped review found JSON duplicate-key/non-finite and parser-bound concerns plus Parquet footer/decoded-buffer accounting gaps. These were fixed and covered by regression tests; focused validator suite passed (30 tests).
+- Final verification: `UV_OFFLINE=1 make check` passed; `UV_OFFLINE=1 make test` passed (59 backend and 3 frontend); `UV_OFFLINE=1 make build` passed; escalated `UV_OFFLINE=1 make test-integration` passed all 15 tests against real local PostgreSQL and MinIO. Installed-wheel migration resource smoke and direct loopback Uvicorn HTTP lifecycle smoke passed. A Starlette/httpx deprecation warning remains.
+- Stopped only the `data-optimizer-local` Compose project without deleting volumes. The API was stopped after smoke. No live IdP, production deployment, customer data or external object-store testing is claimed.
+- Handoff reconciled: S02 completed; Current sprint None; Next sprint S03. Resume at S03.01 after reading S03 tasks and its dependencies; do not start later sprints.
 
 ### Template for subsequent session entries
 

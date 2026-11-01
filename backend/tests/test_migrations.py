@@ -11,4 +11,4 @@ def test_packaged_migrations_are_ordered_and_checksummed() -> None:
     for name, content, checksum in migrations:
         assert MIGRATION_NAME.fullmatch(name)
         assert checksum == sha256(content.encode()).hexdigest()
-        assert "CREATE TABLE" in content
+        assert "CREATE TABLE" in content or "ALTER TABLE" in content

@@ -45,10 +45,14 @@ def test_local_mode_cannot_bind_externally_or_run_in_production() -> None:
 @pytest.fixture
 def jwt_material() -> tuple[Settings, str]:
     private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
-    public_key = private_key.public_key().public_bytes(
-        serialization.Encoding.PEM,
-        serialization.PublicFormat.SubjectPublicKeyInfo,
-    ).decode()
+    public_key = (
+        private_key.public_key()
+        .public_bytes(
+            serialization.Encoding.PEM,
+            serialization.PublicFormat.SubjectPublicKeyInfo,
+        )
+        .decode()
+    )
     config = Settings(
         auth_mode="jwt",
         auth_issuer="https://identity.example.test",

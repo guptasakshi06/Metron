@@ -37,6 +37,8 @@ class Settings(BaseSettings):
     s3_bucket: str = "data-optimizer-local"
     upload_temp_dir: str = ".data-optimizer-tmp"
     max_concurrent_uploads: int = Field(default=4, ge=1, le=32)
+    max_upload_temp_bytes: int = Field(default=1_073_741_824, ge=1)
+    max_upload_seconds: int = Field(default=300, ge=1, le=3600)
     max_uploads_per_tenant: int = Field(default=3, ge=1, le=20)
     upload_session_ttl_seconds: int = Field(default=900, ge=60, le=3600)
     default_retention_days: int = Field(default=7, ge=1, le=30)
