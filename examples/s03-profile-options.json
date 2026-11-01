@@ -1,0 +1,11 @@
+{
+  "schema_overrides": {
+    "amount": "decimal",
+    "timestamp": "timestamp"
+  },
+  "csv_null_tokens": ["NULL"],
+  "seed": 42,
+  "sample_rows_per_stratum": 100,
+  "time_column": "timestamp",
+  "include_field_names": false
+}

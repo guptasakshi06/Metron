@@ -5,6 +5,7 @@ import hashlib
 import os
 import tempfile
 import time
+from collections.abc import Iterator
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Annotated, Any
@@ -643,7 +644,7 @@ def build_datasets_router(config: Settings) -> APIRouter:
             raise HTTPException(status_code=404, detail="artifact not found")
         body = S3Storage(config).get(row[0])
 
-        def stream():
+        def stream() -> Iterator[bytes]:
             try:
                 yield from body.iter_chunks(chunk_size=64 * 1024)
             finally:

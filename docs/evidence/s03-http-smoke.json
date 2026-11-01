@@ -1,0 +1,20 @@
+{
+  "evidence": "synthetic_local_http_execution",
+  "migrations_applied": [
+    "0001_tenant_ingestion.sql",
+    "0002_same_dataset_relationships.sql",
+    "0003_dataset_compression.sql",
+    "0004_local_profiles.sql"
+  ],
+  "migration_repeat_applied": 0,
+  "health_status": 200,
+  "project_create_status": 201,
+  "cli_profile_export_review_local_import": "passed",
+  "cli_reviewed_http_import_status": 201,
+  "profile_retrieval_matches_export": true,
+  "cross_tenant_retrieval_status": 404,
+  "delete_status": 200,
+  "post_delete_read_status": 404,
+  "raw_datasets_created": 0,
+  "source_unchanged": true
+}

@@ -1,0 +1,113 @@
+{
+  "baseline": {
+    "format": "ndjson",
+    "schema_overrides": {
+      "timestamp": "timestamp"
+    }
+  },
+  "candidate": {
+    "format": "ndjson",
+    "schema_overrides": {
+      "timestamp": "timestamp"
+    }
+  },
+  "workload": {
+    "queries": [
+      {
+        "id": "scan",
+        "kind": "full_scan"
+      },
+      {
+        "id": "ids",
+        "kind": "projection",
+        "columns": [
+          "id"
+        ]
+      },
+      {
+        "id": "filter",
+        "kind": "filter",
+        "columns": [
+          "id",
+          "amount"
+        ],
+        "predicates": [
+          {
+            "column": "amount",
+            "op": "ge",
+            "value": {
+              "type": "decimal",
+              "value": "2.00"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nulls",
+        "kind": "filter",
+        "columns": [
+          "id"
+        ],
+        "predicates": [
+          {
+            "column": "optional",
+            "op": "is_null"
+          }
+        ]
+      },
+      {
+        "id": "time",
+        "kind": "time_range",
+        "columns": [
+          "id"
+        ],
+        "time_range": {
+          "column": "timestamp",
+          "start": {
+            "type": "timestamp_aware",
+            "value": "2026-01-01T00:00:00Z"
+          },
+          "end": {
+            "type": "timestamp_aware",
+            "value": "2026-01-02T00:00:00Z"
+          }
+        }
+      },
+      {
+        "id": "groups",
+        "kind": "grouped_aggregate",
+        "group_by": [
+          "category"
+        ],
+        "aggregates": [
+          {
+            "op": "count",
+            "alias": "n"
+          },
+          {
+            "op": "sum",
+            "column": "amount",
+            "alias": "total"
+          },
+          {
+            "op": "min",
+            "column": "amount",
+            "alias": "low"
+          },
+          {
+            "op": "max",
+            "column": "amount",
+            "alias": "high"
+          },
+          {
+            "op": "avg",
+            "column": "amount",
+            "alias": "mean"
+          }
+        ]
+      }
+    ],
+    "concurrency": 1,
+    "concurrency_scope": "single_process"
+  }
+}

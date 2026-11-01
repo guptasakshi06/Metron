@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 01:31, Asia/Kolkata  
-**Current sprint:** None  
-**Next sprint:** S03  
-**MVP status:** S01 and S02 complete; MVP implementation in progress  
+**Last updated:** 2026-11-02 02:13, Asia/Kolkata
+**Current sprint:** S05
+**Next sprint:** S05
+**MVP status:** S01 through S04 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -242,9 +242,9 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | --- | --- | --- | --- | --- |
 | S01 | Project foundation and executable contracts | None | completed | Locked setup, integrated checks/build, Compose service health, API readiness, direct HTTP and browser connectivity verified; see execution record below |
 | S02 | Tenant data model and secure dataset ingestion | S01 | completed | 15 real PostgreSQL/MinIO integration tests, live HTTP smoke, full check/test/build; see S02 execution record |
-| S03 | Typed profiling and the local privacy workflow | S02 | not_started | None |
-| S04 | Workload specifications and semantic integrity checks | S03 | not_started | None |
-| S05 | Candidate generation and lossless conversion | S04 | not_started | None |
+| S03 | Typed profiling and the local privacy workflow | S02 | completed | 35 profile tests, 18 real service integration tests, live CLI/HTTP import, resource evidence, strict checks and builds; see execution record |
+| S04 | Workload specifications and semantic integrity checks | S03 | completed | 60 S04 tests, full check/test/build, real CLI pass/rejection and packaged worker; see execution record and docs/evidence/s04-verification.md |
+| S05 | Candidate generation and lossless conversion | S04 | in_progress | Implementation and verification underway |
 | S06 | Bounded benchmark execution and evidence capture | S05 | not_started | None |
 | S07 | Versioned pricing and total cost calculations | S06 | not_started | None |
 | S08 | Evidence based ranking and adaptive experiment selection | S07 | not_started | None |
@@ -255,7 +255,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S03 is the next unfinished sprint. S01 and S02 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S05 is in progress and remains the next unfinished sprint. S01 through S04 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -354,21 +354,21 @@ Record migration commands, authentication mode, upload limits, storage layout, r
 
 ### S03 Typed profiling and the local privacy workflow
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S02  
 **Outcome:** Produce reproducible profiles from CSV, NDJSON and Parquet, including a local-only profiling option.  
 **Expected code and document areas:** backend/src/data_optimizer/{profiling,readers,cli}; backend/tests/fixtures/; docs/dataset-semantics.md
 
 #### Tasks
 
-- [ ] S03.01 Build streaming or bounded readers using DuckDB/PyArrow. Define how CSV nulls, mixed types, decimals, identifiers, timestamps, JSON missing fields and nested values are interpreted. Ask for schema overrides when inference could change meaning.
-- [ ] S03.02 Create deterministic small fixtures and generators for categorical events, high-cardinality text, legitimate duplicates, null/missing distinctions, decimal precision, time zones, nested records, schema drift and already compressed data.
-- [ ] S03.03 Measure rows, columns, physical bytes, type distributions, null density, cardinality estimates, width distributions, temporal spread and file-size distributions. Label estimates and exact statistics separately.
-- [ ] S03.04 Implement reproducible sampling across relevant time/source strata with a seed and coverage record. Support bounded full scans where feasible; explain unsupported sampling layouts.
-- [ ] S03.05 Persist profile versions with input/schema fingerprints, engine versions, sample fraction and warnings. Reuse cached profiles only when fingerprints and relevant settings match.
-- [ ] S03.06 Add CLI commands to profile locally and export a reviewable, versioned metadata-only report. Raw values and example records must be excluded by default.
-- [ ] S03.07 Import valid local profiler reports without pretending the server inspected the raw dataset. Validate report schema and mark measurements as locally supplied evidence.
-- [ ] S03.08 Define sensitive-field redaction for reports and logs. Add a user-review step before an optional metadata upload; profiling locally requires no external API key.
+- [x] S03.01 Build streaming or bounded readers using DuckDB/PyArrow. Define how CSV nulls, mixed types, decimals, identifiers, timestamps, JSON missing fields and nested values are interpreted. Ask for schema overrides when inference could change meaning.
+- [x] S03.02 Create deterministic small fixtures and generators for categorical events, high-cardinality text, legitimate duplicates, null/missing distinctions, decimal precision, time zones, nested records, schema drift and already compressed data.
+- [x] S03.03 Measure rows, columns, physical bytes, type distributions, null density, cardinality estimates, width distributions, temporal spread and file-size distributions. Label estimates and exact statistics separately.
+- [x] S03.04 Implement reproducible sampling across relevant time/source strata with a seed and coverage record. Support bounded full scans where feasible; explain unsupported sampling layouts.
+- [x] S03.05 Persist profile versions with input/schema fingerprints, engine versions, sample fraction and warnings. Reuse cached profiles only when fingerprints and relevant settings match.
+- [x] S03.06 Add CLI commands to profile locally and export a reviewable, versioned metadata-only report. Raw values and example records must be excluded by default.
+- [x] S03.07 Import valid local profiler reports without pretending the server inspected the raw dataset. Validate report schema and mark measurements as locally supplied evidence.
+- [x] S03.08 Define sensitive-field redaction for reports and logs. Add a user-review step before an optional metadata upload; profiling locally requires no external API key.
 
 #### Acceptance gates
 
@@ -386,36 +386,38 @@ Record supported reader semantics, remaining unsupported cases, sample settings,
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S03.01 after its dependencies are verified.
+- Started: 2026-11-02 (Asia/Kolkata)
+- Updated: 2026-11-02 01:54 (Asia/Kolkata)
+- Completed: 2026-11-02 (Asia/Kolkata)
+- Branch and commit if available: `main`, existing S02 commit `869c28e` (`S02 Done`); S03 changes are uncommitted. Clean worktree inspected before implementation.
+- Delivered behavior: Conservative streaming CSV/NDJSON/gzip readers and bounded PyArrow Parquet batches; explicit schema/null overrides; exact decimal and missing/null semantics; duplicate preservation; deterministic two-pass full/stratified profiling; exact vs bounded KMV cardinality; width/type/null/time/file statistics with scope labels; fingerprints and engine-aware cache reuse; versioned redacted metadata exports; offline CLI profile/review/local import; reviewed tenant-owned PostgreSQL metadata import/list/read/delete, idempotent reuse, quotas and project deletion cleanup. No raw dataset or server measurement is fabricated by metadata import.
+- Files changed: `backend/src/data_optimizer/readers/`, `profiling/`, `api/profiles.py`, `api/main.py`, `api/projects.py`, `cli.py`, `config.py`; `backend/migrations/0004_local_profiles.sql`; `backend/tests/test_profiling.py`, `tests/fixtures/profiling.py`, `tests/integration/test_profiles.py`; `scripts/profile-resource-check.py`; `examples/s03-profile-options.json`; `docs/dataset-semantics.md`, `docs/runbooks/profiling.md`, `docs/decisions/0003-s03-profiling.md`, `docs/evidence/s03-*.json`; `README.md`, `.env.example`, `Makefile`, `backend/pyproject.toml` and this handoff. Strict-type verification fixes also add return annotations in `auth/dependencies.py` and `api/datasets.py`, and remove obsolete import ignores in `storage/s3.py`.
+- Setup and run commands: Existing locked dependencies were sufficient; no new dependency or lockfile change. `make infra-up`; migrations/seed used isolated generated schemas for integration and HTTP smoke. For future local use run `make migrate` to apply 0004, then `make seed-local` and `make dev`. Offline CLI exercise: `UV_OFFLINE=1 .tools/uv-bin/uv run --locked --project backend python backend/tests/fixtures/profiling.py /tmp/s03-fixtures`; `.tools/uv-bin/uv run --locked --project backend data-optimizer profile /tmp/s03-fixtures/synthetic-events.csv --format csv --options examples/s03-profile-options.json --output /tmp/s03-profile.json --cache /tmp/s03-profile-cache`; corresponding `profile-review /tmp/s03-profile.json` and `profile-import /tmp/s03-profile.json --store /tmp/s03-metadata-store` passed. Full optional transfer instructions are in `docs/runbooks/profiling.md`.
+- Verification commands and outcomes: `UV_OFFLINE=1 make check` passed Ruff, explicitly configured strict mypy on 30 source files, ESLint and TypeScript. `UV_OFFLINE=1 make test` passed 94 backend tests (35 S03 profiling tests; 18 integration tests deselected) and 3 frontend tests. `UV_OFFLINE=1 make test-integration` passed all 18 tests against actual local PostgreSQL/MinIO, including 3 S03 tests for imported provenance/versioning/idempotency, ownership, payload/review/size validation, deletion and quotas. `UV_OFFLINE=1 make build` passed Python sdist/wheel and Vite production build. Extracted the final wheel to a temporary directory and ran its CLI profiling worker from `/tmp` using that package path; verified 0004 and all four packaged migrations are available. No installed environment was replaced. `UV_OFFLINE=1 .tools/uv-bin/uv run --locked --project backend python /tmp/data-optimizer-s03-evidence/http_smoke.py` passed actual Uvicorn HTTP health/project creation, offline CLI export/review/local import, reviewed CLI HTTP import, exact report retrieval, cross-tenant 404, deletion and post-delete 404; no raw datasets created and source bytes unchanged. Four migrations applied to the isolated schema, repeat applied zero. Schema removed and API process stopped in cleanup. `make infra-down` stopped/removed only the `data-optimizer-local` containers/network without deleting volumes; post-down listing was checked.
+- Resource observations: `UV_OFFLINE=1 .tools/uv-bin/uv run --locked --project backend python scripts/profile-resource-check.py --output docs/evidence/s03-resource-results.json` passed. A synthetic 12,360,000-byte / 60,000-row NDJSON file profiled 256 rows in 1.133 seconds using the 1024 MiB address-space policy. A valid 168,414,208-byte NDJSON file above a 128 MiB worker limit returned `profile_memory_quota` in 0.223 seconds. Child-process peak RSS across these exercises was 73,744 KiB. Generated raw fixtures were removed by the resource script. These are actual local observations, not supported-capacity or production/cloud claims.
+- Evidence and report paths: `docs/evidence/s03-resource-results.json`, `docs/evidence/s03-http-smoke.json`, `backend/tests/test_profiling.py`, `backend/tests/integration/test_profiles.py`; semantics and reproducible commands in `docs/dataset-semantics.md` and `docs/runbooks/profiling.md`.
+- Decisions and deviations: D017–D018 and `docs/decisions/0003-s03-profiling.md`. Standard-library text readers preserve exact/missing semantics; PyArrow handles Parquet, with no new DuckDB dependency yet. CSV stays text unless explicitly overridden; default exports redact all names and omit raw values/paths. Sampling covers explicit UTC/wall-day and source strata with bounded bottom-k row positions; it still scans the whole file twice and has no I/O reduction claim. Cache keys include input/settings/engine/profiler version; imported versions are project-owned locally supplied evidence without an uploaded dataset. Corrected a prerequisite verification gap: root `make check` previously did not load the nested strict mypy configuration; it now does.
+- Blockers or unverified checks: No S03 acceptance blocker remains. Existing Starlette/httpx TestClient deprecation warning remains. Single local file only; no automatic partition discovery or nested-leaf inference. Unsupported submicrosecond timestamp conversion is rejected explicitly. Arbitrary/many-stratum layouts fail with a clear quota error. Resource limits are a local parsing boundary, not a network namespace/security sandbox; server profiling orchestration and benchmark isolation remain S06/S09. No browser profiling UI, live external IdP, production deployment, cloud benchmark or customer validation is claimed.
+- Completion checklist: All eight S03 tasks and all three acceptance gates passed with recorded evidence; related real import path verified; scope/limitations documented; unrelated files/data preserved; commands match implementation; ledger/current/next/status reconciled; history appended. No commit or push performed.
+- Resume from: Start S04.01, workload DSL and semantic integrity baselines, after reading this handoff and `docs/dataset-semantics.md`. Reuse S03 readers and extend the existing profiles table in S09 rather than recreating it. Do not start S05 or later work in the next sprint chat.
 
 ### S04 Workload specifications and semantic integrity checks
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S03  
 **Outcome:** Define comparable analytical operations and prove transformations preserve the agreed dataset meaning.  
 **Expected code and document areas:** backend/src/data_optimizer/{workloads,integrity,domain}; backend/tests/{unit,integration}/
 
 #### Tasks
 
-- [ ] S04.01 Define a validated workload DSL for projections, predicates, time ranges, grouped aggregates and full scans. Include frequencies, freshness needs and concurrency scope. Unknown workload parameters remain explicit.
-- [ ] S04.02 Compile the DSL into parameterized analytical queries against a fixed assessment dataset. Validate identifiers and allowlisted operations; do not expose arbitrary SQL, shell execution, external readers or extensions.
-- [ ] S04.03 Create canonical baselines for row counts, schema, null/missing behavior, decimal precision, timestamp semantics and duplicate multiplicity.
-- [ ] S04.04 Implement streaming canonical-content comparison or equivalent strong verification with counts and semantic checks. File byte hashes identify artifacts but cannot establish cross-format equality.
-- [ ] S04.05 Compare workload outputs against the baseline with deterministic ordering where order is irrelevant, multiplicity preserved and explicitly configured numeric tolerances.
-- [ ] S04.06 Handle nested and mixed inputs by preserving meaning or rejecting the specific conversion capability. Define cases requiring original-byte retention.
-- [ ] S04.07 Create mutation fixtures that intentionally lose records, change precision, collapse duplicates, shift timestamps or coerce identifiers. Ensure integrity checks detect these changes.
-- [ ] S04.08 Persist per-check evidence and a capability matrix that later candidate eligibility uses. A failed or incomplete check must never be marked passed.
+- [x] S04.01 Define a validated workload DSL for projections, predicates, time ranges, grouped aggregates and full scans. Include frequencies, freshness needs and concurrency scope. Unknown workload parameters remain explicit.
+- [x] S04.02 Compile the DSL into parameterized analytical queries against a fixed assessment dataset. Validate identifiers and allowlisted operations; do not expose arbitrary SQL, shell execution, external readers or extensions.
+- [x] S04.03 Create canonical baselines for row counts, schema, null/missing behavior, decimal precision, timestamp semantics and duplicate multiplicity.
+- [x] S04.04 Implement streaming canonical-content comparison or equivalent strong verification with counts and semantic checks. File byte hashes identify artifacts but cannot establish cross-format equality.
+- [x] S04.05 Compare workload outputs against the baseline with deterministic ordering where order is irrelevant, multiplicity preserved and explicitly configured numeric tolerances.
+- [x] S04.06 Handle nested and mixed inputs by preserving meaning or rejecting the specific conversion capability. Define cases requiring original-byte retention.
+- [x] S04.07 Create mutation fixtures that intentionally lose records, change precision, collapse duplicates, shift timestamps or coerce identifiers. Ensure integrity checks detect these changes.
+- [x] S04.08 Persist per-check evidence and a capability matrix that later candidate eligibility uses. A failed or incomplete check must never be marked passed.
 
 #### Acceptance gates
 
@@ -433,22 +435,23 @@ Record the workload schema, supported operations, numerical tolerance policy, ca
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S04.01 after its dependencies are verified.
+- Started: 2026-11-02 01:57 (Asia/Kolkata)
+- Updated: 2026-11-02 02:10 (Asia/Kolkata)
+- Completed: 2026-11-02 (Asia/Kolkata)
+- Branch and commit if available: `main`, existing S02 commit `869c28e` (`S02 Done`). Existing uncommitted S03 changes preserved; S04 is also uncommitted. No commit/push performed.
+- Delivered behavior: Versioned executable workload DSL for full scans, projections, typed AND predicates, half-open time ranges and grouped count/sum/min/max/avg; explicit unknown frequency/freshness/latency and concurrency scope; validated identifiers, bound values and one fixed in-memory relation. Full exact typed row multiset comparison in bounded SQLite preserves missing/null, precision/scale, identifiers, timestamps, nested values and duplicate multiplicity; optional row-order/original-byte checks; full serialized Arrow schema checks for both-Parquet inputs. Deterministic output equality and optional float-only tolerances; conservative source capability matrix; atomic fingerprint-checked JSON evidence; resource-bounded public subprocess verifier and CLI. Missing/unsupported workloads remain not_checked and performance remains not_measured.
+- Files changed: New `backend/src/data_optimizer/workloads/` and `integrity/`; `backend/src/data_optimizer/cli.py`; `backend/pyproject.toml` and `backend/uv.lock`; `backend/tests/test_workloads.py`, `test_integrity.py`, `fixtures/integrity.py`; `examples/s04-*.ndjson` and `s04-integrity-request.json`; `docs/decisions/0004-s04-workloads-integrity.md`, `docs/runbooks/workloads-integrity.md`, `docs/evidence/s04-*.json`, `docs/evidence/s04-verification.md`; README, dataset semantics and this handoff. Earlier S03 work was retained.
+- Setup and run commands: `UV_CACHE_DIR=.tools/uv-cache .tools/uv-bin/uv add --project backend 'duckdb>=1.4,<2'`; same command with `'pytz>=2025.2'`; locked dependencies now include DuckDB 1.5.6 and pytz 2026.6 on Python 3.12.3. `uv sync --locked --all-groups --project backend` is the documented setup. Run `uv run --locked --project backend data-optimizer integrity-check BASELINE CANDIDATE --request REQUEST.json --output EVIDENCE.json`; tested exact CLI invocations in `docs/evidence/s04-verification.md`.
+- Verification commands and outcomes: `UV_OFFLINE=1 make check` passed (Ruff, strict mypy on 42 files, ESLint, TypeScript). `UV_OFFLINE=1 make test` passed 152 backend and 3 frontend tests, 18 service-dependent tests deselected; one pre-existing TestClient warning. After final schema-metadata/empty-object regressions, `UV_CACHE_DIR=.tools/uv-cache .tools/uv-bin/uv run --locked --project backend pytest -q backend/tests/test_workloads.py backend/tests/test_integrity.py` passed all 60 S04 tests. Final `UV_OFFLINE=1 make build` passed Python wheel/sdist and Vite production build. Actual CLI equivalent/rejected comparisons returned 0/1 with persisted evidence. Public CSV-to-Parquet subprocess verification and extracted-wheel CLI/worker smoke passed; source hashes unchanged. `git diff --check` passed. Full command details and test limitations in `docs/evidence/s04-verification.md`.
+- Evidence and report paths: `docs/evidence/s04-passed.json`, `docs/evidence/s04-failed.json`, `docs/evidence/s04-cross-format.json`, `docs/evidence/s04-verification.md`; synthetic examples, fixture generator and 60 workload/integrity tests.
+- Decisions and deviations: D019 / decision 0004 records `s04.1` DSL, exact length-framed canonical bytes, disk multiset, UTC-instant versus naive timestamp semantics, strict decimal scale, query-only float tolerances and conservative exclusions. DuckDB added at the planned workload stage; pytz explicitly installed after a real TIMESTAMPTZ result exposed its dependency. Existing S01 descriptive WorkloadSpecification retained for compatibility; S09 must validate the executable Workload. Evidence is local JSON now, with PostgreSQL ownership/persistence deferred to planned S09. Full Arrow serialization avoids truncated-display schema fingerprints.
+- Blockers or unverified checks: No S04 acceptance blocker remains. No performance, cloud, production or customer result is claimed. Service-dependent integration tests not rerun; S04 has no service/API changes. Engine settings/resource bounds are not OS isolation; S06 owns benchmark sandboxing. No nested/mixed/missing/all-null query execution or arbitrary SQL. Original-byte retention is required for lexical/signature/offset-spelling or unmodeled schema semantics. Report field names/counts/hashes can be sensitive; exact comparison temporarily spills raw canonical rows into private parent-owned storage and removes them after handled errors/worker termination. Whole-process-crash cleanup remains operational work. Timeout cleanup uses a deterministic injected timeout test, not a measured hanging query.
+- Completion checklist: All eight S04 tasks and three acceptance gates have concrete local evidence; CLI/package paths verified; unsupported capabilities and absent workload/performance are explicit; unrelated changes preserved; ledger/current/next/date/decisions/history reconciled. No commit, push, public deployment or service provisioning.
+- Resume from: Start S05.01 candidate generation and lossless conversion after reading this handoff, `docs/dataset-semantics.md` and `docs/runbooks/workloads-integrity.md`. Reuse `VerificationRequest`, `verify_files`, persisted capability reasons and exact integrity evidence; require capability support plus passed candidate checks, never a capability alone. Do not execute S06 or later in the S05 chat.
 
 ### S05 Candidate generation and lossless conversion
 
-**Status:** not_started  
+**Status:** in_progress  
 **Dependencies:** S04  
 **Outcome:** Generate reproducible eligible alternatives while retaining the original setup.  
 **Expected code and document areas:** backend/src/data_optimizer/{candidates,conversion}; backend/tests/integration/; docs/candidate-support.md
@@ -480,7 +483,7 @@ Record candidate defaults, codec versions, artifact conventions, compatibility r
 
 #### Execution record
 
-- Started:
+- Started: 2026-11-02 02:13 (Asia/Kolkata)
 - Updated:
 - Completed:
 - Branch and commit if available:
@@ -491,7 +494,7 @@ Record candidate defaults, codec versions, artifact conventions, compatibility r
 - Evidence and report paths:
 - Decisions and deviations:
 - Blockers or unverified checks:
-- Resume from: Start S05.01 after its dependencies are verified.
+- Resume from: Implement candidate contracts, bounded conversion and verified atomic manifests; exercise round-trips, exclusions, cancellation and reuse.
 
 ### S06 Bounded benchmark execution and evidence capture
 
@@ -955,11 +958,15 @@ This checklist is a reusable template. Copy its result into the active Execution
 | D015 | 2026-11-02 | Resolve tenant only from verified RS256 issuer/subject mapping or fixed loopback demo identities | Never trust a caller-supplied tenant claim/header; local identity is unavailable outside development loopback |
 | D016 | 2026-11-02 | Keep uploads private behind authenticated streaming endpoints with durable delete tombstones and bounded subprocess validation | Recheck tenant, expiry and deletion on each transfer; retain retry state across storage failures and constrain untrusted file parsing |
 
+| D017 | 2026-11-02 | S03 uses explicit text semantics, bounded two-pass stratified profiles and redacted metadata with reviewed-fingerprint import | Preserve identifiers/precision/missing values, make coverage reproducible, and keep local evidence distinct from server measurements; see decision 0003 |
+| D018 | 2026-11-02 | Pass the backend configuration explicitly to root mypy checks | Root working directory did not load nested strict settings; annotations corrected and strict verification now passes |
+| D019 | 2026-11-02 | Executable constrained workload DSL, fixed in-memory DuckDB and exact disk-backed canonical multiset | Preserve typed content and multiplicity, bind values, exclude unsupported capabilities, and distinguish correctness from performance; see decision 0004 |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S03. S01 and S02 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S05. S01 through S04 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
@@ -1009,6 +1016,37 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 - Final verification: `UV_OFFLINE=1 make check` passed; `UV_OFFLINE=1 make test` passed (59 backend and 3 frontend); `UV_OFFLINE=1 make build` passed; escalated `UV_OFFLINE=1 make test-integration` passed all 15 tests against real local PostgreSQL and MinIO. Installed-wheel migration resource smoke and direct loopback Uvicorn HTTP lifecycle smoke passed. A Starlette/httpx deprecation warning remains.
 - Stopped only the `data-optimizer-local` Compose project without deleting volumes. The API was stopped after smoke. No live IdP, production deployment, customer data or external object-store testing is claimed.
 - Handoff reconciled: S02 completed; Current sprint None; Next sprint S03. Resume at S03.01 after reading S03 tasks and its dependencies; do not start later sprints.
+
+### S03 start on 2026-11-02
+
+- Authorized implementation of the next unfinished sprint. Read the handoff and architecture; inspected main at 869c28e with a clean worktree and existing S02 code.
+- S03 marked in_progress before implementation. Resume at bounded readers/profile contracts, then local CLI and tenant-scoped metadata import.
+
+### S03 completion on 2026-11-02
+
+- Completed S03.01–S03.08: bounded typed local readers, deterministic full/stratified statistics, semantic fixtures, version/cache fingerprints, redacted offline export/review/import, and reviewed tenant-scoped metadata persistence with migration 0004.
+- Verification: strict `UV_OFFLINE=1 make check`; `UV_OFFLINE=1 make test` (94 backend, 3 frontend); `UV_OFFLINE=1 make test-integration` (18 real PostgreSQL/MinIO tests); `UV_OFFLINE=1 make build`; extracted-wheel worker/migration smoke; actual CLI-to-Uvicorn HTTP import/retrieval/tenant/deletion exercise. All passed. One pre-existing TestClient deprecation warning remains.
+- Resource evidence: 60,000 synthetic rows / 12.36 MB completed; valid 168.4 MB input above a 128 MiB worker budget returned a clear memory quota failure. See `docs/evidence/s03-resource-results.json`; no simulated or production measurements claimed.
+- Recorded semantics/limitations in `docs/dataset-semantics.md`, workflow in `docs/runbooks/profiling.md`, D017/D018 and decision 0003. Fixed root strict-mypy configuration selection and its existing annotation gaps.
+- Stopped API smoke and local Compose project, preserved named volumes/unrelated services, removed isolated test schemas/buckets. No commit, push, public deployment or customer integration.
+- Handoff reconciled: S03 completed; Current sprint None; Next sprint S04. Resume S04.01 in the next implementation chat.
+
+### S04 start on 2026-11-02
+
+- Implementation authorized; inspected main at 869c28e with existing uncommitted S03 code/documentation, which will be preserved.
+- S04 marked in_progress before implementation at 2026-11-02 01:57 (Asia/Kolkata). Resume at workload contracts and semantic baseline comparisons.
+
+### S04 completion on 2026-11-02
+
+- Completed S04.01–S04.08: validated executable workloads, fixed-dataset parameterized DuckDB queries, exact full canonical-content/multiplicity comparisons, semantic mutation fixtures, capability exclusions and atomic local JSON evidence/CLI.
+- Verification: full check/test/build passed (152 backend and 3 frontend tests at full run); final targeted suite passed 60 S04 tests after final regressions; extracted-wheel CLI/worker and public CSV-to-Parquet comparisons passed. Actual CLI equivalent/rejected cases persisted passing/failing evidence with exits 0/1. See `docs/evidence/s04-verification.md` for exact commands and boundaries.
+- Golden CSV/NDJSON/gzip/Parquet pass; record loss, precision loss, duplicate replacement, timestamp shift/awareness, ID coercion, missing/null and full schema metadata mutations fail. DuckDB external readers/writes/extensions and configuration changes denied. No performance or live cloud/customer claims; 18 service-dependent tests not rerun. Existing TestClient warning remains.
+- Decision D019/0004 records typed equality, tolerance/order rules, conservative conversion/query exclusions and local resource/privacy boundary. Existing S03 changes preserved; no services started, commits or pushes.
+- Handoff reconciled at 2026-11-02 02:10 (Asia/Kolkata): S04 completed; Current sprint None; Next sprint S05. Resume candidate generation/conversion only in the next implementation chat.
+
+### S05 start on 2026-11-02
+
+- S05 marked in_progress before implementation. Existing uncommitted S03/S04 work on main at 869c28e is preserved. Resume at candidate contracts and local atomic conversion. No S06 work.
 
 ### Template for subsequent session entries
 

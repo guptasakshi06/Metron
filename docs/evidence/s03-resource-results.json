@@ -1,0 +1,21 @@
+{
+  "evidence": "synthetic_local_execution",
+  "python": "3.12.3",
+  "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+  "limits_are_policy_not_capacity": true,
+  "larger": {
+    "physical_bytes": 12360000,
+    "rows": 60000,
+    "profiled_rows": 256,
+    "seconds": 1.133,
+    "memory_limit_mib": 1024,
+    "outcome": "completed"
+  },
+  "above_memory": {
+    "physical_bytes": 168414208,
+    "memory_limit_mib": 128,
+    "outcome": "profile_memory_quota",
+    "seconds": 0.223
+  },
+  "child_peak_rss_kib": 73744
+}

@@ -1,5 +1,6 @@
 """FastAPI dependency for the verified request principal."""
 
+from collections.abc import Callable
 from typing import Annotated
 
 from fastapi import Depends, Header, Request
@@ -21,7 +22,7 @@ def current_identity(
 CurrentIdentity = Annotated[Identity, Depends(current_identity)]
 
 
-def identity_dependency(config: Settings):
+def identity_dependency(config: Settings) -> Callable[..., Identity]:
     """Build an auth dependency bound to the application's explicit configuration."""
 
     def dependency(

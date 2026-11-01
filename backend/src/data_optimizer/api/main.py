@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 from data_optimizer import __version__
 from data_optimizer.api.datasets import build_datasets_router
 from data_optimizer.api.probes import Probe, dependency_report
+from data_optimizer.api.profiles import build_profiles_router
 from data_optimizer.api.projects import build_projects_router
 from data_optimizer.config import Settings, settings
 from data_optimizer.domain.contracts import ErrorEnvelope, ReadinessResponse
@@ -23,6 +24,7 @@ def create_app(
     """Build an API instance; optional probes support isolated readiness tests."""
     application = FastAPI(title="Data Optimizer API", version=__version__)
     application.include_router(build_projects_router(config))
+    application.include_router(build_profiles_router(config))
     application.include_router(build_datasets_router(config))
 
     @application.get("/health", tags=["system"])

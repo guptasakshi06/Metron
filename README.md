@@ -2,9 +2,15 @@
 
 Data Optimizer compares analytical dataset representations against a stated workload. It is designed to recommend the best tested feasible option, explain its evidence and preserve unknowns. This repository is being implemented one sprint at a time; the current sprint is recorded in [SPRINT_HANDOFF.md](SPRINT_HANDOFF.md).
 
-## Current implementation: S02
+## Current implementation: S04
 
-The application has versioned contracts, real health/readiness checks, tenant-scoped project and dataset metadata, authenticated bounded uploads for CSV, NDJSON and Parquet, structural validation, private MinIO object storage, immutable dataset versions, and retention/deletion recovery. The frontend is still a connectivity shell; profiling, assessment, recommendation and report workflows are scheduled for later sprints. It does not display fabricated assessment results.
+The application has versioned contracts, real health/readiness checks, tenant-scoped project and dataset metadata, authenticated bounded uploads for CSV, NDJSON and Parquet, structural validation, private MinIO object storage, immutable dataset versions, retention/deletion recovery, bounded local typed profiling, reproducible sampling, metadata-only exports and reviewed tenant-scoped profile import. The frontend is still a connectivity shell; assessment, recommendation and assessment-report workflows are scheduled for later sprints. It does not display fabricated assessment results.
+
+S04 adds a validated analytical workload DSL, parameterized execution against a fixed
+in-memory DuckDB dataset, exact typed cross-format integrity checks preserving duplicate
+counts, capability exclusions and versioned local JSON evidence. See the
+[workload/integrity runbook](docs/runbooks/workloads-integrity.md) for a passing and a
+rejected CLI example. Output equality is a correctness check; performance remains unmeasured.
 
 ### Runtime versions
 
@@ -67,6 +73,10 @@ The local processing limits in `.env.example` are provisional policy defaults, n
 
 ### Dataset and evidence boundaries
 
-The data scope is CSV, NDJSON and Parquet. S02 accepts CSV and NDJSON text plus gzip-wrapped NDJSON and Parquet files, validates actual structure under byte and subprocess resource bounds, fingerprints original bytes, and stores them tenant-scoped. Dataset IDs are stable UUIDs and every replacement is a new immutable version. S02 does not infer typed profiles or transform data. Existing contracts preserve timezone-aware timestamps, explicit units, decimal precision and unknown values. Future recommendations must distinguish user-supplied, local-profile, server-measured, synthetic and projected evidence. A `change` decision requires measured evidence, an experiment reference and passed integrity.
+The data scope is CSV, NDJSON and Parquet. S02 accepts CSV and NDJSON text plus gzip-wrapped NDJSON and Parquet files, validates actual structure under byte and subprocess resource bounds, fingerprints original bytes, and stores them tenant-scoped. Dataset IDs are stable UUIDs and every replacement is a new immutable version. S03 adds local profiles with conservative, explicit typed semantics; transformations remain future work. Existing contracts preserve timezone-aware timestamps, explicit units, decimal precision and unknown values. Future recommendations must distinguish user-supplied, local-profile, server-measured, synthetic and projected evidence. A `change` decision requires measured evidence, an experiment reference and passed integrity.
 
 No benchmark, savings calculation, assessment table, queue or live external identity-provider integration is implemented. Local auth is only for loopback development; see [decision 0002](docs/decisions/0002-s02-ingestion.md) and the runbook before changing auth/storage settings. The upload and decompression limits are configurable policy bounds, not measured capacity or cloud guarantees.
+
+### Local profiling (S03)
+
+Run `uv run --locked --project backend data-optimizer profile INPUT --format csv --output /tmp/profile.json`. This requires no network or API key and exports redacted metadata. See [the profiling runbook](docs/runbooks/profiling.md) for typed overrides, sampling, review/import commands and resource checks, and [dataset semantics](docs/dataset-semantics.md) for supported boundaries. Optional API import uses migration `0004_local_profiles.sql`; run `make migrate` before using it.

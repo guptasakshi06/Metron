@@ -5,9 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-import boto3  # type: ignore[import-untyped]
-from botocore.config import Config as BotoConfig  # type: ignore[import-untyped]
-from botocore.exceptions import ClientError  # type: ignore[import-untyped]
+import boto3
+from botocore.config import Config as BotoConfig
+from botocore.exceptions import ClientError
 
 from data_optimizer.config import Settings, settings
 

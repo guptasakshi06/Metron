@@ -9,6 +9,7 @@ description = "Evidence-based analytical dataset optimization"
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "boto3>=1.35,<2",
+  "duckdb>=1.4,<2",
   "fastapi>=0.115,<1",
   "httpx>=0.28,<1",
   "psycopg[binary]>=3.2,<4",
@@ -16,6 +17,7 @@ dependencies = [
   "pydantic>=2.10,<3",
   "pydantic-settings>=2.7,<3",
   "pyjwt[crypto]>=2.10,<3",
+  "pytz>=2025.2",
   "redis>=5,<7",
   "uvicorn[standard]>=0.34,<1",
 ]
@@ -57,6 +59,6 @@ strict = true
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-module = ["boto3", "boto3.*", "botocore", "botocore.*"]
+module = ["boto3", "boto3.*", "botocore", "botocore.*", "pyarrow", "pyarrow.*"]
 ignore_missing_imports = true
 

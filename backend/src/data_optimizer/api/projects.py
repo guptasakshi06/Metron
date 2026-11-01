@@ -107,6 +107,11 @@ def build_projects_router(config: Settings) -> APIRouter:
                 if row is None:
                     raise HTTPException(status_code=404, detail="project not found")
                 connection.execute(
+                    """UPDATE profiles SET deleted_at = now(), payload = '{}'::jsonb
+                       WHERE tenant_id = %s AND project_id = %s AND deleted_at IS NULL""",
+                    (identity.tenant_id, project_id),
+                )
+                connection.execute(
                     """UPDATE datasets SET state = 'delete_pending', deleted_at = now()
                        WHERE tenant_id = %s AND project_id = %s AND state <> 'deleted'""",
                     (identity.tenant_id, project_id),

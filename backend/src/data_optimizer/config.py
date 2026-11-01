@@ -46,6 +46,7 @@ class Settings(BaseSettings):
     validation_memory_mib: int = Field(default=512, ge=128, le=4096)
     max_raw_upload_bytes: int = Field(default=268_435_456, gt=0)
     max_decompressed_bytes: int = Field(default=1_073_741_824, gt=0)
+    max_profiles_per_project: int = Field(default=100, ge=1, le=1000)
     max_candidates: int = Field(default=12, ge=1, le=12)
     max_timed_repeats: int = Field(default=5, ge=1, le=5)
     max_query_seconds: int = Field(default=60, gt=0, le=3600)

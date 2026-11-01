@@ -36,7 +36,7 @@ dev:
 
 check:
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend ruff check backend/src backend/tests
-	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend mypy backend/src
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend mypy --config-file backend/pyproject.toml backend/src
 	cd frontend && PATH="$(NODE_PATH):$$PATH" npm run lint && PATH="$(NODE_PATH):$$PATH" npm run typecheck
 
 test:
