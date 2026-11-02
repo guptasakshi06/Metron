@@ -12,6 +12,7 @@ import type { LocalProfileReport } from "./contracts.generated";
 import { Api, errorText, pretty, terminal } from "./api";
 import demo from "./demo-request.json";
 import Results from "./Results";
+import Handoff from "./Handoff";
 import Intake from "./Intake";
 import { requirementsKey } from "./api";
 import Explanation from "./Explanation";
@@ -1183,6 +1184,7 @@ function Dashboard({
           <Explanation key={assessmentId + report.report_fingerprint} api={api}
             assessmentId={assessmentId} fingerprint={report.report_fingerprint} />
           <Results report={report} />
+          <Handoff key={assessmentId} api={api} assessmentId={assessmentId} />
         </>}
       </section>
     </main>

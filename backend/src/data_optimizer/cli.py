@@ -20,6 +20,8 @@ from data_optimizer.jobs.commands import run as run_job
 from data_optimizer.optimization.commands import add_commands as add_assessment_commands
 from data_optimizer.optimization.commands import run as run_assessment
 from data_optimizer.profiling.commands import add_commands, run
+from data_optimizer.reports.commands import add_commands as add_report_commands
+from data_optimizer.reports.commands import run as run_report
 from data_optimizer.storage.retention import cleanup_expired
 from data_optimizer.storage.s3 import S3Storage
 
@@ -41,9 +43,13 @@ def main(argv: Sequence[str] | None = None) -> None:
     add_cost_commands(commands)
     add_assessment_commands(commands)
     add_job_commands(commands)
+    add_report_commands(commands)
     args = parser.parse_args(argv)
     if args.command in {"worker", "dispatch-jobs", "cleanup-assessments", "job-metrics"}:
         run_job(args)
+        return
+    if args.command in {"export", "reproduce"}:
+        run_report(args, parser)
         return
     if args.command == "assess":
         run_assessment(args, parser)

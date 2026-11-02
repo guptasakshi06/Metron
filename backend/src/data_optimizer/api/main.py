@@ -18,6 +18,7 @@ from data_optimizer.api.datasets import build_datasets_router
 from data_optimizer.api.probes import Probe, dependency_report
 from data_optimizer.api.profiles import build_profiles_router
 from data_optimizer.api.projects import build_projects_router
+from data_optimizer.api.reports import build_reports_router
 from data_optimizer.config import Settings, settings
 from data_optimizer.domain.contracts import ErrorEnvelope, ReadinessResponse
 
@@ -29,6 +30,7 @@ def create_app(
     """Build an API instance; optional probes support isolated readiness tests."""
     application = FastAPI(title="Data Optimizer API", version=__version__)
     application.include_router(build_dashboard_router(config))
+    application.include_router(build_reports_router(config))
     application.include_router(build_assistance_router(config))
     application.include_router(build_assessments_router(config))
     application.include_router(build_projects_router(config))

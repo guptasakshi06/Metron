@@ -1,0 +1,10 @@
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend python scripts/verify-s12-browser.py
+
+Running 1 test using 1 worker
+
+(node:372782) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/exports.spec.ts:5:1 › real measured bundle downloads reconcile, retain confirmation and recover on refresh (42.2s)
+
+  1 passed (42.7s)
+Browser exports exit=0; isolated resources cleaned.

@@ -1,0 +1,7 @@
+INFO assessment_stage id=e57db7d4-21dd-417b-a119-171b698dd9cb stage=profiling trials=0
+INFO assessment_stage id=e57db7d4-21dd-417b-a119-171b698dd9cb stage=benchmarking trials=0
+INFO assessment_stage id=e57db7d4-21dd-417b-a119-171b698dd9cb stage=benchmarking trials=1
+INFO assessment_stage id=e57db7d4-21dd-417b-a119-171b698dd9cb stage=benchmarking trials=2
+INFO assessment_stage id=e57db7d4-21dd-417b-a119-171b698dd9cb stage=benchmarking trials=3
+INFO assessment_stage id=e57db7d4-21dd-417b-a119-171b698dd9cb stage=benchmarking trials=4
+INFO assessment_stage id=e57db7d4-21dd-417b-a119-171b698dd9cb stage=scoring trials=4

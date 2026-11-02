@@ -1,0 +1,84 @@
+{
+  "updated_at": "2026-11-02T22:38:01.759374+05:30",
+  "branch": "main",
+  "head": "4fdcce3",
+  "sprint": "S12",
+  "checks": {
+    "make check": "passed",
+    "make test": {
+      "backend": 352,
+      "frontend": 7
+    },
+    "make test-integration": 44,
+    "final targeted report service tests": 2,
+    "report unit tests": 15,
+    "make test-reports-browser": 1,
+    "make build": "passed",
+    "extracted_wheel_cases": [
+      {
+        "case": "export",
+        "exit_code": 0
+      },
+      {
+        "case": "immutable_export",
+        "exit_code": 2
+      },
+      {
+        "case": "quoted_migration_script",
+        "exit_code": 0
+      },
+      {
+        "case": "reproduce_assessment",
+        "exit_code": 0
+      },
+      {
+        "case": "mismatched_source",
+        "exit_code": 2
+      }
+    ]
+  },
+  "original_report_fingerprint": "be724efaa9eac29775a66bbbe1cae2ac88e106bc41901b63da15b7eb29a2dee7",
+  "source_sha256": "01974a491f9de8f7d8790b4f999fef94b6219cd7c6246f971f1e6d6598ab1167",
+  "wheel_sha256": "362c50619bf167a22aa3e288ea012fb3fdedf97c3af0c7293dfdffea6304125e",
+  "outcome": "change",
+  "reproduction_matches_original_decision": true,
+  "migration_integrity": "passed",
+  "source_preserved": true,
+  "production_reader_switched": false,
+  "runtime_environment": {
+    "image_id": "sha256:c870f0d43bc38227568597123a76e587230aecec3b66fcdc5dbc30cb2ed6d09d",
+    "host_kernel": "7.0.0-28-generic",
+    "host_machine": "x86_64",
+    "docker_version": "29.1.3",
+    "cpu_model": "12th Gen Intel(R) Core(TM) i7-12650H",
+    "boundary": "docker_cgroup_v2_network_none_readonly_tmpfs",
+    "measurement": "typed_full_read_load_then_in_memory_queries_no_native_pushdown",
+    "os_cache": "uncontrolled_and_pre_read_by_integrity_hashing",
+    "cpu_scope": "process_cpu_for_timed_load_and_queries",
+    "rss_scope": "linux_process_high_water_includes_imports_validation_warmups",
+    "disk_scope": "bounded_tmpfs_scratch_plus_1MiB_shm_and_docker_dev_tmpfs",
+    "worker_python": "3.12.3",
+    "worker_pyarrow": "26.0.0",
+    "worker_arrow_cpp": "26.0.0",
+    "worker_duckdb": "1.5.6",
+    "worker_canonical": "s04.1",
+    "worker_zlib": "1.2.13",
+    "worker_kernel": "7.0.0-28-generic",
+    "worker_memory.max": "1073741824",
+    "worker_memory.swap.max": "0",
+    "worker_cpu.max": "100000 100000",
+    "worker_pids.max": "64"
+  },
+  "browser_screenshots": [
+    "s12-handoff-desktop.png",
+    "s12-handoff-narrow.png",
+    "s12-report-html.png"
+  ],
+  "fixtures": "Three synthetic NDJSON events; amplified invented tariffs, not customer results.",
+  "unverified": [
+    "Production reader switch/rollback exercise",
+    "Live cloud/provider/customer savings",
+    "Production identity/object storage",
+    "Tail/cloud/concurrency/cold-cache performance"
+  ]
+}

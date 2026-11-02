@@ -160,3 +160,24 @@ configure server-only `LLM_PROVIDER=openai` and `LLM_API_KEY` after running `mak
 See [AI boundaries and setup](docs/ai-boundaries.md) for model, limits, privacy and
 fallback behavior. Run `make test-assistance-browser` for isolated real-service flows;
 live provider behavior is separately unverified.
+
+### Report and migration exports (S12)
+
+After an assessment, use **Prepare expiring report links** to download JSON, Markdown,
+HTML or the complete ZIP containing all three and `migrate.sh`. Downloads require the
+same verified session; links expire after ten minutes or earlier copy retention/deletion.
+The export omits business descriptions and free-text provenance notes; schema/workload
+parameters remain necessary and may be sensitive. Review before sharing.
+
+Offline export of a saved result:
+
+```sh
+uv run --locked --project backend data-optimizer export --report /tmp/result.json --output-dir /tmp/new-handoff
+uv run --locked --project backend data-optimizer reproduce /tmp/new-handoff/bundle.json --source examples/s04-events.ndjson --root /tmp/new-replay --output /tmp/new-replay.json
+```
+
+Use new destinations and the exact source that produced the report. Reproduction checks
+input, workload, engine and benchmark-environment compatibility, then runs the real pipeline.
+`sh /tmp/new-handoff/migrate.sh SOURCE NEW_WORKSPACE NEW_RESULT.json` deliberately creates
+and validates a local copy for a tested `change`; it preserves originals and switches no reader.
+See [export/reproduction guide](docs/runbooks/reports.md) for APIs, validation, canary and rollback.

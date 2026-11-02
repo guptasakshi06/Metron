@@ -30,9 +30,9 @@ from data_optimizer.storage.s3 import S3Storage
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def main() -> int:
-    schema = "s11_" + uuid4().hex
-    bucket = "s11-" + uuid4().hex[:16]
+def main(prefix: str = "s11", spec: str = "assistance.spec.ts") -> int:
+    schema = prefix + "_" + uuid4().hex
+    bucket = prefix + "-" + uuid4().hex[:16]
     parts = urlsplit(str(settings.database_url))
     query = dict(parse_qsl(parts.query))
     query["options"] = "-csearch_path=" + schema
@@ -40,7 +40,7 @@ def main() -> int:
         (parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment)
     )
     with (
-        tempfile.TemporaryDirectory(prefix="s11-browser-") as temp,
+        tempfile.TemporaryDirectory(prefix=prefix + "-browser-") as temp,
         ExitStack() as log_stack,
     ):
         config = Settings(
@@ -64,7 +64,7 @@ def main() -> int:
             FRONTEND_PORT="5174",
             BROWSER_BASE_URL="http://127.0.0.1:5174",
             S10_FIXTURE_DIR=temp,
-            BROWSER_EVIDENCE_PREFIX="s11",
+            BROWSER_EVIDENCE_PREFIX=prefix,
             LLM_PROVIDER="disabled",
             PATH=str(ROOT / ".tools/node24/bin") + ":" + os.environ["PATH"],
         )
@@ -103,7 +103,7 @@ def main() -> int:
                 ("worker", [sys.executable, "-m", "data_optimizer.cli", "worker"]),
             ]:
                 log = log_stack.enter_context(
-                    (ROOT / f"docs/evidence/s11-{name}.log").open("w")
+                    (ROOT / f"docs/evidence/{prefix}-{name}.log").open("w")
                 )
                 logs.append(log)
                 processes.append(
@@ -125,9 +125,9 @@ def main() -> int:
                     pass
                 time.sleep(0.2)
             else:
-                raise RuntimeError("Local browser stack not ready; see s11-dev.log")
+                raise RuntimeError(f"Local browser stack not ready; see {prefix}-dev.log")
             result = subprocess.run(
-                ["npm", "exec", "--", "playwright", "test", "assistance.spec.ts"],
+                ["npm", "exec", "--", "playwright", "test", spec],
                 cwd=ROOT / "frontend",
                 env=environment,
                 check=False,
@@ -153,7 +153,7 @@ def main() -> int:
                     )
                 else:
                     continue
-                (ROOT / f"docs/evidence/s11-{name}-report.json").write_text(
+                (ROOT / f"docs/evidence/{prefix}-{name}-report.json").write_text(
                     json.dumps(report, indent=2) + "\n"
                 )
             return result.returncode

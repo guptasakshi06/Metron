@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 22:20, Asia/Kolkata
+**Last updated:** 2026-11-02 22:39, Asia/Kolkata
 **Current sprint:** None
-**Next sprint:** S12
-**MVP status:** S01 through S11 complete; MVP implementation in progress
+**Next sprint:** S13
+**MVP status:** S01 through S12 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -251,11 +251,11 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S09 | Asynchronous assessments and complete API integration | S08 | completed | 303 backend + 3 frontend; 31 full service tests + final operational CLI test; 10 Docker tests, real HTTP/RQ crash/cancel flow and package checks; see docs/evidence/s09-verification.md |
 | S10 | Complete assessment dashboard | S09 | completed | 305 backend + 4 frontend; 8 real browser/service/worker/Docker flows, exact displayed API totals, desktop/narrow QA and cleanup; see docs/evidence/s10-verification.md |
 | S11 | Structured AI intake and grounded explanations | S10 | completed | 337 backend + 7 frontend, 42 service tests, 2 real browser flows, package smoke; see docs/evidence/s11-verification.md |
-| S12 | Reproducible reports and migration handoff exports | S11 | not_started | None |
+| S12 | Reproducible reports and migration handoff exports | S11 | completed | 352 backend + 7 frontend; 44 service + final 2 report tests, actual Chrome downloads and extracted-wheel reproduction/migration; see docs/evidence/s12-verification.md |
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S12 is the next unfinished sprint. S01 through S11 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S13 is the next unfinished sprint. S01 through S12 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -787,21 +787,21 @@ Record provider setup, model configuration, budgets, prompt/schema versions, fal
 
 ### S12 Reproducible reports and migration handoff exports
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S11  
 **Outcome:** Export a recommendation that another engineer can inspect, reproduce and apply deliberately.  
 **Expected code and document areas:** backend/src/data_optimizer/{reports,migration}; frontend/src/; backend/tests/; docs/templates/
 
 #### Tasks
 
-- [ ] S12.01 Implement a versioned assessment bundle containing requirements, profile coverage, candidate configurations, environment/workload fingerprints, raw result references and price snapshot details.
-- [ ] S12.02 Generate readable Markdown/HTML and machine-readable JSON reports from the same calculation data. Avoid adding a PDF dependency unless an actual user requirement justifies it.
-- [ ] S12.03 Generate conversion/configuration scripts from validated templates and typed parameters. Quote paths safely and avoid executable interpolation of dataset contents or LLM output.
-- [ ] S12.04 Include prerequisites, required reader support, one-time and recurring costs, peak migration space, integrity checks and a canary workload.
-- [ ] S12.05 Include rollback triggers and a concrete rollback procedure that retains the source and prior reader configuration. No automatic production changes or deletion.
-- [ ] S12.06 Implement tenant-scoped expiring download endpoints and report links in the dashboard. Redact secrets and unnecessary sensitive summaries from export contents.
-- [ ] S12.07 Provide a local reproduction command that consumes the bundle and a supplied fixture or user-local source path. Match fingerprints and surface mismatches rather than rerunning incompatible evidence silently.
-- [ ] S12.08 Document limitations for sampled benchmarks, missing concurrency evidence, unsupported tariff components and scenario-only recommendations within the relevant report sections.
+- [x] S12.01 Implement a versioned assessment bundle containing requirements, profile coverage, candidate configurations, environment/workload fingerprints, raw result references and price snapshot details.
+- [x] S12.02 Generate readable Markdown/HTML and machine-readable JSON reports from the same calculation data. Avoid adding a PDF dependency unless an actual user requirement justifies it.
+- [x] S12.03 Generate conversion/configuration scripts from validated templates and typed parameters. Quote paths safely and avoid executable interpolation of dataset contents or LLM output.
+- [x] S12.04 Include prerequisites, required reader support, one-time and recurring costs, peak migration space, integrity checks and a canary workload.
+- [x] S12.05 Include rollback triggers and a concrete rollback procedure that retains the source and prior reader configuration. No automatic production changes or deletion.
+- [x] S12.06 Implement tenant-scoped expiring download endpoints and report links in the dashboard. Redact secrets and unnecessary sensitive summaries from export contents.
+- [x] S12.07 Provide a local reproduction command that consumes the bundle and a supplied fixture or user-local source path. Match fingerprints and surface mismatches rather than rerunning incompatible evidence silently.
+- [x] S12.08 Document limitations for sampled benchmarks, missing concurrency evidence, unsupported tariff components and scenario-only recommendations within the relevant report sections.
 
 #### Acceptance gates
 
@@ -819,18 +819,19 @@ Record report schemas, download APIs, tested reproduction steps and any user act
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S12.01 after its dependencies are verified.
+- Started: 2026-11-02 22:24, Asia/Kolkata
+- Updated: 2026-11-02 22:39, Asia/Kolkata
+- Completed: 2026-11-02 22:39, Asia/Kolkata
+- Branch and commit if available: `main`, clean start/final HEAD `4fdcce3` (S11). No staging/commit/push/history changes; S12 changes remain uncommitted.
+- Delivered behavior: Versioned content-addressed portable evidence bundle with original immutable report/requirements/confirmation lineage, profile coverage, configs, raw trials/workload/environment/integrity and price details; exact calculated JSON/Markdown/escaped HTML/ZIP reports; static quoted positional migration script and typed local reproduce command; digest/workload/engine/image/environment mismatch rejection, fresh real pipeline and explicit decision disagreement; validated source-preserving local-copy conversion with concrete reader prerequisites, costs/peak space, canary and rollback instructions; tenant-owned expiring authenticated grants and session-scoped dashboard downloads with narrative redaction/privacy notice.
+- Files changed: `backend/src/data_optimizer/reports/`, `migration/`, `api/reports.py`, `api/main.py`, `cli.py`, `config.py`; migration `0007_report_downloads.sql`; `backend/tests/test_reports.py`, `tests/integration/test_report_downloads.py`; `frontend/src/Handoff.tsx`, `App.tsx`, `api.ts`, `tests/exports.spec.ts`, generated build info; configurable existing S11 browser runner and new `scripts/verify-s12-browser.py`, `verify-s12-package.py`; `.env.example`, Makefile, README, report runbook, decision 0012, S12 evidence and this handoff. No dependency/lockfile change.
+- Setup and run commands: Existing locked setup, `make infra-up`, `make migrate` (adds 0007), `make seed-local`, `make storage-init`; normal dev/dispatcher/worker processes. `data-optimizer export --report SAVED_RESULT.json --output-dir NEW_DIR`; `data-optimizer reproduce NEW_DIR/bundle.json --source LOCAL_SOURCE --root NEW_WORKSPACE --output NEW_RESULT.json`; `sh NEW_DIR/migrate.sh LOCAL_SOURCE NEW_WORKSPACE NEW_RESULT.json` only for tested changes. Run within the locked environment. Defaults: authenticated grant TTL 600 seconds capped by copy expiry, configurable 30–3600. API POST `/v1/assessments/{id}/handoff`; GET owned `/handoff/{grant}/{zip|json|markdown|html}`. Preparing links rotates the grant; every download rechecks ownership/deletion/retention/expiry and export hash. Full commands in `docs/runbooks/reports.md`.
+- Verification commands and outcomes: Final `UV_OFFLINE=1 make check` passed drift/Ruff/strict mypy 95 files/ESLint/TypeScript. Final `UV_OFFLINE=1 make test` passed 352 backend + 7 frontend, including 15 report cases. `UV_OFFLINE=1 make test-integration` passed all 44 service tests in 62.18s; final targeted `pytest -q -m integration backend/tests/integration/test_report_downloads.py` passed both report flows again in 14.94s after typed-redaction correction. Final `UV_OFFLINE=1 make test-reports-browser` passed one actual Chrome/API/PostgreSQL/MinIO/Redis/RQ/Docker flow in 42.7s, exit 0 and cleanup recorded. Final `UV_OFFLINE=1 make build` passed wheel/sdist/Vite. Final extracted-wheel `uv run --locked --project backend python scripts/verify-s12-package.py` passed five actual CLI/script cases outside source tree, four fresh Docker trials, identical recommendation/configuration, wrong-input and overwrite rejection. Script Ruff, secret-marker scan, HTML browser inspection (zero script elements), desktop/narrow screenshots and `git diff --check` passed. Exact commands/logs in evidence document.
+- Evidence and report paths: `docs/evidence/s12-verification.md`, `s12-verification-results.json`, `s12-package-results.json`, browser results/status/screenshots and all saved check/test/service/browser/build/package/cleanup logs; original measured result, `s12-export/`, fresh `s12-reproduced-report.json` and validated `s12-migration-result.json`. Synthetic three-event 287-byte source reproduces tested 138-byte gzip under invented amplified tariffs; these are actual local measurements, not customer savings. Source SHA-256 preserved; quoted paths never execute; immutable confirmation provenance, exact totals, tenant/expired/rotated/deleted access and refresh/session boundaries checked.
+- Decisions and deviations: D027 / `docs/decisions/0012-s12-portable-handoff.md`. Reuse calculated contracts and no new dependency/PDF. Independently hash redacted portable content while retaining original nested fingerprints as references, not post-redaction checksums; digest is not a signature. Omit descriptions/AI summaries/source notes/price narrative, retain required schema/workload parameters with sensitivity warning. Offline saved-result export cannot recover database-only confirmation rows and leaves those unset; authenticated API includes them. Generate deterministic attachments on demand from stored MinIO result, keep one rotating expiring PostgreSQL grant per assessment/bundle; auth still required, no bearer credentials. Full reproduction requires matching conversion engines and benchmark image/hardware/kernel/Docker, then surfaces any fresh decision disagreement. Migration runs validated local copy only; real reader switch/target canary/rollback remain human actions.
+- Blockers or unverified checks: No S12 acceptance blocker. Existing TestClient/Node color warnings remain; initial shebang fixture/browser-selector failures and review-discovered baseline-row/redaction-collision issues corrected before final passing checks. Dedicated sandbox suite not rerun; real Docker trials executed in service/browser/package flows. No production switch/rollback exercise, external IdP/object-store, live AI/provider prices/invoices/customer/pilot/production/cloud/concurrency/tail/cold-cache or capacity claim. Exact benchmark environment/image must be retained for strict reproduction; other environments require separately labeled new assessments. Downloaded files cannot be revoked by server expiry. No S13 implementation.
+- Completion checklist: All eight tasks/three gates passed with real export, reproduction, integrity and owned-download evidence; full checks/test/build plus related service/browser/package checks recorded; source/history preserved; schema/defaults/privacy/operational limits documented; ledger/current/next/date/decisions/blockers/history reconciled. Isolated resources cleaned; local services stopped without deleting volumes, labeled benchmark listing empty. No agent commit/push/deployment/paid provisioning/messages.
+- Resume from: Start S13.01 after reading this handoff, decision 0012 and `docs/runbooks/reports.md`. Reuse immutable report/bundle/confirmation lineage and exact cost contracts; add versioned adoption plans and user-supplied observations with workload-adjusted modeled baseline and clear provenance. Do not start S14/post-MVP work in the S13 chat.
 
 ### S13 Savings observations and manual reassessment
 
@@ -983,11 +984,13 @@ This checklist is a reusable template. Copy its result into the active Execution
 
 | D026 | 2026-11-02 | Optional structured selections, approved minimal summaries, immutable requirement confirmation and durable usage reservations | Keep inference reviewable and numbers/execution authoritative; preserve no-key workflow and reject fabricated references/claims; see decision 0011 |
 
+| D027 | 2026-11-02 | Portable calculated reports, typed source-preserving reproduction and authenticated expiring download grants | Keep evidence/costs immutable, omit unnecessary prose, reject mismatches and require deliberate reader canary/rollback; see decision 0012 and report runbook |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S12. S01 through S11 local acceptance gates are complete; optional live AI integration, external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S13. S01 through S12 local acceptance gates are complete; optional live AI integration, external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
@@ -1150,6 +1153,17 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 - Configured-provider/schema/transport/grounding tests use deterministic mocks only. No key is configured; live provider smoke is not_run. Explicit retention/day and freshness/second extraction only, other fields manual. No provider/customer/billing/production result is invented. D026/decision 0011 and `docs/ai-boundaries.md` record defaults/privacy/limits.
 - Isolated browser/service resources cleaned; project services stopped without volume deletion and no benchmark containers remain. Handoff reconciled at 2026-11-02 22:20 (Asia/Kolkata): S11 completed, Current None, Next S12. Next chat implements reproducible reports and migration handoff exports.
 
+### S12 start on 2026-11-02
+
+- Read repository handoff/architecture and S11 boundaries; inspected clean main at `4fdcce3`. S12 marked in_progress before implementation. Resume at bundle contracts and reproduction command; no later sprint work.
+
+### S12 completion on 2026-11-02
+
+- Completed S12.01–S12.08 on main at `4fdcce3`, preserving source/history and making no commit/push. Added portable exact-calculation evidence/reports, static safe migration/local reproduction, tenant-owned expiring grants and dashboard downloads. See decision 0012/runbook and `docs/evidence/s12-verification.md`.
+- Final check/test/build passed: 352 backend + 7 frontend; full 44 service tests plus final two report flows; actual Chrome four-download/refresh/confirmation/tenant flow; five extracted-wheel CLI/script cases outside repo with fresh Docker measurements and unchanged source. Wrong input/workload/engine/image and tampered evidence are rejected; all new copies pass integrity. Desktop/narrow UI and escaped HTML visually inspected.
+- Kept synthetic prices/projections distinct from real local measurements; no live provider/customer/production migration claim. Redacted unnecessary prose while retaining needed sensitive schema/workload parameters and original fingerprint references. Actual target-reader canary switch/rollback remains deliberate human work, documented in each report.
+- Isolated resources cleaned, local services stopped without volume deletion and no labeled benchmark containers remain. Handoff reconciled at 2026-11-02 22:39 (Asia/Kolkata): S12 completed, Current None, Next S13. Next chat implements savings observations/manual reassessment only.
+
 ### Template for subsequent session entries
 
 Copy and fill this template; do not overwrite earlier history.
@@ -1187,4 +1201,3 @@ After working, give the user a concise message containing the sprint ID, deliver
 The canonical next-chat instruction remains:
 
 > Read this handoff, execute the next unfinished sprint, verify it and update this file before finishing.
-

@@ -63,6 +63,8 @@ class Settings(BaseSettings):
     llm_calls_per_scope: int = Field(default=4, ge=1, le=10)
     llm_token_budget_per_scope: int = Field(default=100000, ge=1024, le=1000000)
 
+    report_download_ttl_seconds: int = Field(default=600, ge=30, le=3600)
+
     assessment_work_dir: str = ".data-optimizer-jobs"
     assessment_queue: str = "data-optimizer"
     max_active_assessments_per_tenant: int = Field(default=2, ge=1, le=20)

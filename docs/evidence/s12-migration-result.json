@@ -1,0 +1,614 @@
+{
+  "source_preserved": true,
+  "production_reader_switched": false,
+  "manifest": {
+    "version": 1,
+    "converter": "s05.1",
+    "evidence": "local_conversion",
+    "key": "19bacad965bc7c1034e284b64ef7142bf3371eaa03cedf2afaa9dde421f174e0",
+    "input_fingerprint": "01974a491f9de8f7d8790b4f999fef94b6219cd7c6246f971f1e6d6598ab1167",
+    "request_fingerprint": "acd6ec83794ca07d6572955a4674c363ee8b9bb7a22e56e718e84230e5a5a923",
+    "manifest_fingerprint": "8d963a83aec802d094babe459dc952353faf59258d55bb6b4f3b0cd32767225e",
+    "configuration": {
+      "version": 1,
+      "baseline": false,
+      "format": "ndjson",
+      "codec": "gzip",
+      "compression_level": 6,
+      "target_file_bytes": 67108864,
+      "row_group_rows": 65536,
+      "partition_by": [],
+      "sort_by": [],
+      "context": {
+        "engine": "pyarrow",
+        "storage": "local_filesystem",
+        "converter": "s05.1",
+        "engine_versions": {
+          "python": "3.12.3",
+          "pyarrow": "26.0.0",
+          "arrow_cpp": "26.0.0",
+          "duckdb": "1.5.6",
+          "canonical": "s04.1",
+          "zlib": "1.3"
+        }
+      }
+    },
+    "reader": {
+      "format": "ndjson",
+      "schema_overrides": {
+        "timestamp": "timestamp"
+      },
+      "csv_null_tokens": [],
+      "seed": 0,
+      "sample_rows_per_stratum": null,
+      "time_column": null,
+      "source_column": null,
+      "max_strata": 32,
+      "max_columns": 128,
+      "cardinality_capacity": 1024,
+      "include_field_names": false,
+      "redacted_fields": [],
+      "max_raw_bytes": 268435456,
+      "max_decoded_bytes": 4194304,
+      "max_record_bytes": 1048576,
+      "memory_mib": 1024,
+      "timeout_seconds": 60
+    },
+    "verification_request": {
+      "baseline": {
+        "format": "ndjson",
+        "schema_overrides": {
+          "timestamp": "timestamp"
+        },
+        "csv_null_tokens": [],
+        "seed": 0,
+        "sample_rows_per_stratum": null,
+        "time_column": null,
+        "source_column": null,
+        "max_strata": 32,
+        "max_columns": 128,
+        "cardinality_capacity": 1024,
+        "include_field_names": false,
+        "redacted_fields": [],
+        "max_raw_bytes": 1048576,
+        "max_decoded_bytes": 4194304,
+        "max_record_bytes": 1048576,
+        "memory_mib": 1024,
+        "timeout_seconds": 60
+      },
+      "candidate": {
+        "format": "ndjson",
+        "schema_overrides": {
+          "timestamp": "timestamp"
+        },
+        "csv_null_tokens": [],
+        "seed": 0,
+        "sample_rows_per_stratum": null,
+        "time_column": null,
+        "source_column": null,
+        "max_strata": 32,
+        "max_columns": 128,
+        "cardinality_capacity": 1024,
+        "include_field_names": false,
+        "redacted_fields": [],
+        "max_raw_bytes": 268435456,
+        "max_decoded_bytes": 4194304,
+        "max_record_bytes": 1048576,
+        "memory_mib": 1024,
+        "timeout_seconds": 60
+      },
+      "limits": {
+        "max_rows": 1000000,
+        "max_spill_bytes": 268435456,
+        "max_result_rows": 10000,
+        "query_memory_mib": 128,
+        "timeout_seconds": 60,
+        "memory_mib": 2048,
+        "order_required": false,
+        "original_bytes_required": false
+      },
+      "workload": {
+        "version": 1,
+        "dsl_version": "s04.1",
+        "queries": [
+          {
+            "id": "scan",
+            "kind": "full_scan",
+            "columns": [],
+            "predicates": [],
+            "time_range": null,
+            "group_by": [],
+            "aggregates": [],
+            "order_by": [],
+            "frequency_per_day": null,
+            "freshness_seconds": null,
+            "target_latency_seconds": null,
+            "tolerance": {
+              "absolute": "0",
+              "relative": "0"
+            }
+          },
+          {
+            "id": "ids",
+            "kind": "projection",
+            "columns": [
+              "id"
+            ],
+            "predicates": [],
+            "time_range": null,
+            "group_by": [],
+            "aggregates": [],
+            "order_by": [],
+            "frequency_per_day": null,
+            "freshness_seconds": null,
+            "target_latency_seconds": null,
+            "tolerance": {
+              "absolute": "0",
+              "relative": "0"
+            }
+          },
+          {
+            "id": "filter",
+            "kind": "filter",
+            "columns": [
+              "id",
+              "amount"
+            ],
+            "predicates": [
+              {
+                "column": "amount",
+                "op": "ge",
+                "value": {
+                  "type": "decimal",
+                  "value": "2.00"
+                }
+              }
+            ],
+            "time_range": null,
+            "group_by": [],
+            "aggregates": [],
+            "order_by": [],
+            "frequency_per_day": null,
+            "freshness_seconds": null,
+            "target_latency_seconds": null,
+            "tolerance": {
+              "absolute": "0",
+              "relative": "0"
+            }
+          },
+          {
+            "id": "nulls",
+            "kind": "filter",
+            "columns": [
+              "id"
+            ],
+            "predicates": [
+              {
+                "column": "optional",
+                "op": "is_null",
+                "value": null
+              }
+            ],
+            "time_range": null,
+            "group_by": [],
+            "aggregates": [],
+            "order_by": [],
+            "frequency_per_day": null,
+            "freshness_seconds": null,
+            "target_latency_seconds": null,
+            "tolerance": {
+              "absolute": "0",
+              "relative": "0"
+            }
+          },
+          {
+            "id": "time",
+            "kind": "time_range",
+            "columns": [
+              "id"
+            ],
+            "predicates": [],
+            "time_range": {
+              "column": "timestamp",
+              "start": {
+                "type": "timestamp_aware",
+                "value": "2026-01-01T00:00:00Z"
+              },
+              "end": {
+                "type": "timestamp_aware",
+                "value": "2026-01-02T00:00:00Z"
+              }
+            },
+            "group_by": [],
+            "aggregates": [],
+            "order_by": [],
+            "frequency_per_day": null,
+            "freshness_seconds": null,
+            "target_latency_seconds": null,
+            "tolerance": {
+              "absolute": "0",
+              "relative": "0"
+            }
+          },
+          {
+            "id": "groups",
+            "kind": "grouped_aggregate",
+            "columns": [],
+            "predicates": [],
+            "time_range": null,
+            "group_by": [
+              "category"
+            ],
+            "aggregates": [
+              {
+                "op": "count",
+                "column": null,
+                "alias": "n"
+              },
+              {
+                "op": "sum",
+                "column": "amount",
+                "alias": "total"
+              },
+              {
+                "op": "min",
+                "column": "amount",
+                "alias": "low"
+              },
+              {
+                "op": "max",
+                "column": "amount",
+                "alias": "high"
+              },
+              {
+                "op": "avg",
+                "column": "amount",
+                "alias": "mean"
+              }
+            ],
+            "order_by": [],
+            "frequency_per_day": null,
+            "freshness_seconds": null,
+            "target_latency_seconds": null,
+            "tolerance": {
+              "absolute": "0",
+              "relative": "0"
+            }
+          }
+        ],
+        "concurrency": 1,
+        "concurrency_scope": "single_process"
+      }
+    },
+    "artifacts": [
+      {
+        "path": "part-0000.ndjson.gz",
+        "sha256": "4b8aaccbc99d100e172111b33b36230ada1f6c2a0495e3fcb27941ac487ea283",
+        "physical_bytes": 138
+      }
+    ],
+    "physical_bytes": 138,
+    "file_count": 1,
+    "partition_count": 1,
+    "conversion_seconds": 0.00042710500019893516,
+    "verification_seconds": 0.028055014998244587,
+    "cpu_seconds": 0.19579,
+    "peak_rss_kib": 123840,
+    "integrity": {
+      "version": 1,
+      "verifier_version": "s04.1",
+      "evidence": "local_integrity",
+      "performance_status": "not_measured",
+      "workload_status": "passed",
+      "workload_reason": "outputs_compared",
+      "status": "passed",
+      "report_fingerprint": "248c69c109c070bff33cc29901405d460b86a7b62a570d8c68cd244d3916c799",
+      "request_fingerprint": "e21d951f7daa6a89648e048517f7514ae4009f4431952dfe327bbfed300d7030",
+      "workload_fingerprint": "16fa40eb42d1cbcd624b66d310c6ee750558bcd76281787ef818b73c82de4a90",
+      "engine_versions": {
+        "python": "3.12.3",
+        "duckdb": "1.5.6",
+        "pyarrow": "26.0.0",
+        "canonical": "s04.1"
+      },
+      "baseline": {
+        "input_fingerprint": "01974a491f9de8f7d8790b4f999fef94b6219cd7c6246f971f1e6d6598ab1167",
+        "settings_fingerprint": "93b3fb03acada93098ab3a0338e36f5d89cca019ff8e8d4aefe991a27e6784d3",
+        "row_count": 3,
+        "columns": {
+          "amount": {
+            "types": [
+              "decimal"
+            ],
+            "type_counts": {
+              "decimal": 3
+            },
+            "missing": 0,
+            "nulls": 0,
+            "decimal_scales": [
+              2
+            ],
+            "decimal_integer_digits": 1,
+            "integer_out_of_range": false
+          },
+          "category": {
+            "types": [
+              "string"
+            ],
+            "type_counts": {
+              "string": 3
+            },
+            "missing": 0,
+            "nulls": 0,
+            "decimal_scales": [],
+            "decimal_integer_digits": 0,
+            "integer_out_of_range": false
+          },
+          "id": {
+            "types": [
+              "string"
+            ],
+            "type_counts": {
+              "string": 3
+            },
+            "missing": 0,
+            "nulls": 0,
+            "decimal_scales": [],
+            "decimal_integer_digits": 0,
+            "integer_out_of_range": false
+          },
+          "optional": {
+            "types": [
+              "null",
+              "string"
+            ],
+            "type_counts": {
+              "null": 2,
+              "string": 1
+            },
+            "missing": 0,
+            "nulls": 2,
+            "decimal_scales": [],
+            "decimal_integer_digits": 0,
+            "integer_out_of_range": false
+          },
+          "timestamp": {
+            "types": [
+              "timestamp_aware"
+            ],
+            "type_counts": {
+              "timestamp_aware": 3
+            },
+            "missing": 0,
+            "nulls": 0,
+            "decimal_scales": [],
+            "decimal_integer_digits": 0,
+            "integer_out_of_range": false
+          }
+        },
+        "declared_schema_fingerprint": null,
+        "content_fingerprint": "a006331fdcb28b3f2aed6ec6fae300c0f63a2ef18de915dd394db7e35f2dabcc",
+        "ordered_fingerprint": "b1d3beff7aecae9ca8e5965e30109d6a84c696781ce98be3782c73bca7d07324"
+      },
+      "candidate": {
+        "input_fingerprint": "4b8aaccbc99d100e172111b33b36230ada1f6c2a0495e3fcb27941ac487ea283",
+        "settings_fingerprint": "18fe6dd46fc17f1777fb9c7efb62acebd678d4fdf2932276cd43d35f3af794bc",
+        "row_count": 3,
+        "columns": {
+          "amount": {
+            "types": [
+              "decimal"
+            ],
+            "type_counts": {
+              "decimal": 3
+            },
+            "missing": 0,
+            "nulls": 0,
+            "decimal_scales": [
+              2
+            ],
+            "decimal_integer_digits": 1,
+            "integer_out_of_range": false
+          },
+          "category": {
+            "types": [
+              "string"
+            ],
+            "type_counts": {
+              "string": 3
+            },
+            "missing": 0,
+            "nulls": 0,
+            "decimal_scales": [],
+            "decimal_integer_digits": 0,
+            "integer_out_of_range": false
+          },
+          "id": {
+            "types": [
+              "string"
+            ],
+            "type_counts": {
+              "string": 3
+            },
+            "missing": 0,
+            "nulls": 0,
+            "decimal_scales": [],
+            "decimal_integer_digits": 0,
+            "integer_out_of_range": false
+          },
+          "optional": {
+            "types": [
+              "null",
+              "string"
+            ],
+            "type_counts": {
+              "null": 2,
+              "string": 1
+            },
+            "missing": 0,
+            "nulls": 2,
+            "decimal_scales": [],
+            "decimal_integer_digits": 0,
+            "integer_out_of_range": false
+          },
+          "timestamp": {
+            "types": [
+              "timestamp_aware"
+            ],
+            "type_counts": {
+              "timestamp_aware": 3
+            },
+            "missing": 0,
+            "nulls": 0,
+            "decimal_scales": [],
+            "decimal_integer_digits": 0,
+            "integer_out_of_range": false
+          }
+        },
+        "declared_schema_fingerprint": null,
+        "content_fingerprint": "a006331fdcb28b3f2aed6ec6fae300c0f63a2ef18de915dd394db7e35f2dabcc",
+        "ordered_fingerprint": "b1d3beff7aecae9ca8e5965e30109d6a84c696781ce98be3782c73bca7d07324"
+      },
+      "checks": [
+        {
+          "name": "row_count",
+          "status": "passed",
+          "reason": "equivalent"
+        },
+        {
+          "name": "logical_schema",
+          "status": "passed",
+          "reason": "equivalent"
+        },
+        {
+          "name": "null_missing",
+          "status": "passed",
+          "reason": "equivalent"
+        },
+        {
+          "name": "decimal_precision",
+          "status": "passed",
+          "reason": "equivalent"
+        },
+        {
+          "name": "canonical_content_and_multiplicity",
+          "status": "passed",
+          "reason": "equivalent"
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "scan",
+          "status": "passed",
+          "reason": "equivalent",
+          "tolerance": {
+            "absolute": "0",
+            "relative": "0"
+          },
+          "ordered": false,
+          "baseline_rows": 3,
+          "candidate_rows": 3,
+          "baseline_fingerprint": "6e3b214a20843be9779833d10fb72934245a70249964f6701bdb0d1d26ea9da5",
+          "candidate_fingerprint": "6e3b214a20843be9779833d10fb72934245a70249964f6701bdb0d1d26ea9da5"
+        },
+        {
+          "query_id": "ids",
+          "status": "passed",
+          "reason": "equivalent",
+          "tolerance": {
+            "absolute": "0",
+            "relative": "0"
+          },
+          "ordered": false,
+          "baseline_rows": 3,
+          "candidate_rows": 3,
+          "baseline_fingerprint": "f1683c11f83834095b60feded21ddc35c24ab8e1f87b422fa3e7e3e7c32d83f9",
+          "candidate_fingerprint": "f1683c11f83834095b60feded21ddc35c24ab8e1f87b422fa3e7e3e7c32d83f9"
+        },
+        {
+          "query_id": "filter",
+          "status": "passed",
+          "reason": "equivalent",
+          "tolerance": {
+            "absolute": "0",
+            "relative": "0"
+          },
+          "ordered": false,
+          "baseline_rows": 1,
+          "candidate_rows": 1,
+          "baseline_fingerprint": "aa55f2e86cd7f7903ddfa284f51ca96f6f59d26ad9f58f07f4b0cdc3291a4757",
+          "candidate_fingerprint": "aa55f2e86cd7f7903ddfa284f51ca96f6f59d26ad9f58f07f4b0cdc3291a4757"
+        },
+        {
+          "query_id": "nulls",
+          "status": "passed",
+          "reason": "equivalent",
+          "tolerance": {
+            "absolute": "0",
+            "relative": "0"
+          },
+          "ordered": false,
+          "baseline_rows": 2,
+          "candidate_rows": 2,
+          "baseline_fingerprint": "d1bad67f33b3a9db9667041fac1c084c130eb60dfffc523f2f5b3e2591180e1c",
+          "candidate_fingerprint": "d1bad67f33b3a9db9667041fac1c084c130eb60dfffc523f2f5b3e2591180e1c"
+        },
+        {
+          "query_id": "time",
+          "status": "passed",
+          "reason": "equivalent",
+          "tolerance": {
+            "absolute": "0",
+            "relative": "0"
+          },
+          "ordered": false,
+          "baseline_rows": 2,
+          "candidate_rows": 2,
+          "baseline_fingerprint": "d1bad67f33b3a9db9667041fac1c084c130eb60dfffc523f2f5b3e2591180e1c",
+          "candidate_fingerprint": "d1bad67f33b3a9db9667041fac1c084c130eb60dfffc523f2f5b3e2591180e1c"
+        },
+        {
+          "query_id": "groups",
+          "status": "passed",
+          "reason": "equivalent",
+          "tolerance": {
+            "absolute": "0",
+            "relative": "0"
+          },
+          "ordered": false,
+          "baseline_rows": 2,
+          "candidate_rows": 2,
+          "baseline_fingerprint": "65b486acbf01d5a910e47a6da9f78fed5a3e88a097f2a6ec8f3b0c37a6bdb3fe",
+          "candidate_fingerprint": "65b486acbf01d5a910e47a6da9f78fed5a3e88a097f2a6ec8f3b0c37a6bdb3fe"
+        }
+      ],
+      "capabilities": {
+        "parquet": {
+          "supported": true,
+          "reasons": []
+        },
+        "ndjson": {
+          "supported": true,
+          "reasons": []
+        },
+        "csv": {
+          "supported": false,
+          "reasons": [
+            "csv_conversion_supports_rectangular_nonnull_text_only"
+          ]
+        },
+        "workload": {
+          "supported": true,
+          "reasons": []
+        },
+        "byte_changing_conversion": {
+          "supported": true,
+          "reasons": []
+        }
+      }
+    },
+    "validation_basis": "ordered_concatenation_of_manifest_files",
+    "performance_status": "not_measured",
+    "file_target_policy": "decoded_size_estimate_not_physical_limit"
+  }
+}

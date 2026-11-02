@@ -89,6 +89,30 @@ export class Api {
       this.pending.delete(controller);
     }
   }
+  async download(path: string, filename: string): Promise<void> {
+    const controller = new AbortController();
+    this.pending.add(controller);
+    const timer = window.setTimeout(() => controller.abort(), 90_000);
+    try {
+      const response = await fetch(`/api${path}`, {
+        headers: this.headers, signal: controller.signal,
+      });
+      if (!response.ok) throw new Error(message(await response.json(), response.status));
+      const blob = await response.blob();
+      if (controller.signal.aborted) throw new Error("Download interrupted.");
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = filename;
+      document.body.append(anchor);
+      anchor.click();
+      anchor.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } finally {
+      clearTimeout(timer);
+      this.pending.delete(controller);
+    }
+  }
   upload(
     path: string,
     file: File,
