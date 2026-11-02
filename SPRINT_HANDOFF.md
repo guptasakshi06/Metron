@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 23:00, Asia/Kolkata
+**Last updated:** 2026-11-02 23:44, Asia/Kolkata
 **Current sprint:** None
-**Next sprint:** S14
-**MVP status:** S01 through S13 complete; S14 integrated evaluation/release readiness remains
+**Next sprint:** COMPLETE_MVP
+**MVP status:** S01 through S14 implemented and locally verified; production/live-provider/customer/pilot validation remains explicit and unverified
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -253,9 +253,9 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S11 | Structured AI intake and grounded explanations | S10 | completed | 337 backend + 7 frontend, 42 service tests, 2 real browser flows, package smoke; see docs/evidence/s11-verification.md |
 | S12 | Reproducible reports and migration handoff exports | S11 | completed | 352 backend + 7 frontend; 44 service + final 2 report tests, actual Chrome downloads and extracted-wheel reproduction/migration; see docs/evidence/s12-verification.md |
 | S13 | Savings observations and manual reassessment | S12 | completed | 25 new calculation/validation cases; 377 backend + 7 frontend, 47 real service tests, complete browser reconciliation/reassessment and package checks; see docs/evidence/s13-verification.md |
-| S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
+| S14 | Integrated evaluation and local release readiness | S13 | completed | 380 backend + 7 frontend; 49 service, 10 Docker, 12 browser; held-out matrix, capacity, backup restore and clean-dependency packaged report reproduction; see docs/evidence/s14-verification.md |
 
-**Selection now:** S14 is the next unfinished sprint. S01 through S13 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** All fourteen MVP sprints are locally verified. Next sprint is `COMPLETE_MVP`; stop. Do not start post-MVP work without a new explicit request. Production/pilot/live-provider validation is not implied by local completion.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -883,22 +883,22 @@ Record observation provenance, normalization assumptions, history APIs, supporte
 
 ### S14 Integrated evaluation and local release readiness
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S13  
 **Outcome:** Deliver a verified local MVP, reproducible demonstration and explicit release limitations.  
 **Expected code and document areas:** backend/tests/; frontend/tests/; evaluation/; infra/; README.md; docs/runbooks/; docs/release-readiness.md
 
 #### Tasks
 
-- [ ] S14.01 Create a held-out evaluation matrix spanning categorical, high-cardinality, nested, schema-drift, tiny-file, already-optimized and malformed inputs. Keep dataset-level separation from any tuning data.
-- [ ] S14.02 Evaluate recommendation validity, integrity, workload constraint violations, cost reconciliation, search coverage, runtime and resource consumption. Compare against exhaustive testing within a bounded supported candidate space.
-- [ ] S14.03 Run complete browser-to-API-to-worker-to-storage-to-report flows, including local profiler import, no-change, insufficient evidence, cancellation and restart recovery.
-- [ ] S14.04 Verify authentication mode boundaries, tenant isolation, signed links, worker network/file restrictions, quotas, log redaction, raw-artifact expiration and cleanup recovery.
-- [ ] S14.05 Exercise backup/restore for assessment metadata and document storage lifecycle/rollback operations. Complete meaningful CI checks using clean ephemeral dependencies where supported.
-- [ ] S14.06 Measure supported upload and workload limits on the recorded hardware. Publish honest operational ceilings and flag unverified tail latency, cloud performance and live-provider gaps.
-- [ ] S14.07 Write a clean-start demo, administrator runbook, user guide and release checklist. Document authenticated deployment prerequisites and environment configuration without buying services or publicly deploying.
-- [ ] S14.08 Fix issues necessary for the agreed MVP acceptance gates. Record concrete remaining pilot validation and external-service dependencies separately; never invent interviews, customer results or live bill savings.
-- [ ] S14.09 Prepare a release summary and final handoff. Mark the MVP implemented only when required local gates pass, and distinguish local release readiness from production/pilot validation.
+- [x] S14.01 Create a held-out evaluation matrix spanning categorical, high-cardinality, nested, schema-drift, tiny-file, already-optimized and malformed inputs. Keep dataset-level separation from any tuning data.
+- [x] S14.02 Evaluate recommendation validity, integrity, workload constraint violations, cost reconciliation, search coverage, runtime and resource consumption. Compare against exhaustive testing within a bounded supported candidate space.
+- [x] S14.03 Run complete browser-to-API-to-worker-to-storage-to-report flows, including local profiler import, no-change, insufficient evidence, cancellation and restart recovery.
+- [x] S14.04 Verify authentication mode boundaries, tenant isolation, signed links, worker network/file restrictions, quotas, log redaction, raw-artifact expiration and cleanup recovery.
+- [x] S14.05 Exercise backup/restore for assessment metadata and document storage lifecycle/rollback operations. Complete meaningful CI checks using clean ephemeral dependencies where supported.
+- [x] S14.06 Measure supported upload and workload limits on the recorded hardware. Publish honest operational ceilings and flag unverified tail latency, cloud performance and live-provider gaps.
+- [x] S14.07 Write a clean-start demo, administrator runbook, user guide and release checklist. Document authenticated deployment prerequisites and environment configuration without buying services or publicly deploying.
+- [x] S14.08 Fix issues necessary for the agreed MVP acceptance gates. Record concrete remaining pilot validation and external-service dependencies separately; never invent interviews, customer results or live bill savings.
+- [x] S14.09 Prepare a release summary and final handoff. Mark the MVP implemented only when required local gates pass, and distinguish local release readiness from production/pilot validation.
 
 #### Acceptance gates
 
@@ -916,18 +916,20 @@ Write the MVP completion report, actual capabilities, operational ceilings and o
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S14.01 after its dependencies are verified.
+- Started: 2026-11-02 23:24 (Asia/Kolkata)
+- Updated: 2026-11-02 23:44 (Asia/Kolkata)
+- Completed: 2026-11-02 23:44 (Asia/Kolkata)
+- Branch and commit if available: `main`, clean start/final HEAD `103910b` (S13). No staging/commit/push/history change; S14 is uncommitted. Earlier sprint artifacts and unrelated services preserved.
+- Delivered behavior: Whole-dataset holdout generator and actual independent exhaustive/adaptive evaluation; selected integrity/coverage/reconciled-cost/runtime/resource gates and explicit regret; actual upload/workload/resource envelopes; fresh-database metadata backup/restore with owned result/bundle/manual-history verification; missing-object fail-closed recovery; operational log-marker assertions; all-story sequential browser runner, clean dependency-directory rehearsal and CI workflow; packaged demo now exports a portable report and independently reproduces it; clean-start/admin/user/release documentation. Fixed the dictionary/Zstd Parquet bounded-worker crash with explicit system Arrow allocator, context lineage and regression evidence.
+- Files changed: `evaluation/{heldout,run,capacity}.py`, evaluation README; `backend/src/data_optimizer/{candidates/generator,conversion/service,integrity/service,profiling/service,storage/validation}.py`; `backend/tests/test_release_parquet.py`, `test_reports.py`, `tests/integration/{test_release_readiness,test_assessments}.py`; `infra/worker/Dockerfile`; `scripts/{demo,verify-clean-checkout,verify-s14-browser}.py`; frontend browser specs; `.github/workflows/ci.yml`; Makefile, README, `docs/runbooks/{local-release,administration}.md`, `docs/release-readiness.md`, decision 0014, `docs/evidence/s14-*` and this handoff. No dependency/lockfile/migration/stack change.
+- Setup and run commands: Existing locked setup; `make infra-up`; `make benchmark-image`; normal migrations/seed/storage and dev/dispatcher/worker commands in the new clean-start runbook. `make evaluate`, `make calibrate`, `make test-release-browser`, `make verify-clean`, and sequential `make release-check` added. `make demo` creates measured decisions, JSON/Markdown/HTML handoff and fresh reproduction in a printed temporary directory. `make infra-down` preserves volumes.
+- Verification commands and outcomes: Final `make check` passed drift/Ruff/strict mypy (99 source files)/ESLint/TypeScript. `make test` passed 380 backend + 7 frontend. `make test-integration` passed 49 real service cases in 100.64s; final targeted transient-storage test passed with new log-secret assertions. `make test-benchmark` passed all 10 real Docker gates in 35.07s. Final `make test-release-browser` passed all 12 Chrome/API/PostgreSQL/MinIO/Redis/RQ/Docker stories in 1.7min, exit 0/cleanup recorded; exact UI/API amounts, metadata import, no-change/abstention, refresh/cancel, exports/history/reassessment and desktop/narrow/keyboard checks passed. `make build` passed wheel/sdist/Vite. `make verify-clean` passed fresh locked setup/check/test/build plus **make demo** and independent packaged report reproduction (actual artifact copies under `s14-demo/`). `make evaluate` passed final seven-case matrix (56 real timed trials), unchanged source/fingerprint/duplicate-count readback. `make calibrate` passed 20 envelope + four impossible-latency trials and query/repeat rejection; profile-resource script passed. Final diff/handoff/evidence checks documented in verification report.
+- Measured envelopes: 1/16 MiB uploads validate/store/download with matching hashes, 16 MiB+1 rejects 413 under configured 16 MiB cap. Full 1,043,370-byte/4096-row workload, 32 grouped queries, four configurations/five repeats completes in 105.302s, peak trial RSS 118304 KiB. Separate 12.36 MB/60,000-row sampled profile completes in 1.599s; 168.4 MB input under 128 MiB policy returns `profile_memory_quota`. These are different paths on recorded loaded hardware, not maximum or universal capacity. Configured 256 MiB/1 GiB maxima remain policy only.
+- Evidence and report paths: `docs/evidence/s14-verification.md`, `s14-verification-results.json`, `s14-evaluation/`, `s14-capacity/`, `s14-clean/`, `s14-demo/`, backup/upload/profile JSON, final browser results/status/logs/screenshots and final cleanup audit; exact commands/logs linked there. `docs/release-readiness.md` is the MVP capability/ceiling/external-validation summary. Intel i7-12650H, Linux 7.0.0-28-generic, Python 3.12.3/Arrow 26.0.0/DuckDB 1.5.6/Node 24.22.2/Docker 29.1.3; final image `sha256:5d00b2278a6c82a80df028b95643e6e63f8de2c4b4d14ef3133a7560b6a96e00`.
+- Decisions and deviations: D029/decision 0014. Four-configuration exhaustive versus three-trial adaptive holdout records 3400.800000 synthetic-currency horizon regret for high-cardinality data and zero on other comparable cases; unsupported cases stay null. No optimizer/tariff tuning. Corrected categorical generator to contain 384 identical event pairs and reran full matrix. Explicit worker system allocator keeps original limits; pre-S14 execution contexts are deliberately incompatible for strict reproduction. Historical report-boundary tests stub context only to isolate later gates; actual old-context rejection has its own test. New browser evidence prefixes preserve previous artifacts. Clean dependency rehearsal downloaded missing locked packages after an offline cache miss; hosted CI remains unrun.
+- Blockers or unverified checks: No S14 local acceptance blocker. Existing TestClient/Node warnings and favicon 404 remain. Initial Parquet crash, old-context boundary expectations, outdated S10 browser text, clean tool path/cache issues and duplicate-generator error were corrected before final passing gates; historical measurements preserved. No hosted CI execution, live AI/IdP/prices/bills/customer/pilot/production validation, independent object-store disaster restore, production canary/rollback, maximum-capacity, native/cloud/concurrent/tail/cold-cache, power-loss/multi-host/exactly-once pre-publication guarantee. Observation history still inherits raw/input expiry. Production credential, OS/socket isolation, lifecycle/backup and actual pilot requirements remain external, explicit in release summary. No public/paid deployment or external messages.
+- Completion checklist: All nine tasks and three local gates passed with concrete evidence; code/integration/CLI/browser/package paths checked; sources/history preserved; measured ceilings and unverified boundaries documented; ledger/checklists/current/next/date/decisions/blockers/history reconciled. Browser processes/ports closed, no labeled benchmark/project containers remain, volumes retained.
+- Resume from: `COMPLETE_MVP`. Stop here. Wait for an explicit new scope (pilot/external validation or selected post-MVP capability); do not automatically execute P01–P07 or deploy/provision/commit/push.
 
 ## Completion checklist for every sprint
 
@@ -989,16 +991,18 @@ This checklist is a reusable template. Copy its result into the active Execution
 
 | D028 | 2026-11-02 | Append-only user-supplied adoption/observation history, comparable-usage modeled attribution and deliberate immutable reassessment | Separate actual costs from original projections and adjusted counterfactuals, preserve evidence/audit, reject overlap/conflicts and avoid false savings attribution; see decision 0013 and observation runbook |
 
+| D029 | 2026-11-02 | Separate held-out exhaustive/adaptive evaluation, measured local release envelopes, system-allocator bounded workers and explicit external readiness boundary | Preserve correctness, report actual regret and fix Parquet resource reliability without weakening limits; fresh dependency/report reproduction and metadata restore gate local release; see decision 0014 |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S14. S01 through S13 local acceptance gates are complete; optional live AI integration, external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No local MVP acceptance blocker remains. S01 through S14 are completed with local evidence. Optional live AI/IdP/pricing/bill/customer/pilot validation, hosted CI, production object-store recovery and authenticated production deployment remain unverified external work; see `docs/release-readiness.md`. Next is `COMPLETE_MVP`, not an automatic post-MVP sprint.
 
 | Item | Treatment |
 | --- | --- |
 | Runtime availability, Docker and local service support | Verified in S01: Python 3.12.3; Node 24.22.2/npm 11.19.1 and uv 0.13.6 installed under `.tools`; Docker 29.1.3 plus legacy Compose 1.29.2; S01 containers healthy on alternate loopback ports. Compose v2 plugin is absent, so Make auto-selects legacy Compose where needed. |
-| Exact workload limits and benchmark reliability | S06 verified configured controls and repeated fixture measurements; S14 retains maximum-capacity calibration, native-scan/concurrency and operational reliability work |
+| Exact workload limits and benchmark reliability | S14 measured separate 16 MiB upload, 12.36 MB sampled profile and ~1 MiB/4096-row/32-query/five-repeat full-assessment envelopes, plus resource failures and recovery. Configured maxima, native/cloud/concurrency/tail/cold behavior remain unvalidated; see release readiness. |
 | LLM provider credentials | Optional for the local MVP; configure a real adapter when available and record unverified live tests |
 | Real cloud pricing or customer discounts | S07 ships explicitly synthetic offline rates and labeled user supplied catalog support; live provider rates/discounts remain unverified |
 | Customer interviews, representative private data and bills | Pending external pilot validation; never fabricate completion |
@@ -1215,3 +1219,22 @@ The canonical next-chat instruction remains:
 - Verification: full check/build, 377 backend + 7 frontend, 47 sequential service tests, complete real browser flow and extracted-wheel/eight-migration smoke passed. Evidence: `docs/evidence/s13-verification.md`.
 - Lower usage fixture yields zero adjusted savings; negative, missing bill, currency mismatch, partial periods, reverts and original-report immutability verified. Original retention gates remain explicit. Shared demo-tenant advisory locks require service/browser tests to run sequentially.
 - Project services stopped, volumes retained, isolated resources removed and labeled containers absent. Handoff reconciled: Current None, Next S14; MVP not yet declared complete. No commit/push, deployment, paid provisioning, messages or post-MVP implementation.
+
+### S14 start on 2026-11-02 23:24
+
+- Read canonical handoff/architecture and inspected clean main at `103910b`; S13 code present. S14 marked in_progress before implementation.
+- Resume at held-out dataset generation/evaluation, operational capacity and backup recovery, then sequential integrated release verification. No post-MVP work.
+
+### S14 evaluation checkpoint
+
+- Whole-dataset holdout passed: categorical/high-cardinality change; tiny/optimized Parquet keep; nested/schema-drift abstain; malformed duplicate-key rejection. Actual four-configuration exhaustive versus three-trial adaptive comparison records nonzero high-cardinality regret (3400.800000 synthetic currency), zero on other comparable fixtures. No heuristic tuning or global-optimality claim.
+- Initial held-out Parquet run crashed in a bounded child; isolated reproduction passed with Arrow system allocator. Applied explicit child allocator policy and context lineage, rebuilt image, and passed actual 2048-row Parquet validation/profile/all-conversion regression. Historical report-context boundary tests adjusted without changing saved historical measurements.
+- Fresh-database metadata restore preserves exact result/bundle/manual history, migration checksums, tenancy and immutability; missing object returns 503 then restores. Real 1/16 MiB upload/finalize/download and over-limit 413 passed. Full release checks in progress.
+
+### S14 completion on 2026-11-02 23:44
+
+- Completed S14.01–S14.09 after inspecting clean main at `103910b`. All local MVP gates pass; no commit/push, deployment, paid provisioning, external message or post-MVP work.
+- Final checks/build, 380 backend + 7 frontend tests, 49 real service tests plus targeted log assertions, 10 Docker tests, 12 complete browser stories, seven-case held-out exhaustive/adaptive matrix, workload/profile/upload calibration, fresh-database metadata restore and clean dependency-directory packaged demo/report reproduction pass. Evidence: `docs/evidence/s14-verification.md`.
+- Fixed a bounded dictionary/Zstd Parquet worker crash using explicit system Arrow allocator and incompatible context lineage; original resource limits retained. Historical measurements preserved. New held-out matrix reports nonzero adaptive regret under amplified synthetic tariffs; no customer savings/global optimum claim.
+- Published clean-start demo, administration/backup guide, user-flow links, CI workflow and release checklist/limitations. Separate measured envelopes avoid implying that upload capacity equals full-assessment capacity. Hosted/live/provider/production/pilot checks remain explicitly unverified.
+- Browser isolated resources/processes cleaned, project containers stopped without deleting volumes, labeled benchmark listing empty. Handoff reconciled: S14 completed; Current None; Next `COMPLETE_MVP`. Wait for the user's next explicit scope.

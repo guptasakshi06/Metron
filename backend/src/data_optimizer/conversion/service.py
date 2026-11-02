@@ -71,7 +71,12 @@ def worker(
     lock_fd: int | None = None,
 ) -> dict[str, Any]:
     environment = dict(os.environ)
-    environment.update(OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", ARROW_NUM_THREADS="1")
+    environment.update(
+        OPENBLAS_NUM_THREADS="1",
+        OMP_NUM_THREADS="1",
+        ARROW_NUM_THREADS="1",
+        ARROW_DEFAULT_MEMORY_POOL="system",
+    )
     payload = json.dumps(
         {
             "request": request.model_dump(mode="json"),

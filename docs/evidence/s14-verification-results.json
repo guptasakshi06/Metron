@@ -1,0 +1,95 @@
+{
+  "verified_at": "2026-11-02T23:42:37.158511+05:30",
+  "branch": "main",
+  "head": "103910b6f7ef2ec0d8be7eb858f21f01f6415092",
+  "benchmark_image": "sha256:5d00b2278a6c82a80df028b95643e6e63f8de2c4b4d14ef3133a7560b6a96e00",
+  "commands": [
+    {
+      "command": "make check",
+      "exit_code": 0,
+      "log": "s14-check.log"
+    },
+    {
+      "command": "make test",
+      "exit_code": 0,
+      "backend_passed": 380,
+      "frontend_passed": 7,
+      "log": "s14-test.log"
+    },
+    {
+      "command": "make test-integration",
+      "exit_code": 0,
+      "passed": 49,
+      "log": "s14-integration.log"
+    },
+    {
+      "command": ".tools/uv-bin/uv run --locked --project backend pytest -q -m integration backend/tests/integration/test_assessments.py::test_transient_storage_failure_retries_without_duplicate_assessment",
+      "exit_code": 0,
+      "passed": 1,
+      "log": "s14-log-redaction.log"
+    },
+    {
+      "command": "make test-benchmark",
+      "exit_code": 0,
+      "passed": 10,
+      "log": "s14-sandbox.log"
+    },
+    {
+      "command": "make test-release-browser",
+      "exit_code": 0,
+      "passed": 12,
+      "log": "s14-browser.log"
+    },
+    {
+      "command": "make evaluate",
+      "exit_code": 0,
+      "heldout_cases": 7,
+      "log": "s14-evaluation.log"
+    },
+    {
+      "command": "make calibrate",
+      "exit_code": 0,
+      "passed_trials": 24,
+      "log": "s14-calibration.log"
+    },
+    {
+      "command": "make build",
+      "exit_code": 0,
+      "log": "s14-build.log"
+    },
+    {
+      "command": "make verify-clean",
+      "exit_code": 0,
+      "includes": "fresh locked setup/check/test/build/make demo and independent export reproduction",
+      "log": "s14-clean.log"
+    },
+    {
+      "command": ".tools/uv-bin/uv run --locked --project backend python scripts/profile-resource-check.py --output docs/evidence/s14-profile-resources.json",
+      "exit_code": 0,
+      "log": "s14-profile-resources.log"
+    },
+    {
+      "command": "make infra-down",
+      "exit_code": 0,
+      "log": "s14-cleanup.log"
+    }
+  ],
+  "files_sha256": {
+    "backend/uv.lock": "d964bc22c6222f9c44e71d95d6e2e371eb06412067e4197578675c7a30021441",
+    "frontend/package-lock.json": "8340802844800a8dbc2562cf34158df3522a09140d67f2395269fcbd7c063479",
+    "infra/worker/Dockerfile": "62c3fcf4b8188ad5c947e1df78d7ddfc6ac03f6a88d54e1197a2f81482792583",
+    "backend/src/data_optimizer/candidates/generator.py": "3b97a925d80771f64975081ebbadc1807f979cf8ff344b8c08d029fddf9fea6b",
+    "backend/src/data_optimizer/conversion/service.py": "76de112432d83ec0424d04cae4fe525005f9f0f0ff973ee4910c1450268ee5f1",
+    "backend/src/data_optimizer/integrity/service.py": "2a2c5a1554f4c1c8e2f469a7a2af9d63d487eef99175becb95aaa2af30269be1",
+    "backend/src/data_optimizer/profiling/service.py": "0fa483d5daab516575132b64fe6c84d11e6ca78e565d25b4ae799688b07dcbe2",
+    "backend/src/data_optimizer/storage/validation.py": "ebcb63dc0256145833d82d30f4e842a8742d805f2cfc9e5031fe2eb1118b687d",
+    "evaluation/heldout.py": "d059e2cad9fbd186fdf00aaa18c48fd2b49f1f0f8ae5141e3d5521d65b0f855d",
+    "evaluation/run.py": "aa8bf1bd23041efe31b702c5ba6b0eadf50c9159a7969597fa80e698059dab5b",
+    "evaluation/capacity.py": "fadea0673eab9d40c8b2b12fa912dcd2df406f6c0e18604a875c817d8ccd73a1"
+  },
+  "local_gates_passed": true,
+  "hosted_ci": "not_run",
+  "live_provider_idp_prices_bills": "not_run",
+  "customer_pilot_production_validation": "not_run",
+  "post_mvp": "not_started"
+}

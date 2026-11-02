@@ -53,9 +53,9 @@ test("real measured bundle downloads reconcile, retain confirmation and recover 
   for (let i = 0; i < report.decision.candidates.length; i++) {
     expect(bundle.decision.candidates[i].horizon_total).toBe(report.decision.candidates[i].horizon_total);
   }
-  await handoff.screenshot({ path: "../docs/evidence/s12-handoff-desktop.png" });
+  await handoff.screenshot({ path: `../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s12"}-handoff-desktop.png` });
   await page.setViewportSize({ width: 390, height: 844 });
-  await handoff.screenshot({ path: "../docs/evidence/s12-handoff-narrow.png" });
+  await handoff.screenshot({ path: `../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s12"}-handoff-narrow.png` });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
   await page.getByLabel("Local demo identity").selectOption("bob");
   await expect(page.getByRole("heading", { name: "Engineering handoff" })).toHaveCount(0);

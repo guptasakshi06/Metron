@@ -1,0 +1,10 @@
+{
+  "regenerated_input_hashes_match": true,
+  "categorical_rows": 768,
+  "categorical_unique_rows": 384,
+  "operational_log_marker_scan": "passed",
+  "browser_process_ports_closed": true,
+  "project_services_stopped": true,
+  "named_volumes_preserved": true,
+  "labeled_benchmark_containers_remaining": 0
+}

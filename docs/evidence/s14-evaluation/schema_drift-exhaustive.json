@@ -1,0 +1,1093 @@
+{
+  "version": "s08.1",
+  "report_fingerprint": "85be8a626f4d5530b6a8e589fec1e46deca5bf4bf191347246de196f72f30b4e",
+  "request": {
+    "version": "s08.1",
+    "conversion": {
+      "version": 1,
+      "tenant_id": "10000000-0000-0000-0000-000000000001",
+      "assessment_id": "50000000-0000-0000-0000-000000000005",
+      "source": {
+        "format": "ndjson",
+        "schema_overrides": {},
+        "csv_null_tokens": [],
+        "seed": 0,
+        "sample_rows_per_stratum": null,
+        "time_column": null,
+        "source_column": null,
+        "max_strata": 32,
+        "max_columns": 128,
+        "cardinality_capacity": 1024,
+        "include_field_names": false,
+        "redacted_fields": [],
+        "max_raw_bytes": 268435456,
+        "max_decoded_bytes": 1073741824,
+        "max_record_bytes": 1048576,
+        "memory_mib": 1024,
+        "timeout_seconds": 60
+      },
+      "workload": {
+        "version": 1,
+        "dsl_version": "s04.1",
+        "queries": [
+          {
+            "id": "ids",
+            "kind": "projection",
+            "columns": [
+              "id"
+            ],
+            "predicates": [],
+            "time_range": null,
+            "group_by": [],
+            "aggregates": [],
+            "order_by": [],
+            "frequency_per_day": null,
+            "freshness_seconds": null,
+            "target_latency_seconds": null,
+            "tolerance": {
+              "absolute": "0",
+              "relative": "0"
+            }
+          }
+        ],
+        "concurrency": 1,
+        "concurrency_scope": "single_process"
+      },
+      "limits": {
+        "max_rows": 1000000,
+        "max_spill_bytes": 268435456,
+        "max_result_rows": 10000,
+        "query_memory_mib": 128,
+        "timeout_seconds": 60,
+        "memory_mib": 2048,
+        "order_required": false,
+        "original_bytes_required": false
+      },
+      "max_candidates": 4,
+      "max_partitions": 16,
+      "max_files": 32,
+      "min_partition_rows": 128,
+      "max_output_bytes": 536870912
+    },
+    "benchmark": {
+      "version": 1,
+      "repeats": 2,
+      "warmups": 0,
+      "seed": 42,
+      "max_trials": 60,
+      "assessment_seconds": 600.0,
+      "max_input_bytes": 536870912,
+      "limits": {
+        "memory_mib": 1024,
+        "cpus": 1.0,
+        "cpu_seconds": 30,
+        "wall_seconds": 45.0,
+        "scratch_mib": 64,
+        "output_bytes": 1048576,
+        "pids": 64
+      }
+    },
+    "cost_template": {
+      "version": "s07.1",
+      "horizon_months": 12,
+      "scenarios": [
+        {
+          "name": "synthetic_storage_demo",
+          "assumption": "Invented amplified storage tariff makes measured tiny-file representation differences visible. All non-storage quantities declared zero. No live quote, invoice or real savings claim.",
+          "prices": {
+            "version": "s07.1",
+            "provider": "synthetic-offline-example",
+            "region": "synthetic-local",
+            "currency": "USD",
+            "effective_at": "2026-11-02T00:00:00Z",
+            "retrieved_at": "2026-11-02T00:00:00Z",
+            "source": "synthetic",
+            "source_references": [
+              "examples/s07-synthetic-prices.json"
+            ],
+            "assumptions": [
+              "Invented amplified tariff for tiny local fixtures; not a provider quote.",
+              "All non-storage costs explicitly assumed zero; no production or customer savings."
+            ],
+            "rates": [
+              {
+                "id": "storage",
+                "unit": "GB_month",
+                "amount": "100000000",
+                "per_quantity": "1",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Invented amplified demonstration tariff; not a provider rate."
+                },
+                "minimum_object_bytes": 0,
+                "minimum_duration_days": 0,
+                "discount_fraction": "0",
+                "discount_assumption": "No discount in this synthetic fixture."
+              },
+              {
+                "id": "compute",
+                "unit": "compute_hour",
+                "amount": "0",
+                "per_quantity": "1",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Invented amplified demonstration tariff; not a provider rate."
+                },
+                "minimum_object_bytes": 0,
+                "minimum_duration_days": 0,
+                "discount_fraction": "0",
+                "discount_assumption": "No discount in this synthetic fixture."
+              },
+              {
+                "id": "requests",
+                "unit": "request",
+                "amount": "0",
+                "per_quantity": "1000",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Invented amplified demonstration tariff; not a provider rate."
+                },
+                "minimum_object_bytes": 0,
+                "minimum_duration_days": 0,
+                "discount_fraction": "0",
+                "discount_assumption": "No discount in this synthetic fixture."
+              },
+              {
+                "id": "transfer",
+                "unit": "GB",
+                "amount": "0",
+                "per_quantity": "1",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Invented amplified demonstration tariff; not a provider rate."
+                },
+                "minimum_object_bytes": 0,
+                "minimum_duration_days": 0,
+                "discount_fraction": "0",
+                "discount_assumption": "No discount in this synthetic fixture."
+              },
+              {
+                "id": "labor",
+                "unit": "hour",
+                "amount": "0",
+                "per_quantity": "1",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Invented amplified demonstration tariff; not a provider rate."
+                },
+                "minimum_object_bytes": 0,
+                "minimum_duration_days": 0,
+                "discount_fraction": "0",
+                "discount_assumption": "No discount in this synthetic fixture."
+              },
+              {
+                "id": "service",
+                "unit": "month",
+                "amount": "0",
+                "per_quantity": "1",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Invented amplified demonstration tariff; not a provider rate."
+                },
+                "minimum_object_bytes": 0,
+                "minimum_duration_days": 0,
+                "discount_fraction": "0",
+                "discount_assumption": "No discount in this synthetic fixture."
+              }
+            ]
+          },
+          "baseline": {
+            "id": "baseline",
+            "footprint": {
+              "logical_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "retention_days": 365,
+              "data_file_bytes": [
+                1000000000000
+              ],
+              "metadata_file_bytes": [],
+              "primary_copies": 1,
+              "backup_copies": 0,
+              "replica_copies": 0,
+              "data_source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Synthetic equivalent logical dataset byte count."
+              },
+              "metadata_source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+              }
+            },
+            "recurring": [
+              {
+                "component": "storage",
+                "rate_id": "storage",
+                "quantity": null,
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "query_compute",
+                "rate_id": "compute",
+                "quantity": {
+                  "value": "0",
+                  "unit": "compute_hour",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "transform_compute",
+                "rate_id": "compute",
+                "quantity": {
+                  "value": "0",
+                  "unit": "compute_hour",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "read_requests",
+                "rate_id": "requests",
+                "quantity": {
+                  "value": "0",
+                  "unit": "request",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "write_requests",
+                "rate_id": "requests",
+                "quantity": {
+                  "value": "0",
+                  "unit": "request",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "retrieval",
+                "rate_id": "transfer",
+                "quantity": {
+                  "value": "0",
+                  "unit": "GB",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "network",
+                "rate_id": "transfer",
+                "quantity": {
+                  "value": "0",
+                  "unit": "GB",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "backups",
+                "rate_id": "storage",
+                "quantity": null,
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "replicas",
+                "rate_id": "storage",
+                "quantity": null,
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "maintenance",
+                "rate_id": "labor",
+                "quantity": {
+                  "value": "0",
+                  "unit": "hour",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "service",
+                "rate_id": "service",
+                "quantity": {
+                  "value": "0",
+                  "unit": "month",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              }
+            ]
+          },
+          "candidate": {
+            "id": "candidate",
+            "footprint": {
+              "logical_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "retention_days": 365,
+              "data_file_bytes": [
+                350000000000
+              ],
+              "metadata_file_bytes": [],
+              "primary_copies": 1,
+              "backup_copies": 0,
+              "replica_copies": 0,
+              "data_source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Synthetic equivalent logical dataset byte count."
+              },
+              "metadata_source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+              }
+            },
+            "recurring": [
+              {
+                "component": "storage",
+                "rate_id": "storage",
+                "quantity": null,
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "query_compute",
+                "rate_id": "compute",
+                "quantity": {
+                  "value": "0",
+                  "unit": "compute_hour",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "transform_compute",
+                "rate_id": "compute",
+                "quantity": {
+                  "value": "0",
+                  "unit": "compute_hour",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "read_requests",
+                "rate_id": "requests",
+                "quantity": {
+                  "value": "0",
+                  "unit": "request",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "write_requests",
+                "rate_id": "requests",
+                "quantity": {
+                  "value": "0",
+                  "unit": "request",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "retrieval",
+                "rate_id": "transfer",
+                "quantity": {
+                  "value": "0",
+                  "unit": "GB",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "network",
+                "rate_id": "transfer",
+                "quantity": {
+                  "value": "0",
+                  "unit": "GB",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "backups",
+                "rate_id": "storage",
+                "quantity": null,
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "replicas",
+                "rate_id": "storage",
+                "quantity": null,
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "maintenance",
+                "rate_id": "labor",
+                "quantity": {
+                  "value": "0",
+                  "unit": "hour",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "service",
+                "rate_id": "service",
+                "quantity": {
+                  "value": "0",
+                  "unit": "month",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demonstration: explicitly assume zero non-storage usage."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              }
+            ]
+          },
+          "migration": {
+            "forecast": [
+              {
+                "component": "conversion",
+                "rate_id": "compute",
+                "quantity": {
+                  "value": "0",
+                  "unit": "compute_hour",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demo assumes zero one-time usage; conversion CPU will be measured and bound at a zero synthetic compute rate."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "temporary_storage",
+                "rate_id": "storage",
+                "quantity": {
+                  "value": "0",
+                  "unit": "GB_month",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demo assumes zero one-time usage; conversion CPU will be measured and bound at a zero synthetic compute rate."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "transfer",
+                "rate_id": "transfer",
+                "quantity": {
+                  "value": "0",
+                  "unit": "GB",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demo assumes zero one-time usage; conversion CPU will be measured and bound at a zero synthetic compute rate."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "labor",
+                "rate_id": "labor",
+                "quantity": {
+                  "value": "0",
+                  "unit": "hour",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demo assumes zero one-time usage; conversion CPU will be measured and bound at a zero synthetic compute rate."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              },
+              {
+                "component": "rollback",
+                "rate_id": "labor",
+                "quantity": {
+                  "value": "0",
+                  "unit": "hour",
+                  "source": {
+                    "kind": "synthetic",
+                    "reference": "examples/s07-synthetic-prices.json",
+                    "note": "Synthetic demo assumes zero one-time usage; conversion CPU will be measured and bound at a zero synthetic compute rate."
+                  }
+                },
+                "basis": "usage",
+                "shared_key": null
+              }
+            ],
+            "actual_incurred": null,
+            "actual_source": null,
+            "extra_peak_bytes": 0,
+            "peak_source": {
+              "kind": "synthetic",
+              "reference": "examples/s07-synthetic-prices.json",
+              "note": "No additional scratch beyond simultaneous baseline and candidate in this synthetic example."
+            }
+          },
+          "achievable_capacity_change": null,
+          "steady_monthly_usage": true
+        }
+      ]
+    },
+    "replays_per_month": "1000",
+    "policy": {
+      "scenario": "synthetic_storage_demo",
+      "minimum_net_savings": "10",
+      "minimum_savings_fraction": "0.01",
+      "allowed_formats": null,
+      "allowed_codecs": null,
+      "retention_days": null,
+      "freshness_seconds": null,
+      "required_capabilities": [],
+      "maximum_migration_cost": null,
+      "latency_statistic": "observed_maximum"
+    },
+    "search": {
+      "seed": 42,
+      "max_trials": 4,
+      "max_seconds": 600.0,
+      "enumeration_limit": 4,
+      "exploration": 0.25
+    }
+  },
+  "evidence": "local_assessment",
+  "profile": {
+    "version": 1,
+    "profiler_version": "s03.1",
+    "evidence": "local_profile",
+    "raw_data_inspected_by_server": false,
+    "input_fingerprint": "ef53d1ebdd73535520cb20d2f1cd311b1eaa76d2b7f9872d33f1d31cf95da6ed",
+    "schema_fingerprint": "4d5e879bf87c94bc392be144b3a2322de50ff3b2e4dad43dae7aae093758dca4",
+    "settings_fingerprint": "2cc5e55f25d0942219eacccfc7fcc627fb9639684da853e384d75badaa668591",
+    "profile_fingerprint": "149dd52166a602f77e0bfc06e99f9be1d6a77c8313d47d259ab456a09876dfe4",
+    "engine_versions": {
+      "python": "3.12.3",
+      "pyarrow": "26.0.0"
+    },
+    "format": "ndjson",
+    "physical_bytes": 2557,
+    "decoded_bytes": 2557,
+    "file_count": 1,
+    "file_sizes": {
+      "minimum": 2557,
+      "maximum": 2557,
+      "mean": 2557.0,
+      "histogram": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "row_count": 96,
+    "profiled_rows": 96,
+    "sample_fraction": 1.0,
+    "seed": 0,
+    "sampling": "full_scan",
+    "strata_by": [],
+    "coverage": [
+      {
+        "stratum": "stratum_1",
+        "rows": 96,
+        "profiled_rows": 96
+      }
+    ],
+    "columns": [
+      {
+        "field": "column_1",
+        "schema_types": [
+          "string"
+        ],
+        "type_counts": {
+          "string": 96
+        },
+        "present": 96,
+        "missing": 0,
+        "nulls": 0,
+        "null_density": 0.0,
+        "cardinality": {
+          "value": 96,
+          "method": "exact",
+          "capacity": 1024,
+          "scope": "profiled_present_nonnull_values"
+        },
+        "widths": {
+          "minimum": 16,
+          "maximum": 16,
+          "mean": 16.0,
+          "histogram": [
+            96,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "temporal_span_seconds": null,
+        "temporal_scope": null,
+        "sensitive": false
+      },
+      {
+        "field": "column_2",
+        "schema_types": [
+          "null",
+          "string"
+        ],
+        "type_counts": {
+          "null": 32,
+          "string": 32
+        },
+        "present": 64,
+        "missing": 32,
+        "nulls": 32,
+        "null_density": 0.5,
+        "cardinality": {
+          "value": 32,
+          "method": "exact",
+          "capacity": 1024,
+          "scope": "profiled_present_nonnull_values"
+        },
+        "widths": {
+          "minimum": 9,
+          "maximum": 10,
+          "mean": 9.953125,
+          "histogram": [
+            64,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "temporal_span_seconds": null,
+        "temporal_scope": null,
+        "sensitive": false
+      }
+    ],
+    "row_widths": {
+      "minimum": 16,
+      "maximum": 26,
+      "mean": 22.635416666666668,
+      "histogram": [
+        32,
+        64,
+        0,
+        0,
+        0
+      ]
+    },
+    "field_names_redacted": true,
+    "warnings": [
+      "metadata_may_be_sensitive_review_before_upload"
+    ]
+  },
+  "candidates": {
+    "version": 1,
+    "input_fingerprint": "ef53d1ebdd73535520cb20d2f1cd311b1eaa76d2b7f9872d33f1d31cf95da6ed",
+    "request_fingerprint": "0767fe059eb6a37f482213f863ca1ae0c0637dfd12433f5868122b1031fdbed2",
+    "candidates": [
+      {
+        "configuration": {
+          "version": 1,
+          "baseline": true,
+          "format": "ndjson",
+          "codec": "original",
+          "compression_level": null,
+          "target_file_bytes": 67108864,
+          "row_group_rows": 65536,
+          "partition_by": [],
+          "sort_by": [],
+          "context": {
+            "engine": "pyarrow",
+            "storage": "local_filesystem",
+            "converter": "s05.1",
+            "engine_versions": {
+              "python": "3.12.3",
+              "pyarrow": "26.0.0",
+              "arrow_cpp": "26.0.0",
+              "arrow_worker_memory_pool": "system",
+              "duckdb": "1.5.6",
+              "canonical": "s04.1",
+              "zlib": "1.3"
+            }
+          }
+        },
+        "status": "eligible",
+        "reasons": []
+      },
+      {
+        "configuration": {
+          "version": 1,
+          "baseline": false,
+          "format": "ndjson",
+          "codec": "gzip",
+          "compression_level": 6,
+          "target_file_bytes": 67108864,
+          "row_group_rows": 65536,
+          "partition_by": [],
+          "sort_by": [],
+          "context": {
+            "engine": "pyarrow",
+            "storage": "local_filesystem",
+            "converter": "s05.1",
+            "engine_versions": {
+              "python": "3.12.3",
+              "pyarrow": "26.0.0",
+              "arrow_cpp": "26.0.0",
+              "arrow_worker_memory_pool": "system",
+              "duckdb": "1.5.6",
+              "canonical": "s04.1",
+              "zlib": "1.3"
+            }
+          }
+        },
+        "status": "eligible",
+        "reasons": []
+      },
+      {
+        "configuration": {
+          "version": 1,
+          "baseline": false,
+          "format": "parquet",
+          "codec": "snappy",
+          "compression_level": null,
+          "target_file_bytes": 67108864,
+          "row_group_rows": 65536,
+          "partition_by": [],
+          "sort_by": [],
+          "context": {
+            "engine": "pyarrow",
+            "storage": "local_filesystem",
+            "converter": "s05.1",
+            "engine_versions": {
+              "python": "3.12.3",
+              "pyarrow": "26.0.0",
+              "arrow_cpp": "26.0.0",
+              "arrow_worker_memory_pool": "system",
+              "duckdb": "1.5.6",
+              "canonical": "s04.1",
+              "zlib": "1.3"
+            }
+          }
+        },
+        "status": "excluded",
+        "reasons": [
+          "missing_fields_require_presence_encoding"
+        ]
+      },
+      {
+        "configuration": {
+          "version": 1,
+          "baseline": false,
+          "format": "parquet",
+          "codec": "zstd",
+          "compression_level": 3,
+          "target_file_bytes": 67108864,
+          "row_group_rows": 65536,
+          "partition_by": [],
+          "sort_by": [],
+          "context": {
+            "engine": "pyarrow",
+            "storage": "local_filesystem",
+            "converter": "s05.1",
+            "engine_versions": {
+              "python": "3.12.3",
+              "pyarrow": "26.0.0",
+              "arrow_cpp": "26.0.0",
+              "arrow_worker_memory_pool": "system",
+              "duckdb": "1.5.6",
+              "canonical": "s04.1",
+              "zlib": "1.3"
+            }
+          }
+        },
+        "status": "excluded",
+        "reasons": [
+          "missing_fields_require_presence_encoding"
+        ]
+      }
+    ],
+    "coverage": "bounded_enumeration_not_exhaustive"
+  },
+  "search": {
+    "version": "s08.1",
+    "optimizer": "finite_neighbor_exploration_v1",
+    "identity": "30ca652fd31e78cb2224a62730c30c70fceb6c11bdc81ae41227a10397a8fae7",
+    "budget": {
+      "seed": 42,
+      "max_trials": 4,
+      "max_seconds": 600.0,
+      "enumeration_limit": 4,
+      "exploration": 0.25
+    },
+    "configurations": [
+      {
+        "version": 1,
+        "baseline": true,
+        "format": "ndjson",
+        "codec": "original",
+        "compression_level": null,
+        "target_file_bytes": 67108864,
+        "row_group_rows": 65536,
+        "partition_by": [],
+        "sort_by": [],
+        "context": {
+          "engine": "pyarrow",
+          "storage": "local_filesystem",
+          "converter": "s05.1",
+          "engine_versions": {
+            "python": "3.12.3",
+            "pyarrow": "26.0.0",
+            "arrow_cpp": "26.0.0",
+            "arrow_worker_memory_pool": "system",
+            "duckdb": "1.5.6",
+            "canonical": "s04.1",
+            "zlib": "1.3"
+          }
+        }
+      },
+      {
+        "version": 1,
+        "baseline": false,
+        "format": "ndjson",
+        "codec": "gzip",
+        "compression_level": 6,
+        "target_file_bytes": 67108864,
+        "row_group_rows": 65536,
+        "partition_by": [],
+        "sort_by": [],
+        "context": {
+          "engine": "pyarrow",
+          "storage": "local_filesystem",
+          "converter": "s05.1",
+          "engine_versions": {
+            "python": "3.12.3",
+            "pyarrow": "26.0.0",
+            "arrow_cpp": "26.0.0",
+            "arrow_worker_memory_pool": "system",
+            "duckdb": "1.5.6",
+            "canonical": "s04.1",
+            "zlib": "1.3"
+          }
+        }
+      }
+    ],
+    "history": [
+      {
+        "proposal": {
+          "candidate_id": "36d8b1b4705ce9188872724c4cf3ff1f67bc1b1c0df0907ec975fb3af5f14924",
+          "configuration": {
+            "version": 1,
+            "baseline": true,
+            "format": "ndjson",
+            "codec": "original",
+            "compression_level": null,
+            "target_file_bytes": 67108864,
+            "row_group_rows": 65536,
+            "partition_by": [],
+            "sort_by": [],
+            "context": {
+              "engine": "pyarrow",
+              "storage": "local_filesystem",
+              "converter": "s05.1",
+              "engine_versions": {
+                "python": "3.12.3",
+                "pyarrow": "26.0.0",
+                "arrow_cpp": "26.0.0",
+                "arrow_worker_memory_pool": "system",
+                "duckdb": "1.5.6",
+                "canonical": "s04.1",
+                "zlib": "1.3"
+              }
+            }
+          },
+          "prediction": null,
+          "exploration_distance": null,
+          "label": "enumeration"
+        },
+        "feasibility": "excluded",
+        "objective": null,
+        "evidence_ids": [],
+        "reason": "failed:integrity_not_checked,unsupported_workload_semantics"
+      },
+      {
+        "proposal": {
+          "candidate_id": "4456bbe9659cf3b8cd8d5581cc1c285c9bc9b3a27cc58a0fca02681c62aae23a",
+          "configuration": {
+            "version": 1,
+            "baseline": false,
+            "format": "ndjson",
+            "codec": "gzip",
+            "compression_level": 6,
+            "target_file_bytes": 67108864,
+            "row_group_rows": 65536,
+            "partition_by": [],
+            "sort_by": [],
+            "context": {
+              "engine": "pyarrow",
+              "storage": "local_filesystem",
+              "converter": "s05.1",
+              "engine_versions": {
+                "python": "3.12.3",
+                "pyarrow": "26.0.0",
+                "arrow_cpp": "26.0.0",
+                "arrow_worker_memory_pool": "system",
+                "duckdb": "1.5.6",
+                "canonical": "s04.1",
+                "zlib": "1.3"
+              }
+            }
+          },
+          "prediction": null,
+          "exploration_distance": null,
+          "label": "enumeration"
+        },
+        "feasibility": "excluded",
+        "objective": null,
+        "evidence_ids": [],
+        "reason": "failed:integrity_not_checked,unsupported_workload_semantics"
+      }
+    ],
+    "pending": null,
+    "elapsed_seconds": 0.4184293449980032,
+    "stop_reason": "space_exhausted",
+    "coverage": "bounded_space_not_global_optimality"
+  },
+  "benchmark": null,
+  "costs": {},
+  "decision": {
+    "version": "s08.1",
+    "decision_fingerprint": "6b32983d97b4a0c20f42bd00879796e9a6f959bd711066df0869528c9408c100",
+    "outcome": "insufficient_evidence",
+    "selected_candidate_id": null,
+    "best_tested_candidate_id": null,
+    "baseline_candidate_id": null,
+    "objective": "horizon_operating_plus_once_only_migration",
+    "policy": {
+      "scenario": "synthetic_storage_demo",
+      "minimum_net_savings": "10",
+      "minimum_savings_fraction": "0.01",
+      "allowed_formats": null,
+      "allowed_codecs": null,
+      "retention_days": null,
+      "freshness_seconds": null,
+      "required_capabilities": [],
+      "maximum_migration_cost": null,
+      "latency_statistic": "observed_maximum"
+    },
+    "candidates": [],
+    "tradeoff_candidate_ids": [],
+    "reason": "Supply raw dataset/workload, complete costs and evidence for required constraints.",
+    "limitations": [
+      "Best tested feasible option within bounded coverage; no global optimality claim.",
+      "Local typed load and in-memory queries; no native scans, cloud, concurrency or tail SLA proof.",
+      "Costs are forecasts from explicit assumptions and price snapshots; synthetic rates stay synthetic.",
+      "Retention/copies are declared cost assumptions, not a deployed durability guarantee.",
+      "Observed maxima and ranges describe these repeats, not population confidence intervals."
+    ],
+    "next_questions": [
+      "Provide a dataset and constrained workload for measurement."
+    ],
+    "performance_scope": "local_typed_load_and_in_memory_queries"
+  }
+}

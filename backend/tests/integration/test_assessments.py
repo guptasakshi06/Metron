@@ -178,18 +178,24 @@ def test_api_to_real_rq_worker_storage_and_recommendation(services):
     )
 
 
-def test_transient_storage_failure_retries_without_duplicate_assessment(services, monkeypatch):
+def test_transient_storage_failure_retries_without_duplicate_assessment(
+    services, monkeypatch, caplog
+):
     config, client = services
     assessment = submit(client, submission(client)).json()["id"]
     original = S3Storage.put_file
 
     def unavailable(*args, **kwargs):
-        raise OSError("synthetic transient outage: must not leak into operational log")
+        raise OSError("S14_SECRET_STORAGE_CREDENTIAL raw-record-marker")
 
     monkeypatch.setattr(S3Storage, "put_file", unavailable)
     execute(assessment, config)
     assert status(client, assessment)["status"] == "queued"
     assert status(client, assessment)["stop_reason"] == "dependency_unavailable"
+    assert "assessment_stopped" in caplog.text
+    assert "dependency_unavailable" in caplog.text
+    assert "S14_SECRET_STORAGE_CREDENTIAL" not in caplog.text
+    assert "raw-record-marker" not in caplog.text
     monkeypatch.setattr(S3Storage, "put_file", original)
     execute(assessment, config)
     assert status(client, assessment)["status"] == "needs_input"

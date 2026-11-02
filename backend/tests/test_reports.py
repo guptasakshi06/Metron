@@ -132,7 +132,13 @@ def test_engine_mismatch_rejected_before_work(saved_report, tmp_path, monkeypatc
 
 
 @pytest.mark.parametrize("outcome", ["keep_current", "insufficient_evidence"])
-def test_non_change_never_runs_migration(saved_report, tmp_path, outcome):
+def test_non_change_never_runs_migration(saved_report, tmp_path, outcome, monkeypatch):
+    # Isolate this gate from the intentional S14 worker-context change. Historical
+    # measurement fixtures remain immutable and cannot be executed on the new context.
+    monkeypatch.setattr(
+        "data_optimizer.migration.service.context",
+        lambda: saved_report.candidates.candidates[0].configuration.context,
+    )
     bundle = make_bundle(saved_report)
     bundle = bundle.model_copy(
         update={"decision": bundle.decision.model_copy(update={"outcome": outcome})}
@@ -210,7 +216,11 @@ def test_cli_export_immutable_and_mismatch_error(saved_report, tmp_path):
     assert hashlib.sha256(report.read_bytes()).hexdigest() == original
 
 
-def test_workload_mismatch_cannot_reuse_evidence(saved_report, tmp_path):
+def test_workload_mismatch_cannot_reuse_evidence(saved_report, tmp_path, monkeypatch):
+    monkeypatch.setattr(
+        "data_optimizer.migration.service.context",
+        lambda: saved_report.candidates.candidates[0].configuration.context,
+    )
     bundle = make_bundle(saved_report)
     conversion = bundle.request.conversion
     changed = conversion.model_copy(
@@ -227,10 +237,26 @@ def test_workload_mismatch_cannot_reuse_evidence(saved_report, tmp_path):
 def test_different_benchmark_image_rejected_before_work(saved_report, tmp_path, monkeypatch):
     from data_optimizer.sandbox import docker
 
+    monkeypatch.setattr(
+        "data_optimizer.migration.service.context",
+        lambda: saved_report.candidates.candidates[0].configuration.context,
+    )
     monkeypatch.setattr(docker, "image_id", lambda: "sha256:" + "f" * 64)
     monkeypatch.setattr(docker, "control", lambda _: "29.1.3")
     with pytest.raises(ValueError, match="benchmark_environment_mismatch"):
         reproduce(make_bundle(saved_report), ROOT / "examples/s04-events.ndjson", tmp_path / "work")
+    assert not (tmp_path / "work").exists()
+
+
+@pytest.mark.parametrize("migration", [False, True])
+def test_pre_s14_allocator_context_requires_new_assessment(saved_report, tmp_path, migration):
+    with pytest.raises(ValueError, match="execution_context_mismatch"):
+        reproduce(
+            make_bundle(saved_report),
+            ROOT / "examples/s04-events.ndjson",
+            tmp_path / "work",
+            migration=migration,
+        )
     assert not (tmp_path / "work").exists()
 
 

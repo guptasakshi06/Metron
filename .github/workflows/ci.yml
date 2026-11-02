@@ -1,0 +1,26 @@
+name: Local MVP checks
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  correctness:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Install locked dependencies (Python 3.12 on Ubuntu 24.04)
+        run: make setup
+      - run: make check
+      - run: make test
+      - run: make build
+      - name: Build isolated benchmark image
+        run: make benchmark-image
+      - name: Verify actual Docker resource and isolation gates
+        run: make test-benchmark
+      - name: Evaluate held-out supported space
+        run: make evaluate
+      - name: Reproduce packaged decisions and reports
+        run: make demo

@@ -1,0 +1,23 @@
+{
+  "envelope_bytes": 16777216,
+  "validator_memory_mib": 512,
+  "validator_timeout_seconds": 30,
+  "cases": [
+    {
+      "bytes": 1048576,
+      "rows": 4096,
+      "upload_finalize_download_seconds": 0.3467693610000424,
+      "sha256": "bd104c040582ba3e01358e7ac363ea03c82ba5ff54ba96b7b2fe66b8dfcdd6ae",
+      "status": "ready"
+    },
+    {
+      "bytes": 16777216,
+      "rows": 65536,
+      "upload_finalize_download_seconds": 1.5158283009986917,
+      "sha256": "2bedf1cc341a614140f61bd7a81543d5f0777b45c13ef97bb6e9acffe03e6012",
+      "status": "ready"
+    }
+  ],
+  "over_limit_http_status": 413,
+  "boundary": "In-process ASGI API + real PostgreSQL/MinIO/subprocess validation. Not a network throughput or full assessment at 16 MiB claim."
+}

@@ -39,7 +39,7 @@ contracts:
 
 check:
 	$(UV) run --locked --project backend python scripts/generate-frontend-contracts.py --check
-	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend ruff check backend/src backend/tests
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend ruff check backend/src backend/tests evaluation scripts/demo.py scripts/verify-clean-checkout.py scripts/verify-s14-browser.py
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend mypy --config-file backend/pyproject.toml backend/src
 	cd frontend && PATH="$(NODE_PATH):$$PATH" npm run lint && PATH="$(NODE_PATH):$$PATH" npm run typecheck
 
@@ -67,7 +67,31 @@ build:
 	cd frontend && PATH="$(NODE_PATH):$$PATH" npm run build
 
 demo: build
-	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/verify-s08.py --output-dir "$$(mktemp -d /tmp/data-optimizer-s08-demo.XXXXXX)"
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/demo.py --output-dir "$$(mktemp -d /tmp/data-optimizer-demo.XXXXXX)"
+
+.PHONY: evaluate test-release-browser verify-clean calibrate release-check
+evaluate:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python evaluation/run.py --output-dir docs/evidence/s14-evaluation
+
+test-release-browser:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/verify-s14-browser.py
+
+verify-clean:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/verify-clean-checkout.py --output-dir docs/evidence/s14-clean --demo
+
+calibrate:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python evaluation/capacity.py --output-dir docs/evidence/s14-capacity
+
+# Keep service/browser workers sequential: they share fixed demo-tenant advisory locks.
+# Start local infrastructure and build the benchmark image first; see release runbook.
+release-check:
+	$(MAKE) check test build
+	$(MAKE) test-integration
+	$(MAKE) test-benchmark
+	$(MAKE) test-release-browser
+	$(MAKE) evaluate
+	$(MAKE) calibrate
+	$(MAKE) demo
 
 .PHONY: benchmark-image test-benchmark
 benchmark-image:

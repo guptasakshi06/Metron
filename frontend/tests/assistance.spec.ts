@@ -55,9 +55,9 @@ test("no-key proposal review, edited confirmation, refresh and real measured exp
     const row = page.getByRole("row").filter({ hasText: candidate.candidate_id.slice(0, 12) });
     await expect(row.getByRole("cell").nth(3)).toContainText(String(candidate.horizon_total));
   }
-  await explanation.screenshot({ path: "../docs/evidence/s11-explanation-desktop.png" });
+  await explanation.screenshot({ path: `../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s11"}-explanation-desktop.png` });
   await page.setViewportSize({ width: 390, height: 844 });
-  await explanation.screenshot({ path: "../docs/evidence/s11-explanation-narrow.png" });
+  await explanation.screenshot({ path: `../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s11"}-explanation-narrow.png` });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
   expect(errors).toEqual([]);
 });

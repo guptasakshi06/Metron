@@ -1,0 +1,221 @@
+{
+  "version": "s14.1",
+  "dataset_split": "s14_generated_whole_datasets_only",
+  "tuning": "none; frozen generator, no learned model or post-result tuning",
+  "python": "3.12.3",
+  "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+  "child_peak_rss_kib": 118712,
+  "docker": "Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2",
+  "cases": [
+    {
+      "case": "categorical",
+      "input_sha256": "ebd994f3b615a61c4b1057a48f6d8ed2fff2bef63edd96903e03308a8ef328bd",
+      "input_bytes": 36900,
+      "rows": 768,
+      "source_unchanged": true,
+      "outcome": "change",
+      "adaptive_outcome": "change",
+      "exhaustive_configurations": 4,
+      "exhaustive_tested": 4,
+      "adaptive_tested": 3,
+      "actual_trials": 8,
+      "adaptive_actual_trials": 6,
+      "adaptive_stop": "trial_budget",
+      "horizon_cost_regret_synthetic_currency": "0.000000",
+      "full_seconds": 15.279424337000819,
+      "adaptive_seconds": 13.52186674800032,
+      "max_trial_peak_rss_kib": 116104,
+      "trial_cpu_seconds": 2.793950051,
+      "selected_constraint_violations": 0,
+      "costs_reconcile": true,
+      "report_fingerprint": "a86357de64558b3e92b6982d2822d9e104d44383b14250d14fab75808abe99d9",
+      "excluded": [],
+      "search_reasons": [
+        "validated:",
+        "validated:",
+        "validated:",
+        "validated:"
+      ]
+    },
+    {
+      "case": "high_cardinality",
+      "input_sha256": "d39d93e8a8a58552764555eccbfcda87435d2f7359d23681c595d1d60b38749a",
+      "input_bytes": 58654,
+      "rows": 512,
+      "source_unchanged": true,
+      "outcome": "change",
+      "adaptive_outcome": "change",
+      "exhaustive_configurations": 4,
+      "exhaustive_tested": 4,
+      "adaptive_tested": 3,
+      "actual_trials": 8,
+      "adaptive_actual_trials": 6,
+      "adaptive_stop": "trial_budget",
+      "horizon_cost_regret_synthetic_currency": "3400.800000",
+      "full_seconds": 11.98404107499664,
+      "adaptive_seconds": 9.469416746997013,
+      "max_trial_peak_rss_kib": 115720,
+      "trial_cpu_seconds": 1.479489924,
+      "selected_constraint_violations": 0,
+      "costs_reconcile": true,
+      "report_fingerprint": "5e433f15b535fda764aaf154412de60585eb6975a174f3b462094b5cf605a4ec",
+      "excluded": [],
+      "search_reasons": [
+        "validated:",
+        "validated:",
+        "validated:",
+        "validated:"
+      ]
+    },
+    {
+      "case": "nested",
+      "input_sha256": "0056f5331855e9d95fd190bcdc99c2c513b577649fca687f25eda306b34a82a2",
+      "input_bytes": 3638,
+      "rows": 64,
+      "source_unchanged": true,
+      "outcome": "insufficient_evidence",
+      "adaptive_outcome": "insufficient_evidence",
+      "exhaustive_configurations": 2,
+      "exhaustive_tested": 2,
+      "adaptive_tested": 2,
+      "actual_trials": 0,
+      "adaptive_actual_trials": 0,
+      "adaptive_stop": "space_exhausted",
+      "horizon_cost_regret_synthetic_currency": null,
+      "full_seconds": 0.8494563240019488,
+      "adaptive_seconds": 0.8471402420000231,
+      "max_trial_peak_rss_kib": null,
+      "trial_cpu_seconds": 0,
+      "selected_constraint_violations": 0,
+      "costs_reconcile": true,
+      "report_fingerprint": "70dc27d387111500547bb970cc5a5d222ab9edf70c40ba64edb584240b2f429e",
+      "excluded": [
+        {
+          "codec": "snappy",
+          "reasons": [
+            "nested_conversion_requires_explicit_schema"
+          ]
+        },
+        {
+          "codec": "zstd",
+          "reasons": [
+            "nested_conversion_requires_explicit_schema"
+          ]
+        }
+      ],
+      "search_reasons": [
+        "failed:integrity_not_checked,unsupported_workload_semantics",
+        "failed:integrity_not_checked,unsupported_workload_semantics"
+      ]
+    },
+    {
+      "case": "schema_drift",
+      "input_sha256": "ef53d1ebdd73535520cb20d2f1cd311b1eaa76d2b7f9872d33f1d31cf95da6ed",
+      "input_bytes": 2557,
+      "rows": 96,
+      "source_unchanged": true,
+      "outcome": "insufficient_evidence",
+      "adaptive_outcome": "insufficient_evidence",
+      "exhaustive_configurations": 2,
+      "exhaustive_tested": 2,
+      "adaptive_tested": 2,
+      "actual_trials": 0,
+      "adaptive_actual_trials": 0,
+      "adaptive_stop": "space_exhausted",
+      "horizon_cost_regret_synthetic_currency": null,
+      "full_seconds": 0.8111052569984167,
+      "adaptive_seconds": 0.9313646020018496,
+      "max_trial_peak_rss_kib": null,
+      "trial_cpu_seconds": 0,
+      "selected_constraint_violations": 0,
+      "costs_reconcile": true,
+      "report_fingerprint": "85be8a626f4d5530b6a8e589fec1e46deca5bf4bf191347246de196f72f30b4e",
+      "excluded": [
+        {
+          "codec": "snappy",
+          "reasons": [
+            "missing_fields_require_presence_encoding"
+          ]
+        },
+        {
+          "codec": "zstd",
+          "reasons": [
+            "missing_fields_require_presence_encoding"
+          ]
+        }
+      ],
+      "search_reasons": [
+        "failed:integrity_not_checked,unsupported_workload_semantics",
+        "failed:integrity_not_checked,unsupported_workload_semantics"
+      ]
+    },
+    {
+      "case": "tiny",
+      "input_sha256": "f35e39976903f48f7ab11cac01fc3bca28a817a0303ee9c9df1c629ece0b59d4",
+      "input_bytes": 48,
+      "rows": 1,
+      "source_unchanged": true,
+      "outcome": "keep_current",
+      "adaptive_outcome": "keep_current",
+      "exhaustive_configurations": 4,
+      "exhaustive_tested": 4,
+      "adaptive_tested": 3,
+      "actual_trials": 8,
+      "adaptive_actual_trials": 6,
+      "adaptive_stop": "trial_budget",
+      "horizon_cost_regret_synthetic_currency": "0.000000",
+      "full_seconds": 7.945923252002103,
+      "adaptive_seconds": 5.799644607999653,
+      "max_trial_peak_rss_kib": 115196,
+      "trial_cpu_seconds": 0.14497114100000008,
+      "selected_constraint_violations": 0,
+      "costs_reconcile": true,
+      "report_fingerprint": "a45fb62d051e8f85e13005ee72757bff6087322833bd25ce5fb39c5518326d52",
+      "excluded": [],
+      "search_reasons": [
+        "validated:",
+        "validated:",
+        "validated:",
+        "validated:"
+      ]
+    },
+    {
+      "case": "already_optimized",
+      "input_sha256": "33b9900f04b165ecdf984df3387b655c858f65ddb048bbeeeef718ebc5adb601",
+      "input_bytes": 4852,
+      "rows": 2048,
+      "source_unchanged": true,
+      "outcome": "keep_current",
+      "adaptive_outcome": "keep_current",
+      "exhaustive_configurations": 4,
+      "exhaustive_tested": 4,
+      "adaptive_tested": 3,
+      "actual_trials": 8,
+      "adaptive_actual_trials": 6,
+      "adaptive_stop": "trial_budget",
+      "horizon_cost_regret_synthetic_currency": "0.000000",
+      "full_seconds": 32.9113602260004,
+      "adaptive_seconds": 24.6798152070005,
+      "max_trial_peak_rss_kib": 116188,
+      "trial_cpu_seconds": 8.570871225,
+      "selected_constraint_violations": 0,
+      "costs_reconcile": true,
+      "report_fingerprint": "08afa514fa0d9f14355e79f902438e509309c96c1747a65f0f37e8325eeda41b",
+      "excluded": [],
+      "search_reasons": [
+        "validated:",
+        "validated:",
+        "validated:",
+        "validated:"
+      ]
+    },
+    {
+      "case": "malformed",
+      "input_sha256": "cd41320457bee3da93ca92f3b4a9e525fb3de13da2b63efe85db6af246c496dc",
+      "rejected": "duplicate_json_key",
+      "seconds": 0.13249566599915852
+    }
+  ],
+  "gates_passed": true,
+  "boundary": "Actual local measurements; amplified synthetic prices. Bounded four-configuration space, no global optimum, cloud, native scan, tail or pilot claim."
+}

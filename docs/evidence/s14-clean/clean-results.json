@@ -1,0 +1,48 @@
+{
+  "fresh_dependency_directories": true,
+  "shared": "tool binaries and download caches only",
+  "environment": "temporary current-source copy; locked install with fresh dependency directories",
+  "commands": [
+    {
+      "command": [
+        "make",
+        "setup-deps"
+      ],
+      "exit_code": 0,
+      "log": "clean-0-setup-deps.log"
+    },
+    {
+      "command": [
+        "make",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": "clean-1-check.log"
+    },
+    {
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "log": "clean-2-test.log"
+    },
+    {
+      "command": [
+        "make",
+        "build"
+      ],
+      "exit_code": 0,
+      "log": "clean-3-build.log"
+    },
+    {
+      "command": [
+        "make",
+        "demo"
+      ],
+      "exit_code": 0,
+      "log": "clean-4-demo.log"
+    }
+  ],
+  "passed": true
+}

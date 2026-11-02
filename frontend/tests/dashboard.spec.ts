@@ -97,7 +97,7 @@ async function completed(
     );
   }
   await expect(
-    page.getByText("Production observations: unavailable", { exact: true }),
+    page.getByText("Assessment snapshot · observations in adoption history", { exact: true }),
   ).toBeVisible();
   await expect(
     page.getByText("Synthetic pricing · invented rates", { exact: true }),
@@ -166,7 +166,7 @@ test("NDJSON measured change, refresh, exact API totals, keyboard and responsive
   await expect(page.getByLabel("Assessment history")).toHaveValue(id);
   const report = await completed(page, "change", id);
   await page.screenshot({
-    path: "../docs/evidence/s10-desktop.png",
+    path: `../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s10"}-dashboard-desktop.png`,
     fullPage: true,
   });
   await page.setViewportSize({ width: 390, height: 844 });
@@ -177,7 +177,7 @@ test("NDJSON measured change, refresh, exact API totals, keyboard and responsive
     ),
   ).toBeTruthy();
   await page.screenshot({
-    path: "../docs/evidence/s10-narrow.png",
+    path: `../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s10"}-dashboard-narrow.png`,
     fullPage: true,
   });
   await page.reload();

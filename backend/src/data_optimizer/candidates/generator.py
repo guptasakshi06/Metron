@@ -26,6 +26,7 @@ def context() -> ExecutionContext:
             "python": platform.python_version(),
             "pyarrow": pa.__version__,
             "arrow_cpp": pa.cpp_version,
+            "arrow_worker_memory_pool": "system",
             "duckdb": duckdb.__version__,
             "canonical": "s04.1",
             "zlib": zlib.ZLIB_RUNTIME_VERSION,

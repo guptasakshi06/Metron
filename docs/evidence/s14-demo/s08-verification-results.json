@@ -1,0 +1,56 @@
+{
+  "verified_at": "2026-11-02T18:07:14.683369+00:00",
+  "python": "3.12.3",
+  "package": "extracted wheel imported outside repository",
+  "cases": [
+    {
+      "case": "change",
+      "exit_code": 0,
+      "outcome": "change",
+      "report_fingerprint": "e9e4e90b950fdb9b0ebd219daa7ef321d991340ffcd0fc877ddcefabf34edd2a",
+      "selected_candidate": "50d6131c3ee0e43c7047b8389b2fb05af0df494684b9cc6afb27bbd0ce845626",
+      "actual_trials": 15,
+      "stop_reason": "trial_budget"
+    },
+    {
+      "case": "resumed",
+      "exit_code": 0,
+      "outcome": "change",
+      "report_fingerprint": "e9e4e90b950fdb9b0ebd219daa7ef321d991340ffcd0fc877ddcefabf34edd2a",
+      "selected_candidate": "50d6131c3ee0e43c7047b8389b2fb05af0df494684b9cc6afb27bbd0ce845626",
+      "actual_trials": 15,
+      "stop_reason": "trial_budget"
+    },
+    {
+      "case": "keep-current",
+      "exit_code": 0,
+      "outcome": "keep_current",
+      "report_fingerprint": "53b042dab6105fc9dc90a24a7db5ae8686d96264500462c7c3d7476ce66bcddc",
+      "selected_candidate": "a47e42590342761dbb8a2b4c89fbdcb5a33e11b2d3623cb406c14411a590e7fd",
+      "actual_trials": 15,
+      "stop_reason": "trial_budget"
+    },
+    {
+      "case": "metadata",
+      "exit_code": 1,
+      "outcome": "insufficient_evidence",
+      "report_fingerprint": "20935db5afb7a39f217b39251d22648e77951b5aefc9057af9b25c7abde02e93",
+      "selected_candidate": null,
+      "actual_trials": 0,
+      "stop_reason": null
+    },
+    {
+      "case": "startup",
+      "exit_code": 1,
+      "outcome": "insufficient_evidence",
+      "report_fingerprint": "6a51a734fd3b06083547b1b688791b4a5de5835d579576081bced9820dabe89e",
+      "selected_candidate": null,
+      "actual_trials": 0,
+      "stop_reason": null
+    }
+  ],
+  "resume_unchanged_checkpoints": true,
+  "source_sha256": "01974a491f9de8f7d8790b4f999fef94b6219cd7c6246f971f1e6d6598ab1167",
+  "source_unchanged": true,
+  "boundary": "Actual local Docker query observations plus synthetic amplified prices. No live provider, cloud/native-scan, production or customer savings validation."
+}

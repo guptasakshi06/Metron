@@ -74,7 +74,12 @@ def profile_file(
     with tempfile.TemporaryDirectory(prefix="data-optimizer-profile-") as directory:
         output = Path(directory) / "report.json"
         environment = dict(os.environ)
-        environment.update(OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", ARROW_NUM_THREADS="1")
+        environment.update(
+            OPENBLAS_NUM_THREADS="1",
+            OMP_NUM_THREADS="1",
+            ARROW_NUM_THREADS="1",
+            ARROW_DEFAULT_MEMORY_POOL="system",
+        )
         try:
             process = subprocess.Popen(
                 [

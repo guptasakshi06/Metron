@@ -1,0 +1,21 @@
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend python scripts/verify-s14-browser.py
+
+Running 12 tests using 1 worker
+
+(node:548681) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/assistance.spec.ts:12:1 › no-key proposal review, edited confirmation, refresh and real measured explanation (11.3s)
+  ✓   2 tests/assistance.spec.ts:64:1 › changed confirmed requirements require review again and preserve startup guidance (2.8s)
+  ✓   3 tests/dashboard.spec.ts:156:1 › NDJSON measured change, refresh, exact API totals, keyboard and responsive layout (11.5s)
+  ✓   4 tests/dashboard.spec.ts:197:1 › already compressed input keeps current, session ownership switches clear prior results (10.7s)
+  ✓   5 tests/dashboard.spec.ts:221:3 › csv upload and real worker assessment (9.3s)
+  ✓   6 tests/dashboard.spec.ts:221:3 › parquet upload and real worker assessment (9.5s)
+  ✓   7 tests/dashboard.spec.ts:240:1 › missing data and unknown costs give actionable insufficient evidence (2.7s)
+  ✓   8 tests/dashboard.spec.ts:263:1 › reviewed metadata import preserves provenance and never invents sample benchmarks (2.7s)
+  ✓   9 tests/dashboard.spec.ts:297:1 › malformed upload and invalid workload are actionable and preserve entered fields (1.7s)
+  ✓  10 tests/dashboard.spec.ts:345:1 › active assessment cancellation survives refresh and preserves stopped status (5.4s)
+  ✓  11 tests/exports.spec.ts:5:1 › real measured bundle downloads reconcile, retain confirmation and recover on refresh (11.2s)
+  ✓  12 tests/observations.spec.ts:7:1 › real observation history reconciles growth, lower usage, missing bills, negative outcomes, revert and reassessment (20.9s)
+
+  12 passed (1.7m)
+Integrated browser exit=0; isolated resources cleaned.

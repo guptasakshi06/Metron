@@ -1,0 +1,58 @@
+make[1]: Entering directory '/tmp/s14-clean-qdrgismt'
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend pytest backend/tests
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.7.0
+rootdir: /tmp/s14-clean-qdrgismt/backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 439 items / 59 deselected / 380 selected
+
+backend/tests/test_api.py ....                                           [  1%]
+backend/tests/test_assess_cli.py ......                                  [  2%]
+backend/tests/test_assistance.py ................................        [ 11%]
+backend/tests/test_auth.py ...                                           [ 11%]
+backend/tests/test_auth_identity.py ............                         [ 15%]
+backend/tests/test_benchmarking.py ............                          [ 18%]
+backend/tests/test_contracts.py .........                                [ 20%]
+backend/tests/test_conversion.py .........................               [ 27%]
+backend/tests/test_cost_cli.py ................                          [ 31%]
+backend/tests/test_dashboard.py ..                                       [ 31%]
+backend/tests/test_economics.py ........................................ [ 42%]
+..............                                                           [ 46%]
+backend/tests/test_ingestion_validation.py ............................. [ 53%]
+.                                                                        [ 53%]
+backend/tests/test_integrity.py .............................            [ 61%]
+backend/tests/test_jobs.py ....                                          [ 62%]
+backend/tests/test_migrations.py .                                       [ 62%]
+backend/tests/test_observations.py .........................             [ 69%]
+backend/tests/test_optimization.py ..........                            [ 72%]
+backend/tests/test_profiling.py ....................................     [ 81%]
+backend/tests/test_recommendations.py .....................              [ 87%]
+backend/tests/test_release_parquet.py .                                  [ 87%]
+backend/tests/test_reports.py .................                          [ 91%]
+backend/tests/test_workloads.py ...............................          [100%]
+
+=============================== warnings summary ===============================
+backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /tmp/s14-clean-qdrgismt/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================ 380 passed, 59 deselected, 1 warning in 50.97s ================
+cd frontend && PATH="/tmp/s14-clean-qdrgismt/.tools/node24/bin:$PATH" npm test -- --run
+
+> data-optimizer-frontend@0.1.0 test
+> vitest --run
+
+
+ RUN  v3.2.7 /tmp/s14-clean-qdrgismt/frontend
+
+ ✓ src/Intake.test.tsx (3 tests) 226ms
+ ✓ src/App.test.tsx (4 tests) 226ms
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  23:36:32
+   Duration  1.01s (transform 157ms, setup 78ms, collect 305ms, tests 452ms, environment 590ms, prepare 157ms)
+
+make[1]: Leaving directory '/tmp/s14-clean-qdrgismt'

@@ -1,0 +1,11 @@
+{
+  "metadata_restore": "passed",
+  "backup_bytes": 104563,
+  "backup_sha256": "492bd98280c9618160b82d47147d0ecde562f200ac078d2aa6f4dfffad7b5896",
+  "restore_seconds": 0.8435975960019277,
+  "eight_migrations_unchanged": true,
+  "result_bundle_history_equal": true,
+  "tenant_and_immutability_preserved": true,
+  "missing_object_fails_closed_then_restored": true,
+  "scope": "Fresh temporary database; original private object bucket retained. No production restore or independent object-store backup claimed."
+}

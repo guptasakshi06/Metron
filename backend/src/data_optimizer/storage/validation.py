@@ -314,6 +314,13 @@ def validate_file(path: Path, declared_format: str, limits: ValidationLimits) ->
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
             close_fds=True,
+            env=dict(
+                os.environ,
+                ARROW_DEFAULT_MEMORY_POOL="system",
+                OPENBLAS_NUM_THREADS="1",
+                OMP_NUM_THREADS="1",
+                ARROW_NUM_THREADS="1",
+            ),
         )
     except (OSError, ValueError):
         raise ValidationError("validator_unavailable") from None

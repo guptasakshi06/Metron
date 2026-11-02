@@ -2,9 +2,17 @@
 
 Data Optimizer compares analytical dataset representations against a stated workload. It is designed to recommend the best tested feasible option, explain its evidence and preserve unknowns. This repository is being implemented one sprint at a time; the current sprint is recorded in [SPRINT_HANDOFF.md](SPRINT_HANDOFF.md).
 
-## Current implementation: S10
+## Current implementation: local MVP (S01–S14)
 
-The application has versioned contracts, real health/readiness checks, tenant-scoped project and dataset metadata, authenticated bounded uploads for CSV, NDJSON and Parquet, structural validation, private MinIO object storage, immutable dataset versions, retention/deletion recovery, bounded local typed profiling, reproducible sampling, metadata-only exports and reviewed tenant-scoped profile import. The dashboard now supports project intake, reviewed uploads or metadata, workload/schema/cost editing, asynchronous assessments, cancellation/refresh recovery, baseline comparison and itemized evidence. Recommendations use real local worker measurements; pricing is unknown by default or explicitly synthetic/user supplied. Reports and migration export bundles remain S12.
+The application supports reviewed analytical-file uploads and local metadata profiling,
+exact lossless integrity, bounded Docker experiments, evidence-based decisions, itemized
+costs, asynchronous recovery/cancellation, a working dashboard, optional structured
+assistance, portable reports/reproduction and manual savings observations. Prices remain
+unknown unless explicitly synthetic or user supplied. A local release is distinct from
+production or customer validation; see [release readiness](docs/release-readiness.md).
+
+Start with the [clean-start demo and release checklist](docs/runbooks/local-release.md),
+[browser user guide](docs/user-flow.md), and [administrator/recovery runbook](docs/runbooks/administration.md).
 
 S04 adds a validated analytical workload DSL, parameterized execution against a fixed
 in-memory DuckDB dataset, exact typed cross-format integrity checks preserving duplicate
@@ -79,7 +87,11 @@ make test-integration # real PostgreSQL/MinIO tests; not run by make test
 make benchmark-image # build the locked local Linux benchmark image
 make test-benchmark # real Docker benchmark and isolation tests; not run by make test
 make build       # Python wheel/sdist and Vite production output
-make demo        # packaged measured CLI demonstration, synthetic prices
+make demo        # packaged measured decisions + report + reproduction; synthetic prices
+make evaluate    # held-out exhaustive/adaptive comparison
+make calibrate   # measured 32-query/five-repeat workload envelope
+make release-check # sequential local correctness, service, Docker, browser and evaluation gates
+make verify-clean # fresh dependency directories, locked checks/build/demo
 make contracts   # regenerate frontend types from executable backend models
 make test-browser # real isolated browser/API/RQ/Docker flows; requires Chrome + local infra
 ```
@@ -90,7 +102,7 @@ The local processing limits in `.env.example` remain provisional policy defaults
 offline benchmark has separate explicit request limits: 1 CPU, 1 GiB memory without swap,
 64 MiB scratch, 30 CPU seconds, 45 wall seconds per trial and 600 seconds per matrix.
 The fixture/resource evidence establishes those tested paths, not maximum supported dataset
-capacity. See the benchmark method; S14 retains operational capacity calibration.
+capacity. See the [measured envelopes and remaining limits](docs/release-readiness.md).
 
 ### Dataset and evidence boundaries
 
@@ -99,8 +111,8 @@ The data scope is CSV, NDJSON and Parquet. S02 accepts CSV and NDJSON text plus 
 The benchmark measures full typed decoding/loading followed by in-memory queries; it does
 not establish native Parquet pushdown, cloud latency or concurrency. S07 economics produces
 labeled forecasts using explicit usage and synthetic or user supplied rates. Ranking,
-assessment tables, queues and live external identity-provider integration remain future
-work. Local auth is only for loopback development; see
+assessment tables and queues are implemented. Live external identity-provider integration
+remains unverified. Local auth is only for loopback development; see
 [decision 0002](docs/decisions/0002-s02-ingestion.md) before changing auth/storage settings.
 
 ### Local profiling (S03)
@@ -123,7 +135,8 @@ Use a new output filename; reuse the same workspace to resume without repeating 
 Omit the source, or use `--metadata REVIEWED_PROFILE.json`, for scenario guidance without historical
 savings. Exit 1 saves an insufficient-evidence report. See [decision method](docs/decision-method.md)
 for requirements, materiality, adaptive search and checkpoints. `make demo` builds and runs the
-packaged three-path local demonstration into a new temporary evidence directory.
+packaged change/keep/guidance demonstration, portable report and independent reproduction
+into a new temporary evidence directory.
 
 ## Asynchronous assessments (S09)
 

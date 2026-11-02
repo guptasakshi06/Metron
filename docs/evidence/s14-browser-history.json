@@ -1,0 +1,532 @@
+{
+  "plan": {
+    "id": "fd52093e-a98c-475e-b495-d151249ff168",
+    "tenant_id": "11111111-1111-4111-8111-111111111111",
+    "assessment_id": "3f11a7e2-49bd-4352-ace9-55181f351933",
+    "report_fingerprint": "259726577a093ba37ddafdb9a782d9d9bb070e1b3f588d67e8cf0b8bffc09e23",
+    "candidate_id": "2c1df54adaf10f76cb1a21be68f66395d55143af7eb9f5af9cafc1649f67a168",
+    "configuration": {
+      "codec": "gzip",
+      "format": "ndjson",
+      "context": {
+        "engine": "pyarrow",
+        "storage": "local_filesystem",
+        "converter": "s05.1",
+        "engine_versions": {
+          "zlib": "1.3",
+          "duckdb": "1.5.6",
+          "python": "3.12.3",
+          "pyarrow": "26.0.0",
+          "arrow_cpp": "26.0.0",
+          "canonical": "s04.1",
+          "arrow_worker_memory_pool": "system"
+        }
+      },
+      "sort_by": [],
+      "version": 1,
+      "baseline": false,
+      "partition_by": [],
+      "row_group_rows": 65536,
+      "compression_level": 6,
+      "target_file_bytes": 67108864
+    },
+    "created_at": "2026-11-02T18:09:46.290921Z"
+  },
+  "versions": [
+    {
+      "version": 1,
+      "payload": {
+        "note": "No actual production deployment",
+        "state": "proposed",
+        "source": "Synthetic browser adoption",
+        "deployed_at": null,
+        "reverted_at": null,
+        "expected_version": 0,
+        "actual_migration_cost": null,
+        "reference_logical_bytes": 287
+      },
+      "created_at": "2026-11-02T18:09:46.290921Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    },
+    {
+      "version": 2,
+      "payload": {
+        "note": "No actual production deployment",
+        "state": "planned",
+        "source": "Synthetic browser adoption",
+        "deployed_at": null,
+        "reverted_at": null,
+        "expected_version": 1,
+        "actual_migration_cost": null,
+        "reference_logical_bytes": 287
+      },
+      "created_at": "2026-11-02T18:09:46.588740Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    },
+    {
+      "version": 3,
+      "payload": {
+        "note": "No actual production deployment",
+        "state": "deployed",
+        "source": "Synthetic browser adoption",
+        "deployed_at": "2026-08-01T00:00:00Z",
+        "reverted_at": null,
+        "expected_version": 2,
+        "actual_migration_cost": "5",
+        "reference_logical_bytes": 287
+      },
+      "created_at": "2026-11-02T18:09:46.855789Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    },
+    {
+      "version": 4,
+      "payload": {
+        "note": "No actual production deployment",
+        "state": "reverted",
+        "source": "Synthetic browser adoption",
+        "deployed_at": "2026-08-01T00:00:00Z",
+        "reverted_at": "2026-10-01T00:00:00Z",
+        "expected_version": 3,
+        "actual_migration_cost": "5",
+        "reference_logical_bytes": 287
+      },
+      "created_at": "2026-11-02T18:09:49.172422Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    }
+  ],
+  "observation_revisions": [
+    {
+      "id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+      "version": 1,
+      "plan_version": 3,
+      "payload": {
+        "note": "Not a real bill",
+        "source": "Invented browser fixture",
+        "coverage": "Synthetic complete bill",
+        "currency": "USD",
+        "excluded": false,
+        "query_mix": {
+          "ids": "0.166666666667",
+          "scan": "0.166666666667",
+          "time": "0.166666666667",
+          "nulls": "0.166666666667",
+          "filter": "0.166666666667",
+          "groups": "0.166666666667"
+        },
+        "period_end": "2026-10-01T00:00:00Z",
+        "period_start": "2026-09-01T00:00:00Z",
+        "itemized_costs": {
+          "backups": "1000",
+          "network": "1000",
+          "service": "1000",
+          "storage": "1000",
+          "replicas": "1000",
+          "retrieval": "1000",
+          "maintenance": "1000",
+          "query_compute": "1000",
+          "read_requests": "1000",
+          "write_requests": "1000",
+          "transform_compute": "1000"
+        },
+        "observation_id": null,
+        "retained_bytes": 276,
+        "expected_version": 0,
+        "workload_replays": "200",
+        "access_quantities": {
+          "backups": "0",
+          "network": "0",
+          "service": "0",
+          "storage": "0",
+          "replicas": "0",
+          "retrieval": "0",
+          "maintenance": "0",
+          "query_compute": "0",
+          "read_requests": "0",
+          "write_requests": "0",
+          "transform_compute": "0"
+        },
+        "input_fingerprint": null,
+        "schema_fingerprint": null,
+        "logical_volume_bytes": 574
+      },
+      "created_at": "2026-11-02T18:09:47.276997Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    },
+    {
+      "id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+      "version": 2,
+      "plan_version": 3,
+      "payload": {
+        "note": "Not a real bill",
+        "source": "Invented browser fixture",
+        "coverage": "Synthetic complete bill",
+        "currency": "USD",
+        "excluded": false,
+        "query_mix": {
+          "ids": "0.166666666667",
+          "scan": "0.166666666667",
+          "time": "0.166666666667",
+          "nulls": "0.166666666667",
+          "filter": "0.166666666667",
+          "groups": "0.166666666667"
+        },
+        "period_end": "2026-10-01T00:00:00Z",
+        "period_start": "2026-09-01T00:00:00Z",
+        "itemized_costs": {
+          "backups": "0",
+          "network": "0",
+          "service": "0",
+          "storage": "0",
+          "replicas": "0",
+          "retrieval": "0",
+          "maintenance": "0",
+          "query_compute": "0",
+          "read_requests": "0",
+          "write_requests": "0",
+          "transform_compute": "0"
+        },
+        "observation_id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+        "retained_bytes": 276,
+        "expected_version": 1,
+        "workload_replays": "50",
+        "access_quantities": {
+          "backups": "0",
+          "network": "0",
+          "service": "0",
+          "storage": "0",
+          "replicas": "0",
+          "retrieval": "0",
+          "maintenance": "0",
+          "query_compute": "0",
+          "read_requests": "0",
+          "write_requests": "0",
+          "transform_compute": "0"
+        },
+        "input_fingerprint": null,
+        "schema_fingerprint": null,
+        "logical_volume_bytes": 143
+      },
+      "created_at": "2026-11-02T18:09:47.644387Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    },
+    {
+      "id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+      "version": 3,
+      "plan_version": 3,
+      "payload": {
+        "note": "Not a real bill",
+        "source": "Invented browser fixture",
+        "coverage": "Synthetic complete bill",
+        "currency": "USD",
+        "excluded": false,
+        "query_mix": {
+          "ids": "0.166666666667",
+          "scan": "0.166666666667",
+          "time": "0.166666666667",
+          "nulls": "0.166666666667",
+          "filter": "0.166666666667",
+          "groups": "0.166666666667"
+        },
+        "period_end": "2026-10-01T00:00:00Z",
+        "period_start": "2026-09-01T00:00:00Z",
+        "itemized_costs": {
+          "backups": "0",
+          "network": "0",
+          "service": "0",
+          "storage": "14.300000",
+          "replicas": "0",
+          "retrieval": "0",
+          "maintenance": "0",
+          "query_compute": "0",
+          "read_requests": "0",
+          "write_requests": "0",
+          "transform_compute": "0"
+        },
+        "observation_id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+        "retained_bytes": 276,
+        "expected_version": 2,
+        "workload_replays": "50",
+        "access_quantities": {
+          "backups": "0",
+          "network": "0",
+          "service": "0",
+          "storage": "0",
+          "replicas": "0",
+          "retrieval": "0",
+          "maintenance": "0",
+          "query_compute": "0",
+          "read_requests": "0",
+          "write_requests": "0",
+          "transform_compute": "0"
+        },
+        "input_fingerprint": null,
+        "schema_fingerprint": null,
+        "logical_volume_bytes": 143
+      },
+      "created_at": "2026-11-02T18:09:48.058635Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    },
+    {
+      "id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+      "version": 4,
+      "plan_version": 3,
+      "payload": {
+        "note": "Not a real bill",
+        "source": "Invented browser fixture",
+        "coverage": "Synthetic complete bill",
+        "currency": "USD",
+        "excluded": false,
+        "query_mix": {
+          "ids": "0.166666666667",
+          "scan": "0.166666666667",
+          "time": "0.166666666667",
+          "nulls": "0.166666666667",
+          "filter": "0.166666666667",
+          "groups": "0.166666666667"
+        },
+        "period_end": "2026-10-01T00:00:00Z",
+        "period_start": "2026-09-01T00:00:00Z",
+        "itemized_costs": {
+          "storage": "10"
+        },
+        "observation_id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+        "retained_bytes": 276,
+        "expected_version": 3,
+        "workload_replays": "50",
+        "access_quantities": {
+          "backups": "0",
+          "network": "0",
+          "service": "0",
+          "storage": "0",
+          "replicas": "0",
+          "retrieval": "0",
+          "maintenance": "0",
+          "query_compute": "0",
+          "read_requests": "0",
+          "write_requests": "0",
+          "transform_compute": "0"
+        },
+        "input_fingerprint": null,
+        "schema_fingerprint": null,
+        "logical_volume_bytes": 143
+      },
+      "created_at": "2026-11-02T18:09:48.476888Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    },
+    {
+      "id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+      "version": 5,
+      "plan_version": 3,
+      "payload": {
+        "note": "Not a real bill",
+        "source": "Invented browser fixture",
+        "coverage": "Synthetic complete bill",
+        "currency": "EUR",
+        "excluded": false,
+        "query_mix": {
+          "ids": "0.166666666667",
+          "scan": "0.166666666667",
+          "time": "0.166666666667",
+          "nulls": "0.166666666667",
+          "filter": "0.166666666667",
+          "groups": "0.166666666667"
+        },
+        "period_end": "2026-10-01T00:00:00Z",
+        "period_start": "2026-09-01T00:00:00Z",
+        "itemized_costs": {
+          "backups": "1000",
+          "network": "1000",
+          "service": "1000",
+          "storage": "1000",
+          "replicas": "1000",
+          "retrieval": "1000",
+          "maintenance": "1000",
+          "query_compute": "1000",
+          "read_requests": "1000",
+          "write_requests": "1000",
+          "transform_compute": "1000"
+        },
+        "observation_id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+        "retained_bytes": 276,
+        "expected_version": 4,
+        "workload_replays": "50",
+        "access_quantities": {
+          "backups": "0",
+          "network": "0",
+          "service": "0",
+          "storage": "0",
+          "replicas": "0",
+          "retrieval": "0",
+          "maintenance": "0",
+          "query_compute": "0",
+          "read_requests": "0",
+          "write_requests": "0",
+          "transform_compute": "0"
+        },
+        "input_fingerprint": null,
+        "schema_fingerprint": null,
+        "logical_volume_bytes": 143
+      },
+      "created_at": "2026-11-02T18:09:48.912668Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    }
+  ],
+  "observations": [
+    {
+      "id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+      "version": 5,
+      "plan_version": 3,
+      "payload": {
+        "note": "Not a real bill",
+        "source": "Invented browser fixture",
+        "coverage": "Synthetic complete bill",
+        "currency": "EUR",
+        "excluded": false,
+        "query_mix": {
+          "ids": "0.166666666667",
+          "scan": "0.166666666667",
+          "time": "0.166666666667",
+          "nulls": "0.166666666667",
+          "filter": "0.166666666667",
+          "groups": "0.166666666667"
+        },
+        "period_end": "2026-10-01T00:00:00Z",
+        "period_start": "2026-09-01T00:00:00Z",
+        "itemized_costs": {
+          "backups": "1000",
+          "network": "1000",
+          "service": "1000",
+          "storage": "1000",
+          "replicas": "1000",
+          "retrieval": "1000",
+          "maintenance": "1000",
+          "query_compute": "1000",
+          "read_requests": "1000",
+          "write_requests": "1000",
+          "transform_compute": "1000"
+        },
+        "observation_id": "e06b50dc-9b15-49f5-ace6-3baddff46860",
+        "retained_bytes": 276,
+        "expected_version": 4,
+        "workload_replays": "50",
+        "access_quantities": {
+          "backups": "0",
+          "network": "0",
+          "service": "0",
+          "storage": "0",
+          "replicas": "0",
+          "retrieval": "0",
+          "maintenance": "0",
+          "query_compute": "0",
+          "read_requests": "0",
+          "write_requests": "0",
+          "transform_compute": "0"
+        },
+        "input_fingerprint": null,
+        "schema_fingerprint": null,
+        "logical_volume_bytes": 143
+      },
+      "created_at": "2026-11-02T18:09:48.912668Z",
+      "actor_principal_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "calculation": {
+        "calculation_version": "s13.linear_usage_v1",
+        "evidence": "user_supplied_not_provider_verified",
+        "attribution": "modeled_comparable_usage_not_verified_optimization_savings",
+        "actual_currency": "EUR",
+        "model_currency": "USD",
+        "period_months_30_days": "1",
+        "actual_cost": "11000",
+        "actual_known_subtotal": "11000",
+        "original_projected_cost": "13.800000",
+        "modeled_adjusted_baseline": "14.300000",
+        "modeled_savings": null,
+        "baseline_items": [
+          {
+            "component": "storage",
+            "amount": "14.300000",
+            "unit": "GB_month",
+            "monthly_quantity": "1.43E-7"
+          },
+          {
+            "component": "query_compute",
+            "amount": "0.000000",
+            "unit": "compute_hour",
+            "monthly_quantity": "0.000096190683"
+          },
+          {
+            "component": "transform_compute",
+            "amount": "0.000000",
+            "unit": "compute_hour",
+            "monthly_quantity": "0E-12"
+          },
+          {
+            "component": "read_requests",
+            "amount": "0.000000",
+            "unit": "request",
+            "monthly_quantity": "0E-12"
+          },
+          {
+            "component": "write_requests",
+            "amount": "0.000000",
+            "unit": "request",
+            "monthly_quantity": "0E-12"
+          },
+          {
+            "component": "retrieval",
+            "amount": "0.000000",
+            "unit": "GB",
+            "monthly_quantity": "0E-12"
+          },
+          {
+            "component": "network",
+            "amount": "0.000000",
+            "unit": "GB",
+            "monthly_quantity": "0E-12"
+          },
+          {
+            "component": "backups",
+            "amount": "0.000000",
+            "unit": "GB_month",
+            "monthly_quantity": "0"
+          },
+          {
+            "component": "replicas",
+            "amount": "0.000000",
+            "unit": "GB_month",
+            "monthly_quantity": "0"
+          },
+          {
+            "component": "maintenance",
+            "amount": "0.000000",
+            "unit": "hour",
+            "monthly_quantity": "0E-12"
+          },
+          {
+            "component": "service",
+            "amount": "0.000000",
+            "unit": "month",
+            "monthly_quantity": "0E-12"
+          }
+        ],
+        "missing_inputs": [
+          "currency_mismatch_no_fx_conversion"
+        ],
+        "drift_signals": [
+          "logical_volume_changed_at_least_20_percent",
+          "access_rate_changed_at_least_20_percent",
+          "retained_bytes_diverged_at_least_20_percent"
+        ],
+        "price_snapshot_id": "8949b0f5e02f00655e4530a4c87321db490bc39d940d7c9c1d3454a3d8678557",
+        "assumptions": [
+          "Original prices, retention, copies and representation; linear logical-volume scaling. 30-day modeled month; observed period quantities. Not a verified counterfactual bill.",
+          "Same logical content, retention, required copies, region and availability boundary must be confirmed against the bill.",
+          "Query CPU scales linearly with volume/replays only for unchanged mix; this is an unvalidated model. Non-storage usage requires explicit quantities.",
+          "Projection uses original usage; adjusted baseline uses observed usage. Lower usage alone is not attributed to optimization."
+        ]
+      }
+    }
+  ],
+  "cumulative_modeled_benefit": null,
+  "cumulative_scope": "Latest non-excluded recorded periods only; gaps are not estimated. Subtract latest user-supplied actual migration cost once. Not verified savings.",
+  "currency": "USD"
+}

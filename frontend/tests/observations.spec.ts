@@ -92,10 +92,10 @@ test("real observation history reconciles growth, lower usage, missing bills, ne
   await expect(region.getByTestId("adoption-state")).toHaveText("reverted");
   history = await (await page.request.get(historyUrl)).json();
   expect(history.observation_revisions.length).toBe(5);
-  writeFileSync("../docs/evidence/s13-browser-history.json", JSON.stringify(history, null, 2));
-  await region.screenshot({path: "../docs/evidence/s13-history-desktop.png"});
+  writeFileSync(`../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s13"}-browser-history.json`, JSON.stringify(history, null, 2));
+  await region.screenshot({path: `../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s13"}-history-desktop.png`});
   await page.setViewportSize({width: 390, height: 844});
-  await region.screenshot({path: "../docs/evidence/s13-history-narrow.png"});
+  await region.screenshot({path: `../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s13"}-history-narrow.png`});
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
   await page.setViewportSize({width: 1440, height: 1000});
   await region.getByLabel("Reason for reassessment").fill("Workload and price review");
@@ -115,7 +115,7 @@ test("real observation history reconciles growth, lower usage, missing bills, ne
   const comparison = await (await page.request.get(`/api/v1/assessments/${next.id}/comparison`)).json();
   expect(comparison.previous.id).toBe(state.id);
   expect(comparison.current.decision.policy.minimum_net_savings).toBe("12");
-  writeFileSync("../docs/evidence/s13-browser-comparison.json", JSON.stringify(comparison, null, 2));
+  writeFileSync(`../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s13"}-browser-comparison.json`, JSON.stringify(comparison, null, 2));
   await page.getByLabel("Local demo identity").selectOption("bob");
   await expect(page.getByRole("heading", {name: "Adoption & savings history"})).toHaveCount(0);
   expect(errors).toEqual([]);

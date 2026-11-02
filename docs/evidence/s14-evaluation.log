@@ -1,0 +1,7 @@
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend python evaluation/run.py --output-dir docs/evidence/s14-evaluation
+{"case": "categorical", "outcome": "change", "regret": "0.000000"}
+{"case": "high_cardinality", "outcome": "change", "regret": "3400.800000"}
+{"case": "nested", "outcome": "insufficient_evidence", "regret": "None"}
+{"case": "schema_drift", "outcome": "insufficient_evidence", "regret": "None"}
+{"case": "tiny", "outcome": "keep_current", "regret": "0.000000"}
+{"case": "already_optimized", "outcome": "keep_current", "regret": "0.000000"}

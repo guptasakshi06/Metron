@@ -1,0 +1,24 @@
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend pytest -m integration backend/tests/integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.7.0
+rootdir: /home/ubuntu/Documents/ChatGPT/Data Optimizer/backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 49 items
+
+backend/tests/integration/test_assessments.py ..............             [ 28%]
+backend/tests/integration/test_assistance_api.py ..........              [ 48%]
+backend/tests/integration/test_ingestion.py ........                     [ 65%]
+backend/tests/integration/test_ingestion_boundaries.py .......           [ 79%]
+backend/tests/integration/test_observations_api.py ...                   [ 85%]
+backend/tests/integration/test_profiles.py ...                           [ 91%]
+backend/tests/integration/test_release_readiness.py ..                   [ 95%]
+backend/tests/integration/test_report_downloads.py ..                    [100%]
+
+=============================== warnings summary ===============================
+backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/ubuntu/Documents/ChatGPT/Data Optimizer/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================== 49 passed, 1 warning in 100.64s (0:01:40) ===================

@@ -1,0 +1,89 @@
+make[1]: Entering directory '/tmp/s14-clean-qdrgismt'
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv sync --locked --all-groups --project backend
+Using CPython 3.12.3 interpreter at: /usr/bin/python3
+Creating virtual environment at: backend/.venv
+Resolved 61 packages in 1ms
+   Building data-optimizer @ file:///tmp/s14-clean-qdrgismt/backend
+Downloading pygments (1.2MiB)
+Downloading psycopg-binary (5.0MiB)
+Downloading mypy (14.1MiB)
+Downloading uvloop (4.3MiB)
+Downloading pydantic-core (2.1MiB)
+Downloading ruff (10.1MiB)
+      Built data-optimizer @ file:///tmp/s14-clean-qdrgismt/backend
+ Downloaded pygments
+ Downloaded pydantic-core
+ Downloaded uvloop
+ Downloaded psycopg-binary
+ Downloaded ruff
+ Downloaded mypy
+Prepared 39 packages in 16.07s
+Installed 59 packages in 36ms
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + anyio==4.16.0
+ + boto3==1.43.123
+ + botocore==1.43.123
+ + build==1.6.1
+ + certifi==2026.10.23
+ + cffi==2.1.1
+ + click==8.5.0
+ + croniter==6.2.4
+ + cryptography==50.0.2
+ + data-optimizer==0.1.0 (from file:///tmp/s14-clean-qdrgismt/backend)
+ + duckdb==1.5.6
+ + fastapi==0.162.0
+ + h11==0.16.0
+ + hatchling==1.33.0
+ + httpcore==1.0.9
+ + httptools==0.9.0
+ + httpx==0.28.1
+ + idna==3.20
+ + iniconfig==2.3.1
+ + jmespath==1.1.0
+ + librt==0.16.0
+ + mypy==1.20.2
+ + mypy-extensions==1.1.0
+ + opentelemetry-api==1.45.2
+ + packaging==26.3
+ + pathspec==1.1.1
+ + pluggy==1.7.0
+ + psycopg==3.3.6
+ + psycopg-binary==3.3.6
+ + pyarrow==26.0.0
+ + pycparser==3.12
+ + pydantic==2.14.2
+ + pydantic-core==2.50.2
+ + pydantic-settings==2.16.2
+ + pygments==2.21.0
+ + pyjwt==2.15.1
+ + pyproject-hooks==1.3.3
+ + pytest==8.4.2
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.4
+ + pytz==2026.6
+ + pyyaml==6.0.3
+ + redis==6.4.0
+ + rq==2.12.0
+ + ruff==0.17.3
+ + s3transfer==0.19.3
+ + six==1.17.0
+ + starlette==1.10.0
+ + tomlkit==0.15.2
+ + trove-classifiers==2026.9.21.13
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + urllib3==2.8.0
+ + uvicorn==0.54.0
+ + uvloop==0.23.0
+ + watchfiles==1.3.0
+ + websockets==17.4
+cd frontend && PATH="/tmp/s14-clean-qdrgismt/.tools/node24/bin:$PATH" npm_config_cache="/tmp/s14-clean-qdrgismt/.tools/npm-cache" npm ci --no-audit --no-fund
+npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 275 packages in 2s
+npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+make[1]: Leaving directory '/tmp/s14-clean-qdrgismt'
