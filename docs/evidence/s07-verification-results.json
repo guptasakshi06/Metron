@@ -1,0 +1,56 @@
+{
+  "verified_at": "2026-11-02T13:44:23.827129+00:00",
+  "python": "3.12.3",
+  "package": "extracted wheel imported outside repository",
+  "records": [
+    {
+      "case": "synthetic",
+      "exit_code": 0,
+      "overwrite_exit": 2,
+      "report_fingerprint": "bb145b550d790ec8711a9976c66f75aef4627027914d3b2084cff72efcd88ad5",
+      "baseline_total": "300.000000",
+      "candidate_total": "180.000000",
+      "migration_forecast": "300.000000",
+      "monthly_savings": "120.000000",
+      "payback_months": "2.500000000000",
+      "horizon_net_savings": "1140.000000",
+      "missing_inputs": []
+    },
+    {
+      "case": "benchmark",
+      "exit_code": 0,
+      "overwrite_exit": 2,
+      "report_fingerprint": "27460075ca95f361b47c99842798072215494b4cbb194870a3b027bb7325bdb5",
+      "baseline_total": "20.035789",
+      "candidate_total": "25.034111",
+      "migration_forecast": "290.000052",
+      "monthly_savings": "-4.998322",
+      "payback_months": null,
+      "horizon_net_savings": "-349.979916",
+      "missing_inputs": []
+    },
+    {
+      "case": "unknown-usage",
+      "exit_code": 1,
+      "overwrite_exit": 2,
+      "report_fingerprint": "867e5f13a38e0aad41714e362c7ff3b9d2508827479bbf26f44cb5113eb76a9d",
+      "baseline_total": null,
+      "candidate_total": null,
+      "migration_forecast": "290.000052",
+      "monthly_savings": null,
+      "payback_months": null,
+      "horizon_net_savings": null,
+      "missing_inputs": [
+        "baseline.query_compute.quantity",
+        "candidate.query_compute.quantity"
+      ]
+    }
+  ],
+  "source_hashes": {
+    "examples/s07-cost-request.json": "140eb85246a364a79bfb9fb6697c13ffe7421e5886db20937f3f00af0d5c552c",
+    "docs/evidence/s06-benchmark-fresh.json": "301a56b2913772531223b74688f7be3139057fa9b07eaf581b40c17ba221b688",
+    "examples/s07-synthetic-prices.json": "b53785f4110ac130f2aa2080b5dcc384e6dd0c7d35e6d62264d1a4d4ba6c94c7"
+  },
+  "benchmark_report_fingerprint": "af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3",
+  "boundary": "Offline cost calculation over saved S06 measurements; no new Docker run, live provider, invoice, production or customer validation."
+}

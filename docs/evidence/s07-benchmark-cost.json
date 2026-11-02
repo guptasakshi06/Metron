@@ -1,0 +1,1383 @@
+{
+  "version": "s07.1",
+  "evidence": "modeled_forecast",
+  "report_fingerprint": "27460075ca95f361b47c99842798072215494b4cbb194870a3b027bb7325bdb5",
+  "request_fingerprint": "22c4d59fb25ca9db54b2181d4040e1ca718b4f1d3c7aeb62953e0a2e41a17deb",
+  "request": {
+    "version": "s07.1",
+    "horizon_months": 12,
+    "scenarios": [
+      {
+        "name": "documented_example",
+        "assumption": "Synthetic fixed monthly averages reproduce architecture arithmetic. These are not measurements or invoices.",
+        "prices": {
+          "version": "s07.1",
+          "provider": "synthetic-offline-example",
+          "region": "synthetic-local",
+          "currency": "USD",
+          "effective_at": "2026-11-02T00:00:00Z",
+          "retrieved_at": "2026-11-02T00:00:00Z",
+          "source": "synthetic",
+          "source_references": [
+            "examples/s07-synthetic-prices.json"
+          ],
+          "assumptions": [
+            "All rates invented for deterministic arithmetic, no live price retrieval.",
+            "Flat linear rates, decimal GB=1000000000 bytes; zero metadata explicitly assumed in this illustration."
+          ],
+          "rates": [
+            {
+              "id": "storage",
+              "unit": "GB_month",
+              "amount": "0.1",
+              "per_quantity": "1",
+              "source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              "minimum_object_bytes": 0,
+              "minimum_duration_days": 0,
+              "discount_fraction": "0",
+              "discount_assumption": "No discount in this synthetic fixture."
+            },
+            {
+              "id": "compute",
+              "unit": "compute_hour",
+              "amount": "1",
+              "per_quantity": "1",
+              "source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              "minimum_object_bytes": 0,
+              "minimum_duration_days": 0,
+              "discount_fraction": "0",
+              "discount_assumption": "No discount in this synthetic fixture."
+            },
+            {
+              "id": "requests",
+              "unit": "request",
+              "amount": "0.001",
+              "per_quantity": "1000",
+              "source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              "minimum_object_bytes": 0,
+              "minimum_duration_days": 0,
+              "discount_fraction": "0",
+              "discount_assumption": "No discount in this synthetic fixture."
+            },
+            {
+              "id": "transfer",
+              "unit": "GB",
+              "amount": "0.1",
+              "per_quantity": "1",
+              "source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              "minimum_object_bytes": 0,
+              "minimum_duration_days": 0,
+              "discount_fraction": "0",
+              "discount_assumption": "No discount in this synthetic fixture."
+            },
+            {
+              "id": "labor",
+              "unit": "hour",
+              "amount": "50",
+              "per_quantity": "1",
+              "source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              "minimum_object_bytes": 0,
+              "minimum_duration_days": 0,
+              "discount_fraction": "0",
+              "discount_assumption": "No discount in this synthetic fixture."
+            },
+            {
+              "id": "service",
+              "unit": "month",
+              "amount": "0",
+              "per_quantity": "1",
+              "source": {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              "minimum_object_bytes": 0,
+              "minimum_duration_days": 0,
+              "discount_fraction": "0",
+              "discount_assumption": "No discount in this synthetic fixture."
+            }
+          ]
+        },
+        "baseline": {
+          "id": "413a954522c1a2c5aacf249709015fcfa909916cd577d94e3edc88a72f195165",
+          "footprint": {
+            "logical_fingerprint": "a006331fdcb28b3f2aed6ec6fae300c0f63a2ef18de915dd394db7e35f2dabcc",
+            "retention_days": 365,
+            "data_file_bytes": [
+              287
+            ],
+            "metadata_file_bytes": [],
+            "primary_copies": 1,
+            "backup_copies": 0,
+            "replica_copies": 0,
+            "data_source": {
+              "kind": "local_measurement",
+              "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:5460ebf53b3ba4c082e0323c45d4dbd66c42a63292df6b05c6dba8a97c40b03b",
+              "note": "Measured sample data bytes only; metadata/copies/retention remain supplied assumptions. Matrix stop reason: completed; selected complete repeats: True."
+            },
+            "metadata_source": {
+              "kind": "synthetic",
+              "reference": "examples/s07-synthetic-prices.json",
+              "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+            }
+          },
+          "recurring": [
+            {
+              "component": "storage",
+              "rate_id": "storage",
+              "quantity": null,
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "query_compute",
+              "rate_id": "compute",
+              "quantity": {
+                "value": "0.035789374993",
+                "unit": "compute_hour",
+                "source": {
+                  "kind": "assumption",
+                  "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3",
+                  "note": "Monthly forecast: median typed load + in-memory workload seconds * 10000 supplied replays/month / 3600. Assumes rates for active engine time; excludes startup, warmups and orchestration. No native scans/cloud/concurrency inference. Incomplete trials or unknown usage stay null."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "transform_compute",
+              "rate_id": "compute",
+              "quantity": {
+                "value": "0",
+                "unit": "compute_hour",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "read_requests",
+              "rate_id": "requests",
+              "quantity": {
+                "value": "10000000",
+                "unit": "request",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "write_requests",
+              "rate_id": "requests",
+              "quantity": {
+                "value": "0",
+                "unit": "request",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "retrieval",
+              "rate_id": "transfer",
+              "quantity": {
+                "value": "0",
+                "unit": "GB",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "network",
+              "rate_id": "transfer",
+              "quantity": {
+                "value": "100",
+                "unit": "GB",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "backups",
+              "rate_id": "storage",
+              "quantity": null,
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "replicas",
+              "rate_id": "storage",
+              "quantity": null,
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "maintenance",
+              "rate_id": "labor",
+              "quantity": {
+                "value": "0",
+                "unit": "hour",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "service",
+              "rate_id": "service",
+              "quantity": {
+                "value": "1",
+                "unit": "month",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            }
+          ]
+        },
+        "candidate": {
+          "id": "81670c21f42dfe28538a09b78888a76947a9aa349626ae1f740744cf2a104d69",
+          "footprint": {
+            "logical_fingerprint": "a006331fdcb28b3f2aed6ec6fae300c0f63a2ef18de915dd394db7e35f2dabcc",
+            "retention_days": 365,
+            "data_file_bytes": [
+              138
+            ],
+            "metadata_file_bytes": [],
+            "primary_copies": 1,
+            "backup_copies": 0,
+            "replica_copies": 0,
+            "data_source": {
+              "kind": "local_measurement",
+              "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:3c4f0d7b40091bdc8e81cac38b40563ab7d967a4379696149486721a696bd335",
+              "note": "Measured sample data bytes only; metadata/copies/retention remain supplied assumptions. Matrix stop reason: completed; selected complete repeats: True."
+            },
+            "metadata_source": {
+              "kind": "synthetic",
+              "reference": "examples/s07-synthetic-prices.json",
+              "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+            }
+          },
+          "recurring": [
+            {
+              "component": "storage",
+              "rate_id": "storage",
+              "quantity": null,
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "query_compute",
+              "rate_id": "compute",
+              "quantity": {
+                "value": "0.034111150004",
+                "unit": "compute_hour",
+                "source": {
+                  "kind": "assumption",
+                  "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3",
+                  "note": "Monthly forecast: median typed load + in-memory workload seconds * 10000 supplied replays/month / 3600. Assumes rates for active engine time; excludes startup, warmups and orchestration. No native scans/cloud/concurrency inference. Incomplete trials or unknown usage stay null."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "transform_compute",
+              "rate_id": "compute",
+              "quantity": {
+                "value": "0",
+                "unit": "compute_hour",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "read_requests",
+              "rate_id": "requests",
+              "quantity": {
+                "value": "10000000",
+                "unit": "request",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "write_requests",
+              "rate_id": "requests",
+              "quantity": {
+                "value": "0",
+                "unit": "request",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "retrieval",
+              "rate_id": "transfer",
+              "quantity": {
+                "value": "0",
+                "unit": "GB",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "network",
+              "rate_id": "transfer",
+              "quantity": {
+                "value": "150",
+                "unit": "GB",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "backups",
+              "rate_id": "storage",
+              "quantity": null,
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "replicas",
+              "rate_id": "storage",
+              "quantity": null,
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "maintenance",
+              "rate_id": "labor",
+              "quantity": {
+                "value": "0",
+                "unit": "hour",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "service",
+              "rate_id": "service",
+              "quantity": {
+                "value": "1",
+                "unit": "month",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            }
+          ]
+        },
+        "migration": {
+          "forecast": [
+            {
+              "component": "conversion",
+              "rate_id": "compute",
+              "quantity": {
+                "value": "0.000052387222",
+                "unit": "compute_hour",
+                "source": {
+                  "kind": "assumption",
+                  "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:3c4f0d7b40091bdc8e81cac38b40563ab7d967a4379696149486721a696bd335",
+                  "note": "One conversion forecast using S05 measured whole-worker CPU hours, including verification; assumes the conversion rate bills process CPU time. S05 process boundary differs from S06 containers. Not an actual provider charge."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "temporary_storage",
+              "rate_id": "storage",
+              "quantity": {
+                "value": "300",
+                "unit": "GB_month",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Incremental migration overlap billable byte-months, excluding regular retained storage. No minimums in this tariff."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "transfer",
+              "rate_id": "transfer",
+              "quantity": {
+                "value": "100",
+                "unit": "GB",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "One-time migration transfer, separate from ongoing monthly network usage."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "labor",
+              "rate_id": "labor",
+              "quantity": {
+                "value": "4",
+                "unit": "hour",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Implementation labor excluding separately counted rollback preparation."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            },
+            {
+              "component": "rollback",
+              "rate_id": "labor",
+              "quantity": {
+                "value": "1",
+                "unit": "hour",
+                "source": {
+                  "kind": "synthetic",
+                  "reference": "examples/s07-synthetic-prices.json",
+                  "note": "Rollback preparation only; counted once."
+                }
+              },
+              "basis": "usage",
+              "shared_key": null
+            }
+          ],
+          "actual_incurred": null,
+          "actual_source": null,
+          "extra_peak_bytes": 0,
+          "peak_source": {
+            "kind": "synthetic",
+            "reference": "examples/s07-synthetic-prices.json",
+            "note": "No additional scratch beyond simultaneous baseline and candidate in this synthetic example."
+          }
+        },
+        "achievable_capacity_change": null,
+        "steady_monthly_usage": true
+      }
+    ]
+  },
+  "results": [
+    {
+      "name": "documented_example",
+      "currency": "USD",
+      "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+      "baseline": {
+        "items": [
+          {
+            "component": "storage",
+            "basis": "usage",
+            "formula": "sum(max(object_bytes, minimum_object_bytes)) * copies / bytes_per_unit * max(retention_days, minimum_duration_days) / retention_days / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "2.87E-7",
+            "unit": "GB_month",
+            "rate_id": "storage",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "local_measurement",
+                "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:5460ebf53b3ba4c082e0323c45d4dbd66c42a63292df6b05c6dba8a97c40b03b",
+                "note": "Measured sample data bytes only; metadata/copies/retention remain supplied assumptions. Matrix stop reason: completed; selected complete repeats: True."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "query_compute",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0.035789374993",
+            "unit": "compute_hour",
+            "rate_id": "compute",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.035789",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "assumption",
+                "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3",
+                "note": "Monthly forecast: median typed load + in-memory workload seconds * 10000 supplied replays/month / 3600. Assumes rates for active engine time; excludes startup, warmups and orchestration. No native scans/cloud/concurrency inference. Incomplete trials or unknown usage stay null."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "transform_compute",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "compute_hour",
+            "rate_id": "compute",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "read_requests",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "10000000",
+            "unit": "request",
+            "rate_id": "requests",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.001",
+            "per_quantity": "1000",
+            "discount_fraction": "0",
+            "amount": "10.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "write_requests",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "request",
+            "rate_id": "requests",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.001",
+            "per_quantity": "1000",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "retrieval",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "GB",
+            "rate_id": "transfer",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "network",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "100",
+            "unit": "GB",
+            "rate_id": "transfer",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "10.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "backups",
+            "basis": "usage",
+            "formula": "sum(max(object_bytes, minimum_object_bytes)) * copies / bytes_per_unit * max(retention_days, minimum_duration_days) / retention_days / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "GB_month",
+            "rate_id": "storage",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "local_measurement",
+                "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:5460ebf53b3ba4c082e0323c45d4dbd66c42a63292df6b05c6dba8a97c40b03b",
+                "note": "Measured sample data bytes only; metadata/copies/retention remain supplied assumptions. Matrix stop reason: completed; selected complete repeats: True."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "replicas",
+            "basis": "usage",
+            "formula": "sum(max(object_bytes, minimum_object_bytes)) * copies / bytes_per_unit * max(retention_days, minimum_duration_days) / retention_days / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "GB_month",
+            "rate_id": "storage",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "local_measurement",
+                "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:5460ebf53b3ba4c082e0323c45d4dbd66c42a63292df6b05c6dba8a97c40b03b",
+                "note": "Measured sample data bytes only; metadata/copies/retention remain supplied assumptions. Matrix stop reason: completed; selected complete repeats: True."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "maintenance",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "hour",
+            "rate_id": "labor",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "50",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "service",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "1",
+            "unit": "month",
+            "rate_id": "service",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          }
+        ],
+        "known_subtotal": "20.035789",
+        "total": "20.035789",
+        "missing_inputs": []
+      },
+      "candidate": {
+        "items": [
+          {
+            "component": "storage",
+            "basis": "usage",
+            "formula": "sum(max(object_bytes, minimum_object_bytes)) * copies / bytes_per_unit * max(retention_days, minimum_duration_days) / retention_days / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "1.38E-7",
+            "unit": "GB_month",
+            "rate_id": "storage",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "local_measurement",
+                "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:3c4f0d7b40091bdc8e81cac38b40563ab7d967a4379696149486721a696bd335",
+                "note": "Measured sample data bytes only; metadata/copies/retention remain supplied assumptions. Matrix stop reason: completed; selected complete repeats: True."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "query_compute",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0.034111150004",
+            "unit": "compute_hour",
+            "rate_id": "compute",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.034111",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "assumption",
+                "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3",
+                "note": "Monthly forecast: median typed load + in-memory workload seconds * 10000 supplied replays/month / 3600. Assumes rates for active engine time; excludes startup, warmups and orchestration. No native scans/cloud/concurrency inference. Incomplete trials or unknown usage stay null."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "transform_compute",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "compute_hour",
+            "rate_id": "compute",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "read_requests",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "10000000",
+            "unit": "request",
+            "rate_id": "requests",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.001",
+            "per_quantity": "1000",
+            "discount_fraction": "0",
+            "amount": "10.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "write_requests",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "request",
+            "rate_id": "requests",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.001",
+            "per_quantity": "1000",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "retrieval",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "GB",
+            "rate_id": "transfer",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "network",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "150",
+            "unit": "GB",
+            "rate_id": "transfer",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "15.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "backups",
+            "basis": "usage",
+            "formula": "sum(max(object_bytes, minimum_object_bytes)) * copies / bytes_per_unit * max(retention_days, minimum_duration_days) / retention_days / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "GB_month",
+            "rate_id": "storage",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "local_measurement",
+                "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:3c4f0d7b40091bdc8e81cac38b40563ab7d967a4379696149486721a696bd335",
+                "note": "Measured sample data bytes only; metadata/copies/retention remain supplied assumptions. Matrix stop reason: completed; selected complete repeats: True."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "replicas",
+            "basis": "usage",
+            "formula": "sum(max(object_bytes, minimum_object_bytes)) * copies / bytes_per_unit * max(retention_days, minimum_duration_days) / retention_days / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "GB_month",
+            "rate_id": "storage",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "local_measurement",
+                "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:3c4f0d7b40091bdc8e81cac38b40563ab7d967a4379696149486721a696bd335",
+                "note": "Measured sample data bytes only; metadata/copies/retention remain supplied assumptions. Matrix stop reason: completed; selected complete repeats: True."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicitly assume zero metadata bytes only for this arithmetic example."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "maintenance",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0",
+            "unit": "hour",
+            "rate_id": "labor",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "50",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "service",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "1",
+            "unit": "month",
+            "rate_id": "service",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Explicit synthetic usage; zero means declared not applicable, never inferred from missing data."
+              }
+            ],
+            "missing_inputs": []
+          }
+        ],
+        "known_subtotal": "25.034111",
+        "total": "25.034111",
+        "missing_inputs": []
+      },
+      "migration_forecast": {
+        "items": [
+          {
+            "component": "conversion",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "0.000052387222",
+            "unit": "compute_hour",
+            "rate_id": "compute",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "0.000052",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "assumption",
+                "reference": "benchmark:af48031a1c5b6661b42fe7bfc845a2564313e5d953cc095001a4f874188c36a3/manifest:3c4f0d7b40091bdc8e81cac38b40563ab7d967a4379696149486721a696bd335",
+                "note": "One conversion forecast using S05 measured whole-worker CPU hours, including verification; assumes the conversion rate bills process CPU time. S05 process boundary differs from S06 containers. Not an actual provider charge."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "temporary_storage",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "300",
+            "unit": "GB_month",
+            "rate_id": "storage",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "30.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Incremental migration overlap billable byte-months, excluding regular retained storage. No minimums in this tariff."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "transfer",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "100",
+            "unit": "GB",
+            "rate_id": "transfer",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "0.1",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "10.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "One-time migration transfer, separate from ongoing monthly network usage."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "labor",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "4",
+            "unit": "hour",
+            "rate_id": "labor",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "50",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "200.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Implementation labor excluding separately counted rollback preparation."
+              }
+            ],
+            "missing_inputs": []
+          },
+          {
+            "component": "rollback",
+            "basis": "usage",
+            "formula": "quantity / per_quantity * rate_amount * (1 - discount_fraction)",
+            "quantity": "1",
+            "unit": "hour",
+            "rate_id": "labor",
+            "price_snapshot_id": "8148809b8222ec9d1078e9d44d492a9a568691419208726e3c85fd1584e35b63",
+            "rate_amount": "50",
+            "per_quantity": "1",
+            "discount_fraction": "0",
+            "amount": "50.000000",
+            "currency": "USD",
+            "sources": [
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Invented arithmetic fixture; not a provider quote."
+              },
+              {
+                "kind": "synthetic",
+                "reference": "examples/s07-synthetic-prices.json",
+                "note": "Rollback preparation only; counted once."
+              }
+            ],
+            "missing_inputs": []
+          }
+        ],
+        "known_subtotal": "290.000052",
+        "total": "290.000052",
+        "missing_inputs": []
+      },
+      "migration_actual_incurred": null,
+      "space": {
+        "baseline_physical_bytes": 287,
+        "candidate_physical_bytes": 138,
+        "physical_bytes_saved": 149,
+        "percent_saved": "51.916376306620",
+        "migration_peak_bytes": 425,
+        "missing_inputs": []
+      },
+      "monthly_savings": "-4.998322",
+      "monthly_savings_percent": "-24.946968646955",
+      "horizon_recurring_savings": "-59.979864",
+      "horizon_net_savings": "-349.979916",
+      "payback_months": null,
+      "payback_reason": "nonpositive_monthly_savings",
+      "missing_inputs": []
+    }
+  ],
+  "ranges": [
+    {
+      "metric": "monthly_savings",
+      "minimum": "-4.998322",
+      "maximum": "-4.998322",
+      "known_scenarios": 1,
+      "total_scenarios": 1
+    },
+    {
+      "metric": "horizon_net_savings",
+      "minimum": "-349.979916",
+      "maximum": "-349.979916",
+      "known_scenarios": 1,
+      "total_scenarios": 1
+    },
+    {
+      "metric": "payback_months",
+      "minimum": null,
+      "maximum": null,
+      "known_scenarios": 0,
+      "total_scenarios": 1
+    }
+  ],
+  "limitations": [
+    "Modeled forecasts, not verified provider bills or realized savings.",
+    "Synthetic snapshots are invented offline rates, never live provider quotes.",
+    "Monthly inputs represent constant horizon averages; scenario ranges are not confidence intervals.",
+    "Physical space includes declared metadata and retained copies; peak assumes coexistence of all copies.",
+    "No automatic sample scaling, production throughput or cloud latency inference.",
+    "Flat linear tariffs only; no tiers, taxes, commitments allocation, free tiers or currency conversion.",
+    "Missing rates or quantities leave totals null; known subtotals exclude missing charges.",
+    "Money rounds per line to six decimal places, half even; percentages/payback to twelve."
+  ]
+}

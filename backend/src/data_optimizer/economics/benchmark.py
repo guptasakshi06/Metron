@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import statistics
-from decimal import Decimal, localcontext
+from decimal import ROUND_HALF_EVEN, Context, Decimal, localcontext
 
 from data_optimizer.benchmarking.models import BenchmarkReport
 from data_optimizer.conversion.models import ConversionManifest
@@ -137,8 +137,7 @@ def bind_benchmark(
         )
 
     scenarios = []
-    with localcontext() as context:
-        context.prec = 80
+    with localcontext(Context(prec=80, rounding=ROUND_HALF_EVEN)):
         for scenario in request.scenarios:
             conversion_source = Source(
                 kind="assumption",

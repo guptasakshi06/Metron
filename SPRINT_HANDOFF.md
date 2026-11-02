@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 18:57, Asia/Kolkata
-**Current sprint:** S07
-**Next sprint:** S07
-**MVP status:** S01 through S06 complete; MVP implementation in progress
+**Last updated:** 2026-11-02 19:15, Asia/Kolkata
+**Current sprint:** None
+**Next sprint:** S08
+**MVP status:** S01 through S07 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -246,7 +246,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S04 | Workload specifications and semantic integrity checks | S03 | completed | 60 S04 tests, full check/test/build, real CLI pass/rejection and packaged worker; see execution record and docs/evidence/s04-verification.md |
 | S05 | Candidate generation and lossless conversion | S04 | completed | 25 conversion tests, full check/test/build, real CLI matrix/reuse and packaged worker; see docs/evidence/s05-verification.md |
 | S06 | Bounded benchmark execution and evidence capture | S05 | completed | 191 backend + 3 frontend tests, 9 real Docker tests, extracted-wheel CLI fresh/warm matrix and resource evidence; see execution record |
-| S07 | Versioned pricing and total cost calculations | S06 | in_progress | Contracts and local cost calculator in progress; see execution record |
+| S07 | Versioned pricing and total cost calculations | S06 | completed | 70 S07 tests, 261 backend + 3 frontend total; full check/build and extracted-wheel cost CLI reconciliation; see docs/evidence/s07-verification.md |
 | S08 | Evidence based ranking and adaptive experiment selection | S07 | not_started | None |
 | S09 | Asynchronous assessments and complete API integration | S08 | not_started | None |
 | S10 | Complete assessment dashboard | S09 | not_started | None |
@@ -255,7 +255,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S07 is active and remains the next unfinished sprint. S01 through S06 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S08 is the next unfinished sprint. S01 through S07 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -547,21 +547,21 @@ Record hardware/environment, limits, cache procedure, metric coverage, benchmark
 
 ### S07 Versioned pricing and total cost calculations
 
-**Status:** in_progress  
+**Status:** completed
 **Dependencies:** S06  
 **Outcome:** Calculate auditable costs, space changes and migration economics with explicit assumptions.  
 **Expected code and document areas:** backend/src/data_optimizer/{pricing,economics}; backend/tests/unit/; docs/pricing-method.md; examples/
 
 #### Tasks
 
-- [ ] S07.01 Define immutable price snapshots with provider, region, currency, effective date, billing units, source references, minimum sizes/durations and discount assumptions.
-- [ ] S07.02 Ship a clearly synthetic offline price fixture for deterministic demos. If adding a real catalog, verify its rates and terms against official provider sources and record retrieval/effective dates; do not relabel fixture rates as live prices.
-- [ ] S07.03 Implement itemized storage, query/transform compute, requests, retrieval, network transfer, backups/replicas, maintenance and recurring service costs. Scope shared fixed charges and achievable capacity reductions explicitly.
-- [ ] S07.04 Calculate physical bytes for equivalent logical content and retention, including metadata and required copies. Report temporary migration peak space separately.
-- [ ] S07.05 Calculate recurring savings, percentage changes, horizon net savings and payback. Handle zero baselines, negative savings, nonpositive payback denominators and unknown inputs without misleading numbers.
-- [ ] S07.06 Include migration labor estimates, conversion, temporary copies, transfer and rollback preparation exactly once. Keep forecast assumptions and actual costs in different fields.
-- [ ] S07.07 Support scenario ranges for uncertain workload, growth or prices. Show missing inputs and line-item provenance instead of false precision or invented confidence.
-- [ ] S07.08 Reproduce the documented synthetic example: $300 vs $180 monthly cost, $300 migration, 2.5 month payback and $1,140 twelve-month net savings.
+- [x] S07.01 Define immutable price snapshots with provider, region, currency, effective date, billing units, source references, minimum sizes/durations and discount assumptions.
+- [x] S07.02 Ship a clearly synthetic offline price fixture for deterministic demos. If adding a real catalog, verify its rates and terms against official provider sources and record retrieval/effective dates; do not relabel fixture rates as live prices.
+- [x] S07.03 Implement itemized storage, query/transform compute, requests, retrieval, network transfer, backups/replicas, maintenance and recurring service costs. Scope shared fixed charges and achievable capacity reductions explicitly.
+- [x] S07.04 Calculate physical bytes for equivalent logical content and retention, including metadata and required copies. Report temporary migration peak space separately.
+- [x] S07.05 Calculate recurring savings, percentage changes, horizon net savings and payback. Handle zero baselines, negative savings, nonpositive payback denominators and unknown inputs without misleading numbers.
+- [x] S07.06 Include migration labor estimates, conversion, temporary copies, transfer and rollback preparation exactly once. Keep forecast assumptions and actual costs in different fields.
+- [x] S07.07 Support scenario ranges for uncertain workload, growth or prices. Show missing inputs and line-item provenance instead of false precision or invented confidence.
+- [x] S07.08 Reproduce the documented synthetic example: $300 vs $180 monthly cost, $300 migration, 2.5 month payback and $1,140 twelve-month net savings.
 
 #### Acceptance gates
 
@@ -580,17 +580,18 @@ Record supported cost components, catalog provenance, unsupported tariffs, round
 #### Execution record
 
 - Started: 2026-11-02 18:57 (Asia/Kolkata)
-- Updated: 2026-11-02 18:57 (Asia/Kolkata)
-- Completed:
-- Branch and commit if available: `main`, `b26425b`; clean worktree inspected. No commit/push authorized.
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: S07.01 immutable price and economics models, then deterministic cost engine/CLI, arithmetic boundary tests, synthetic reconciliation and packaged CLI evidence. Preserve S06 metric limitations; do not start S08.
+- Updated: 2026-11-02 19:15 (Asia/Kolkata)
+- Completed: 2026-11-02 19:15 (Asia/Kolkata)
+- Branch and commit if available: `main`; clean start at `b26425b`. HEAD advanced externally to `0d6de9b` during this session, incorporating initial S07 work under an existing S06 subject. This agent made no commit, push, staging or history change; all history and later worktree changes are preserved.
+- Delivered behavior: Frozen `s07.1` content-addressed snapshots with provider/region/currency/UTC dates/units/sources/minimums/discounts; clearly synthetic offline fixture; eleven recurring and five once-only migration cost buckets; explicit nulls/known subtotals; object metadata and equivalent retained-copy accounting; minimum storage billing; unchanged fixed/provisioned capacity guards; signed savings, horizon economics and justified payback; actual incurred migration costs separate from forecasts; full-input named workload/growth/price scenarios and coverage-aware ranges; atomic offline cost CLI plus explicit saved-S06 sample adapter preserving failed/partial coverage and measurement scope.
+- Files changed: `backend/src/data_optimizer/pricing/`, `economics/`, `cli.py`; generalized shared atomic writer type in `benchmarking/service.py`; `backend/tests/test_economics.py`, `test_cost_cli.py`; `examples/s07-synthetic-prices.json`, `s07-cost-request.json`; `scripts/verify-s07.py`; `docs/pricing-method.md`, `docs/decisions/0007-s07-economics.md`, `docs/evidence/s07-*`; README and this handoff. No dependency/lockfile, migration, API or frontend behavior change.
+- Setup and run commands: Existing locked setup suffices. `uv run --locked --project backend data-optimizer cost --request examples/s07-cost-request.json --output /tmp/NEW-s07-cost.json`. Optional `--benchmark docs/evidence/s06-benchmark-fresh.json --candidate NON_BASELINE_MANIFEST_KEY --replays-per-month 10000` binds sample bytes and a labeled compute forecast; omit usage to preserve unknowns. Use new output names; exits 0 complete inputs, 1 saved missing inputs, 2 invalid setup/input/existing output. Full reproduction in `docs/pricing-method.md`.
+- Verification commands and outcomes: Final `UV_OFFLINE=1 make check` passed Ruff, strict mypy on 65 source files, ESLint and TypeScript. Final `UV_OFFLINE=1 make test` passed 261 backend and 3 frontend tests (70 S07 tests); 18 service and 9 Docker tests deselected. Focused `UV_OFFLINE=1 UV_CACHE_DIR=.tools/uv-cache .tools/uv-bin/uv run --locked --project backend pytest -q backend/tests/test_economics.py backend/tests/test_cost_cli.py` passed all 70. `UV_OFFLINE=1 make build` passed Python wheel/sdist and Vite. Script Ruff passed. `UV_OFFLINE=1 UV_CACHE_DIR=.tools/uv-cache .tools/uv-bin/uv run --locked --project backend python scripts/verify-s07.py --output-dir docs/evidence` passed extracted-wheel CLI outside the repository for synthetic, saved-measurement and unknown-usage cases, immutable-output rejection, fingerprint/reconciliation and source hash preservation. `git diff --check` passed. Existing Starlette/httpx deprecation warning remains.
+- Evidence and report paths: `docs/evidence/s07-verification.md`, `s07-synthetic-cost.json`, `s07-benchmark-cost.json`, `s07-unknown-usage-cost.json`, `s07-verification-results.json`. Python 3.12.3, uv 0.13.6, Node 24.22.2, Vite 7.3.7. Synthetic example reconciles $300 vs $180 monthly, $300 migration, 2.5-month payback and $1,140 twelve-month net. Saved 287/138-byte baseline/gzip evidence plus explicit synthetic assumptions yields negative forecast savings with no payback; it is not a customer result. No new Docker/query measurement was taken.
+- Decisions and deviations: D022 / decision 0007. Reuse the stack and S06 atomic report publication. Executable S07 contracts remain separate from descriptive S01 contracts. Decimal context precision 80 independent of caller traps; half-even six-place currency line rounding and twelve-place ratios; totals sum rounded lines. Only flat linear synthetic/user supplied catalogs. Per-object and amortized duration minimums apply to derived usage storage; manual quantities with minimum tariffs are rejected. Scenarios use explicit horizon-average projections, no implicit growth/sample scaling or confidence scores. S06 load/in-memory timing and S05 conversion CPU can feed forecasts only under explicit, different billing assumptions; metadata and other fees stay supplied assumptions.
+- Blockers or unverified checks: No S07 acceptance blocker. No live provider/catalog retrieval, invoice/customer validation, production changes, ranking, UI or service persistence. Service/Docker suites not rerun because no corresponding execution path changed; existing benchmark writer tests pass with the widened type. Unsupported: tier/free allowances, taxes, FX, contract allocation, incremental backups, mixed-region copies, calendar proration, nonlinear growth cash flows and manual-storage minimum tariffs. Full limits and formulas in `docs/pricing-method.md`. S09 owns authenticated DB/object-store persistence; S13 owns observations.
+- Completion checklist: All eight tasks and three acceptance gates passed with concrete evidence; real packaged CLI and saved-measurement integration checked; missing/failed data remains explicit; source files/history preserved; commands/defaults/decisions/unsupported tariffs documented; ledger/current/next/date/history reconciled. No agent commit, push, public deployment, paid provisioning or messages.
+- Resume from: Start S08.01 evidence-based ranking and adaptive experiment selection after reading this handoff, `docs/pricing-method.md`, decision 0007 and S06's measurement boundary. Consume `CostReport`/`ScenarioResult`, including nulls, signed savings, capacity assumptions, scenario scope and partial benchmark coverage. Retain baseline; do not infer cloud/native-scan performance. Do not start S09 in the S08 chat.
 
 ### S08 Evidence based ranking and adaptive experiment selection
 
@@ -968,18 +969,20 @@ This checklist is a reusable template. Copy its result into the active Execution
 
 | D021 | 2026-11-02 | Docker/cgroup v2 benchmark trials, manifest snapshots and typed load/query evidence | Enforce local resources/network/filesystem limits, retain exact lineage and distinguish uncontrolled cache/native-scan gaps; see decision 0006 |
 
+| D022 | 2026-11-02 | Immutable explicit offline snapshots, Decimal itemized forecasts and guarded capacity economics | Reconcile costs without invented rates/unknowns, retain sample and forecast boundaries, and separate actuals; see decision 0007 and pricing method |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S07. S01 through S06 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S08. S01 through S07 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
 | Runtime availability, Docker and local service support | Verified in S01: Python 3.12.3; Node 24.22.2/npm 11.19.1 and uv 0.13.6 installed under `.tools`; Docker 29.1.3 plus legacy Compose 1.29.2; S01 containers healthy on alternate loopback ports. Compose v2 plugin is absent, so Make auto-selects legacy Compose where needed. |
 | Exact workload limits and benchmark reliability | S06 verified configured controls and repeated fixture measurements; S14 retains maximum-capacity calibration, native-scan/concurrency and operational reliability work |
 | LLM provider credentials | Optional for the local MVP; configure a real adapter when available and record unverified live tests |
-| Real cloud pricing or customer discounts | Use explicitly synthetic offline fixtures until official rates or customer inputs are verified |
+| Real cloud pricing or customer discounts | S07 ships explicitly synthetic offline rates and labeled user supplied catalog support; live provider rates/discounts remain unverified |
 | Customer interviews, representative private data and bills | Pending external pilot validation; never fabricate completion |
 | Public hosting, domain and external identity provider | Outside current execution scope; document prerequisites rather than provisioning |
 
@@ -1079,6 +1082,14 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 
 - Selected S07 after reading the handoff/architecture and inspecting clean `main` at `b26425b`. S06 implementation and saved real local benchmark evidence are present.
 - Marked in_progress before implementation at 2026-11-02 18:57 (Asia/Kolkata). Resume at immutable synthetic pricing and itemized economics; no live provider or customer claim.
+
+### S07 completion on 2026-11-02
+
+- Completed S07.01–S07.08: immutable synthetic pricing, all itemized cost components, minimum/copy/metadata billing, explicit fixed/provisioned boundaries, migration/actual separation, signed savings/payback, uncertainty scenarios and offline CLI with saved S06 measurement adaptation.
+- Final full check/test/build passed: 261 backend + 3 frontend tests, including 70 S07 cases. Extracted-wheel CLI outside the repository passed synthetic reconciliation, measured-sample assumptions, unknown usage and existing-output rejection. No provider/cloud/customer result is claimed; saved S06 timings were consumed, not remeasured. See `docs/evidence/s07-verification.md`.
+- D022 and decision 0007 record flat tariff scope, rounding, horizon-average scenarios and explicit measurement/billing assumptions. API/service/Docker suites not rerun; service/sandbox execution unchanged. Prior TestClient warning remains.
+- Initial clean main at `b26425b`; external/user-side commit advanced HEAD to `0d6de9b` including initial S07 files. Agent made no commit/stage/push/history change and preserved all work.
+- Handoff reconciled at 2026-11-02 19:15 (Asia/Kolkata): S07 completed; Current sprint None; Next sprint S08. Stop after S07; next chat resumes ranking/adaptive search.
 
 ### Template for subsequent session entries
 

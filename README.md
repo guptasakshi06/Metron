@@ -2,7 +2,7 @@
 
 Data Optimizer compares analytical dataset representations against a stated workload. It is designed to recommend the best tested feasible option, explain its evidence and preserve unknowns. This repository is being implemented one sprint at a time; the current sprint is recorded in [SPRINT_HANDOFF.md](SPRINT_HANDOFF.md).
 
-## Current implementation: S06
+## Current implementation: S07
 
 The application has versioned contracts, real health/readiness checks, tenant-scoped project and dataset metadata, authenticated bounded uploads for CSV, NDJSON and Parquet, structural validation, private MinIO object storage, immutable dataset versions, retention/deletion recovery, bounded local typed profiling, reproducible sampling, metadata-only exports and reviewed tenant-scoped profile import. The frontend is still a connectivity shell; assessment, recommendation and assessment-report workflows are scheduled for later sprints. It does not display fabricated assessment results.
 
@@ -19,6 +19,10 @@ resource/byte manifests and verified reuse. Run `data-optimizer candidate-list` 
 S06 adds Docker-isolated local benchmarking of verified manifests, seeded interleaved
 repeats, typed load/query timings, honest cache labels, raw evidence and explicit resource
 failures. See [benchmark method and reproduction](docs/benchmark-method.md).
+S07 adds immutable synthetic offline price snapshots, reconciled itemized costs, physical
+space/copy accounting, migration economics, explicit unknowns and scenario ranges. Run
+`data-optimizer cost --request examples/s07-cost-request.json --output /tmp/s07-cost.json`;
+see [pricing method, billing boundaries and saved benchmark adapter](docs/pricing-method.md).
 Server assessment orchestration remains S09.
 
 ### Runtime versions
@@ -91,7 +95,8 @@ capacity. See the benchmark method; S14 retains operational capacity calibration
 The data scope is CSV, NDJSON and Parquet. S02 accepts CSV and NDJSON text plus gzip-wrapped NDJSON and Parquet files, validates actual structure under byte and subprocess resource bounds, fingerprints original bytes, and stores them tenant-scoped. Dataset IDs are stable UUIDs and every replacement is a new immutable version. S03 adds local profiles with conservative, explicit typed semantics; S05 adds bounded local lossless conversion. Existing contracts preserve timezone-aware timestamps, explicit units, decimal precision and unknown values. Future recommendations must distinguish user-supplied, local-profile, server-measured, synthetic and projected evidence. A `change` decision requires measured evidence, an experiment reference and passed integrity.
 
 The benchmark measures full typed decoding/loading followed by in-memory queries; it does
-not establish native Parquet pushdown, cloud latency or concurrency. Savings calculations,
+not establish native Parquet pushdown, cloud latency or concurrency. S07 economics produces
+labeled forecasts using explicit usage and synthetic or user supplied rates. Ranking,
 assessment tables, queues and live external identity-provider integration remain future
 work. Local auth is only for loopback development; see
 [decision 0002](docs/decisions/0002-s02-ingestion.md) before changing auth/storage settings.

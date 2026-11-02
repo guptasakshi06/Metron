@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import copy
 import json
-from decimal import Decimal, localcontext
+from decimal import Decimal, Inexact, localcontext
 from pathlib import Path
 from typing import Any
 
@@ -334,6 +334,7 @@ def test_line_rounding_is_half_even_and_independent_of_global_decimal_context(
     s["candidate"]["recurring"][1]["quantity"]["value"] = "3"
     with localcontext() as ctx:
         ctx.prec = 4
+        ctx.traps[Inexact] = True
         r = result(payload)
     assert r.baseline.items[1].amount == D("0.000000")
     assert r.candidate.items[1].amount == D("0.000002")
@@ -388,3 +389,60 @@ def test_arithmetic_invariants_over_volume_and_horizon(payload: dict[str, Any]) 
                 assert r.monthly_savings == expected
                 assert r.horizon_net_savings == expected * months - 300
                 assert r.space.physical_bytes_saved == (baseline_gb - candidate_gb) * 10**9
+
+
+def test_growth_and_price_scenarios_are_explicit_forecasts(payload: dict[str, Any]) -> None:
+    growth = copy.deepcopy(payload["scenarios"][0])
+    growth["name"] = "growth_average"
+    growth["assumption"] = (
+        "Twice the retained inventory at the horizon average; same measured shape."
+    )
+    growth["steady_monthly_usage"] = False
+    for cfg in (growth["baseline"], growth["candidate"]):
+        cfg["footprint"]["data_file_bytes"][0] *= 2
+        cfg["footprint"]["data_source"].update(
+            kind="assumption",
+            note="Projected horizon-average inventory, not measured future bytes.",
+        )
+    higher_price = copy.deepcopy(payload["scenarios"][0])
+    higher_price["name"] = "higher_storage_price"
+    higher_price["assumption"] = "Invented higher storage rate for sensitivity analysis."
+    higher_price["prices"]["rates"][0]["amount"] = "0.3"
+    payload["scenarios"].extend([growth, higher_price])
+    report = calculate(CostRequest.model_validate(payload))
+    assert [r.monthly_savings for r in report.results] == [120, 185, 250]
+    assert report.results[1].payback_months is None
+    assert report.results[0].price_snapshot_id != report.results[2].price_snapshot_id
+    assert report.ranges[0].minimum == 120
+    assert report.ranges[0].maximum == 250
+
+
+@pytest.mark.parametrize("field", ["primary_copies", "backup_copies", "replica_copies"])
+def test_required_copies_cannot_be_removed_for_savings(
+    payload: dict[str, Any],
+    field: str,
+) -> None:
+    payload["scenarios"][0]["baseline"]["footprint"][field] += 1
+    with pytest.raises(ValueError, match="required_copies"):
+        result(payload)
+
+
+def test_missing_physical_bytes_does_not_hide_known_provisioned_cost(
+    payload: dict[str, Any],
+) -> None:
+    s = payload["scenarios"][0]
+    for cfg in (s["baseline"], s["candidate"]):
+        cfg["footprint"]["data_file_bytes"] = None
+        cfg["recurring"][0].update(
+            basis="provisioned",
+            quantity={
+                "value": "1000",
+                "unit": "GB_month",
+                "source": cfg["footprint"]["data_source"],
+            },
+        )
+    r = result(payload)
+    assert r.monthly_savings == 55
+    assert r.space.physical_bytes_saved is None
+    assert r.space.migration_peak_bytes is None
+    assert "space.baseline_object_sizes_including_metadata" in r.missing_inputs

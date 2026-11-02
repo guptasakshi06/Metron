@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from decimal import ROUND_HALF_EVEN, Decimal, localcontext
+from decimal import ROUND_HALF_EVEN, Context, Decimal, localcontext
 
 from data_optimizer.economics.models import (
     MIGRATION,
@@ -285,8 +285,7 @@ def calculate_scenario(scenario: Scenario, horizon: int) -> ScenarioResult:
 def calculate(request: CostRequest) -> CostReport:
     # Revalidate even callers using Pydantic's unchecked model_copy/update interface.
     request = CostRequest.model_validate(request.model_dump())
-    with localcontext() as context:
-        context.prec = 80
+    with localcontext(Context(prec=80, rounding=ROUND_HALF_EVEN)):
         results = tuple(
             calculate_scenario(scenario, request.horizon_months) for scenario in request.scenarios
         )
