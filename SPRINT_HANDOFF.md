@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 19:15, Asia/Kolkata
+**Last updated:** 2026-11-02 19:37, Asia/Kolkata
 **Current sprint:** None
-**Next sprint:** S08
-**MVP status:** S01 through S07 complete; MVP implementation in progress
+**Next sprint:** S09
+**MVP status:** S01 through S08 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -247,7 +247,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S05 | Candidate generation and lossless conversion | S04 | completed | 25 conversion tests, full check/test/build, real CLI matrix/reuse and packaged worker; see docs/evidence/s05-verification.md |
 | S06 | Bounded benchmark execution and evidence capture | S05 | completed | 191 backend + 3 frontend tests, 9 real Docker tests, extracted-wheel CLI fresh/warm matrix and resource evidence; see execution record |
 | S07 | Versioned pricing and total cost calculations | S06 | completed | 70 S07 tests, 261 backend + 3 frontend total; full check/build and extracted-wheel cost CLI reconciliation; see docs/evidence/s07-verification.md |
-| S08 | Evidence based ranking and adaptive experiment selection | S07 | not_started | None |
+| S08 | Evidence based ranking and adaptive experiment selection | S07 | completed | 37 S08 tests, 298 backend + 3 frontend total; 10 Docker tests, packaged real CLI and resume; see docs/evidence/s08-verification.md |
 | S09 | Asynchronous assessments and complete API integration | S08 | not_started | None |
 | S10 | Complete assessment dashboard | S09 | not_started | None |
 | S11 | Structured AI intake and grounded explanations | S10 | not_started | None |
@@ -255,7 +255,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S08 is the next unfinished sprint. S01 through S07 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S09 is the next unfinished sprint. S01 through S08 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -595,21 +595,21 @@ Record supported cost components, catalog provenance, unsupported tariffs, round
 
 ### S08 Evidence based ranking and adaptive experiment selection
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S07  
 **Outcome:** Produce useful recommendations from measured outcomes and adapt experiment selection to a bounded search budget.  
 **Expected code and document areas:** backend/src/data_optimizer/{optimization,recommendations,cli}; backend/tests/; docs/decision-method.md
 
 #### Tasks
 
-- [ ] S08.01 Filter candidates using semantic, compatibility, retention, freshness and measured workload constraints. Explain exclusions and distinguish untested requirements from violated requirements.
-- [ ] S08.02 Rank verified feasible options by total cost over the selected horizon including migration; retain the baseline. Compute a compact cost/latency tradeoff set where appropriate.
-- [ ] S08.03 Implement outcomes change, keep_current and insufficient_evidence. Define and document a configurable materiality threshold rather than forcing marginal migrations.
-- [ ] S08.04 Build a sequential search interface: propose configuration, execute experiment, ingest measurement and propose the next configuration. Use bounded enumeration for tiny spaces and an adaptive optimizer such as Optuna for larger spaces after checking its official current API.
-- [ ] S08.05 Persist search seed, history, tested coverage, feasibility and stopping reason. Resume without rerunning successful identical trials; do not infer global optimality.
-- [ ] S08.06 Choose promising experiments from accumulated results and uncertainty where supported. Every recommended candidate still requires actual validation; predictions must remain labeled predictions.
-- [ ] S08.07 Return machine-readable decisions with evidence IDs, costs, limitations and requirement coverage. Explanation text must reflect these fields rather than edit them.
-- [ ] S08.08 Add a single CLI assess command that runs the real profile-to-decision pipeline. Metadata-only/new-startup cases return scenario guidance without historical savings claims.
+- [x] S08.01 Filter candidates using semantic, compatibility, retention, freshness and measured workload constraints. Explain exclusions and distinguish untested requirements from violated requirements.
+- [x] S08.02 Rank verified feasible options by total cost over the selected horizon including migration; retain the baseline. Compute a compact cost/latency tradeoff set where appropriate.
+- [x] S08.03 Implement outcomes change, keep_current and insufficient_evidence. Define and document a configurable materiality threshold rather than forcing marginal migrations.
+- [x] S08.04 Build a sequential search interface: propose configuration, execute experiment, ingest measurement and propose the next configuration. Use bounded enumeration for tiny spaces and an adaptive optimizer such as Optuna for larger spaces after checking its official current API.
+- [x] S08.05 Persist search seed, history, tested coverage, feasibility and stopping reason. Resume without rerunning successful identical trials; do not infer global optimality.
+- [x] S08.06 Choose promising experiments from accumulated results and uncertainty where supported. Every recommended candidate still requires actual validation; predictions must remain labeled predictions.
+- [x] S08.07 Return machine-readable decisions with evidence IDs, costs, limitations and requirement coverage. Explanation text must reflect these fields rather than edit them.
+- [x] S08.08 Add a single CLI assess command that runs the real profile-to-decision pipeline. Metadata-only/new-startup cases return scenario guidance without historical savings claims.
 
 #### Acceptance gates
 
@@ -627,18 +627,19 @@ Record objective settings, materiality defaults, optimizer strategy/version, sup
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S08.01 after its dependencies are verified.
+- Started: 2026-11-02 (Asia/Kolkata)
+- Updated: 2026-11-02 19:37 (Asia/Kolkata)
+- Completed: 2026-11-02 19:37 (Asia/Kolkata)
+- Branch and commit if available: `main`, clean start at `3f5e1b0` (`Completed S07: versioned pricing, itemized costs, migration economics, uncertainty scenarios and the cost CLI.`). No staging/commit/push/history change by this agent; S08 changes remain uncommitted.
+- Delivered behavior: Versioned requirement coverage and feasibility, explicit violations vs untested requirements, complete horizon operating-plus-migration ranking with baseline retention and cost/local-latency Pareto set; configurable materiality and change/keep_current/insufficient_evidence outcomes; finite ask/tell enumeration/adaptive neighbor exploration with labeled predictions, seed/history/budget/coverage/stops; atomic private checkpoints, pending recovery and verified benchmark trial reuse; real CLI assess from profile through conversion/integrity/Docker/cost/decision, metadata/startup guidance without historical savings; working packaged local make demo.
+- Files changed: `backend/src/data_optimizer/recommendations/`, `optimization/`, `benchmarking/service.py`, `cli.py`; `backend/tests/test_recommendations.py`, `test_optimization.py`, `test_assess_cli.py`, `test_benchmark_sandbox.py`; `examples/s08-assessment-request.json`, `scripts/verify-s08.py`; `docs/decision-method.md`, `docs/decisions/0008-s08-ranking-search.md`, `docs/evidence/s08-*`; `Makefile`, README and this handoff. No dependency, lockfile, API, migration or frontend behavior change.
+- Setup and run commands: Existing locked setup and S06 local benchmark image suffice; `make benchmark-image` if missing. `uv run --locked --project backend data-optimizer assess examples/s04-events.ndjson --request examples/s08-assessment-request.json --root /tmp/s08-workspace --output /tmp/NEW-s08-report.json`. Same source/request/workspace plus new output resumes. `--metadata REVIEWED_PROFILE.json`, or no source, returns scenario guidance without Docker. Exit 0 change/keep, 1 saved insufficient evidence, 2 invalid setup/input/output. `make demo` builds and runs packaged verification into a new printed temporary directory.
+- Verification commands and outcomes: Final `UV_OFFLINE=1 make check` passed Ruff, strict mypy on 72 files, ESLint/TypeScript. `UV_OFFLINE=1 make test` passed 298 backend + 3 frontend tests, with 37 S08 cases; 18 service + 10 Docker deselected. `UV_OFFLINE=1 make test-benchmark` passed all 10 real Docker tests in 26.68s; final focused sequential-reuse Docker regression passed in 3.88s after stricter cached-lineage checks. `UV_OFFLINE=1 make build` passed wheel/sdist and Vite; final `UV_OFFLINE=1 make demo` rebuilt final artifacts and passed five extracted-wheel CLI cases outside the repository. Initial standalone `UV_OFFLINE=1 .tools/uv-bin/uv run --locked --project backend python scripts/verify-s08.py --output-dir docs/evidence` also passed; final demo evidence from `/tmp/data-optimizer-s08-demo.GCQck0` is saved under docs/evidence. Script Ruff, source preservation, checkpoint fingerprint/reconciliation, corrupt-artifact rejection, crash-after-measurement/before-tell recovery, immutable-output CLI rejection and `git diff --check` passed. Final Docker labeled-container listing empty. Existing TestClient warning remains.
+- Evidence and report paths: `docs/evidence/s08-verification.md`, `s08-verification-results.json`, `s08-change.json`, `s08-keep-current.json`, `s08-metadata.json`, `s08-startup.json`, `s08-unknown-usage-decision.json`. Raw and already-compressed cases each made six configuration proposals, five verified manifests and 15 actual Docker repeats; small partition layout excluded. Raw 287-byte NDJSON selected 138-byte gzip; compressed 138-byte input retained its baseline. Resume returned the identical report with unchanged measurement files and no additional trials. Python 3.12.3, Node 24.22.2, uv 0.13.6, DuckDB 1.5.6, Arrow 26.0.0, Docker 29.1.3; reused immutable S06 image. Amplified synthetic tariff makes fixture costs visible; no customer savings claim.
+- Decisions and deviations: D023 / decision 0008. Default materiality max(10 catalog currency units, 1% baseline horizon total); observed query-only maximum for latency ceilings, median local load-plus-workload for tradeoffs. Required freshness, unknown/production concurrency and unsupported capabilities remain untested. Retention is declared-lifetime coverage. One named scenario ranks, all scenarios remain inspectable. Reviewed official current Optuna ask/tell API (5.0.0 docs); chose dependency-free `finite_neighbor_exploration_v1` for at most twelve predefined configurations instead of adding Optuna. Up to four eligible configs enumerate; larger spaces prioritize inverse-distance observed cost with explicit heuristic exploration, never calibrated uncertainty or global optimality. Search defaults seed42/eight configurations/600 experiment seconds, separate from profiling/generation stage limits. File-hashed private checkpoints and compatible cached matrices reuse successful/failed completed trials; interrupted elapsed time is charged conservatively.
+- Blockers or unverified checks: No S08 acceptance blocker. Service integration not rerun because no corresponding path changed. No real prices/bills/customers, production/cloud/native scan, cold cache, tail/concurrency, broad capacity, exactly-once external execution, power-loss/parent-SIGKILL or multi-host recovery claim. Format-specific billing quantities remain supplied template assumptions; local workspaces require deliberate owner cleanup. Crash between execution and durable measurement publication can rerun a trial. Authenticated persistence/queue/admission/expiry/cancellation API remain S09. Full limits in decision and benchmark methods.
+- Completion checklist: All eight tasks/three gates verified; real packaged pipeline and baseline retention/abstention paths run; source/history preserved; full checks/test/build/demo and changed Docker integration pass; methods/defaults/decisions/limitations documented; ledger/checklists/current/next/date/history reconciled. No agent commit/push/deployment/paid provisioning/messages.
+- Resume from: Start S09.01 after reading this handoff, `docs/decision-method.md`, decision 0008 and S06/S07 boundaries. Reuse `AssessmentRequest`, real assess pipeline, evidence/decision contracts and checkpoint semantics; add tenant-owned immutable persistence plus asynchronous queue/recovery without exposing the Docker socket to the API. Preserve null/failed/partial evidence and the heuristic-vs-measured distinction. Do not start S10 in the S09 chat.
 
 ### S09 Asynchronous assessments and complete API integration
 
@@ -971,11 +972,13 @@ This checklist is a reusable template. Copy its result into the active Execution
 
 | D022 | 2026-11-02 | Immutable explicit offline snapshots, Decimal itemized forecasts and guarded capacity economics | Reconcile costs without invented rates/unknowns, retain sample and forecast boundaries, and separate actuals; see decision 0007 and pricing method |
 
+| D023 | 2026-11-02 | Tested feasibility/horizon ranking, explicit materiality and resumable finite sequential exploration | Preserve evidence/unknowns/baseline, avoid duplicate successful trials and keep heuristic predictions separate; see decision 0008 and decision method |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S08. S01 through S07 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S09. S01 through S08 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
@@ -1090,6 +1093,17 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 - D022 and decision 0007 record flat tariff scope, rounding, horizon-average scenarios and explicit measurement/billing assumptions. API/service/Docker suites not rerun; service/sandbox execution unchanged. Prior TestClient warning remains.
 - Initial clean main at `b26425b`; external/user-side commit advanced HEAD to `0d6de9b` including initial S07 files. Agent made no commit/stage/push/history change and preserved all work.
 - Handoff reconciled at 2026-11-02 19:15 (Asia/Kolkata): S07 completed; Current sprint None; Next sprint S08. Stop after S07; next chat resumes ranking/adaptive search.
+
+### S08 start on 2026-11-02
+
+- Read repository instructions, handoff and architecture; verified clean main at 3f5e1b0 and existing S01–S07 code. S08 marked in_progress before implementation. S09 remains out of scope.
+
+### S08 completion on 2026-11-02
+
+- Completed S08.01–S08.08 with evidence-based requirement coverage/ranking, materiality/outcomes/Pareto results, bounded adaptive ask/tell search, private checkpoints and verified no-duplicate benchmark reuse, real assess CLI and packaged make demo.
+- Final check passed; full tests passed 298 backend + 3 frontend, including 37 S08 cases. All 10 actual Docker tests passed; final focused reuse test passed after stricter cached-lineage validation. Build and final packaged demo passed five real/guidance/resume cases. Saved final raw results and source hashes in `docs/evidence/s08-*`; no benchmark containers remain.
+- Actual tiny raw fixture selected validated gzip under explicitly invented amplified prices; already-compressed input kept baseline. Metadata/startup and unknown usage abstained. No live provider/customer/cloud performance/savings claim. Methods/decisions/boundaries recorded in decision 0008 and `docs/decision-method.md`.
+- Started clean main at `3f5e1b0`; no agent staging/commit/push or production actions. Preserved all prior history/source data. Handoff reconciled at 2026-11-02 19:37 (Asia/Kolkata): S08 completed, Current None, Next S09. Stop here; next chat begins asynchronous service integration.
 
 ### Template for subsequent session entries
 

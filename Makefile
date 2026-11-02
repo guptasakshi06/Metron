@@ -62,9 +62,8 @@ build:
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python -m build --no-isolation backend
 	cd frontend && PATH="$(NODE_PATH):$$PATH" npm run build
 
-demo:
-	@echo 'The assessment pipeline is not implemented until later sprints. No demo results are available.' >&2
-	@exit 2
+demo: build
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/verify-s08.py --output-dir "$$(mktemp -d /tmp/data-optimizer-s08-demo.XXXXXX)"
 
 .PHONY: benchmark-image test-benchmark
 benchmark-image:

@@ -71,6 +71,7 @@ def benchmark(
     *,
     image: str = docker.DEFAULT_IMAGE,
     cancelled: Callable[[], bool] | None = None,
+    previous: BenchmarkReport | None = None,
 ) -> BenchmarkReport:
     request = BenchmarkRequest.model_validate(request.model_dump())
     if not 1 <= len(directories) <= 12:
@@ -137,6 +138,42 @@ def benchmark(
         "rss_scope": "linux_process_high_water_includes_imports_validation_warmups",
         "disk_scope": "bounded_tmpfs_scratch_plus_1MiB_shm_and_docker_dev_tmpfs",
     }
+    cached: dict[tuple[int, str], Trial] = {}
+    if previous is not None:
+        previous = BenchmarkReport.model_validate(previous.model_dump())
+        if (
+            previous.report_fingerprint
+            != fingerprint(previous.model_dump(mode="json", exclude={"report_fingerprint"}))
+            or previous.environment_fingerprint != fingerprint(previous.environment)
+            or previous.request_fingerprint != fingerprint(request.model_dump(mode="json"))
+            or not manifests
+            or previous.workload_fingerprint != manifests[0].integrity.workload_fingerprint
+            or previous.request != request
+            or any(previous.environment.get(k) != v for k, v in environment.items())
+            or any(m not in manifests for m in previous.manifests)
+        ):
+            raise ValueError("incompatible_previous_benchmark")
+        environment.update(previous.environment)
+        for trial in previous.trials:
+            cached_manifest = next((m for m in manifests if m.key == trial.candidate), None)
+            if cached_manifest is None or trial.repeat >= request.repeats:
+                raise ValueError("invalid_previous_trial")
+            if trial.observation is not None:
+                expected = {
+                    q.query_id: q.candidate_fingerprint for q in cached_manifest.integrity.queries
+                }
+                if (
+                    len(trial.observation.queries) != len(expected)
+                    or {q.query_id: q.result_fingerprint for q in trial.observation.queries}
+                    != expected
+                ):
+                    raise ValueError("invalid_previous_observation")
+            # Preserve completed failures as failures too; search never retries them as free trials.
+            if trial.status not in {"cancelled", "budget_exhausted"}:
+                pair = (trial.repeat, trial.candidate)
+                if pair in cached:
+                    raise ValueError("duplicate_previous_trial")
+                cached[pair] = trial
     stop = "completed"
     with tempfile.TemporaryDirectory(prefix="data-optimizer-benchmark-") as temporary:
         root = Path(temporary)
@@ -167,8 +204,11 @@ def benchmark(
             # Rehash copied files before passing them to the isolated worker.
             read_manifest(artifact)
             snapshots[manifest.key] = target
-        attempts = 0
+        attempts = len(cached)
         for repeat, key in schedule(tuple(by_key), request):
+            if (repeat, key) in cached:
+                trials.append(cached[(repeat, key)].model_copy(update={"ordinal": len(trials)}))
+                continue
             elapsed = time.monotonic()
             if stop == "completed":
                 if cancelled and cancelled():

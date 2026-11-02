@@ -104,3 +104,21 @@ work. Local auth is only for loopback development; see
 ### Local profiling (S03)
 
 Run `uv run --locked --project backend data-optimizer profile INPUT --format csv --output /tmp/profile.json`. This requires no network or API key and exports redacted metadata. See [the profiling runbook](docs/runbooks/profiling.md) for typed overrides, sampling, review/import commands and resource checks, and [dataset semantics](docs/dataset-semantics.md) for supported boundaries. Optional API import uses migration `0004_local_profiles.sql`; run `make migrate` before using it.
+
+## Local assessment and decisions (S08)
+
+Run the real profile → validated copies → Docker benchmark → itemized forecast → decision pipeline:
+
+```bash
+uv run --locked --project backend data-optimizer assess examples/s04-events.ndjson \
+  --request examples/s08-assessment-request.json \
+  --root /tmp/s08-workspace --output /tmp/s08-report.json
+```
+
+Requires the local benchmark image (`make benchmark-image`). The example prices are deliberately
+amplified **synthetic** rates for tiny-fixture demonstration, not provider quotes or customer savings.
+Use a new output filename; reuse the same workspace to resume without repeating completed trials.
+Omit the source, or use `--metadata REVIEWED_PROFILE.json`, for scenario guidance without historical
+savings. Exit 1 saves an insufficient-evidence report. See [decision method](docs/decision-method.md)
+for requirements, materiality, adaptive search and checkpoints. `make demo` builds and runs the
+packaged three-path local demonstration into a new temporary evidence directory.

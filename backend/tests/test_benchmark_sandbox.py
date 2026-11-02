@@ -205,3 +205,32 @@ def test_running_budget_is_an_explicit_result(image: str, snapshot: Path) -> Non
         budget_deadline=time.monotonic() + 0.5,
     )
     assert result.status == "budget_exhausted"
+
+
+def test_sequential_matrix_reuses_successful_identical_trials(
+    artifacts: tuple[Path, ...], image: str, monkeypatch: pytest.MonkeyPatch,  # noqa: F811
+) -> None:
+    request = BenchmarkRequest(repeats=2)
+    initial = benchmark(artifacts[:1], request, image=image)
+    assert all(t.status == "passed" for t in initial.trials)
+    original = docker.run
+    calls = []
+
+    def counted(*args: object, **kwargs: object) -> docker.SandboxResult:
+        calls.append(1)
+        return original(*args, **kwargs)  # type: ignore[arg-type]
+
+    monkeypatch.setattr(docker, "run", counted)
+    expanded = benchmark(artifacts[:2], request, image=image, previous=initial)
+    assert len(calls) == 2, "baseline repeats must not execute twice"
+    assert len(expanded.trials) == 4 and all(t.status == "passed" for t in expanded.trials)
+    baseline_key = initial.manifests[0].key
+    assert [t.observation for t in expanded.trials if t.candidate == baseline_key] == [
+        t.observation for t in initial.trials
+    ]
+    repeated = benchmark(artifacts[:2], request, image=image, previous=expanded)
+    assert len(calls) == 2
+    assert repeated.trials == expanded.trials
+    with pytest.raises(ValueError, match="incompatible_previous_benchmark"):
+        benchmark(artifacts[:2], request.model_copy(update={"seed": 17}),
+                  image=image, previous=expanded)
