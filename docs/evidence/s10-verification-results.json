@@ -1,0 +1,42 @@
+{
+  "sprint": "S10",
+  "verified_at": "2026-11-02T21:22:44.031882+05:30",
+  "head": "0b2d086",
+  "checks": {
+    "check": "passed",
+    "backend_tests_passed": 305,
+    "frontend_tests_passed": 4,
+    "browser_tests_passed": 8,
+    "build": "passed",
+    "browser_cleanup": "passed"
+  },
+  "browser_stats": {
+    "startTime": "2026-11-02T15:50:38.470Z",
+    "duration": 44776.776,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "measured_report_fingerprint": "5d241dd79784f46bc7091dae7ded7a1b29bed5e173ea2ee14b1348edbac93a9c",
+  "keep_current_fingerprint": "b1a03d0b9ac4345dce24f8be4852e4545f85b609f2559f500723216c80069464",
+  "source_sha256": {
+    "frontend/src/App.tsx": "5a90d22204f23faf700889d0b7d567d27f415cf7ff2029416827c0168a00b813",
+    "frontend/src/Results.tsx": "de7d8ee6b47f9e8fa89b5e14c4fb9ff1f2bd2c32cb7949e82c30d683c7358449",
+    "frontend/src/api.ts": "c6e81ed36a8b958fd6d94515203673333bb133288b910cb2d06245e8df872ec3",
+    "frontend/src/styles.css": "3aba66ae0ff716988cbeaafeaf87c994d6dbc0cf787ce19ad8ad4144a642ae34",
+    "frontend/src/contracts.generated.ts": "fca735ce39887b68b3392dc15f23be2df1865295a231133ea539632a51055931",
+    "frontend/tests/dashboard.spec.ts": "e696dc1e81dc9bb1556058d14bfa58e667c9ef424b2745563a9f994091116189",
+    "frontend/package-lock.json": "8340802844800a8dbc2562cf34158df3522a09140d67f2395269fcbd7c063479",
+    "backend/src/data_optimizer/api/dashboard.py": "661e2bedd3ddd17e019d25b9c26ff2a01f0133f4a1a36bc9312b7ef24eb8403e",
+    "scripts/generate-frontend-contracts.py": "ca8ede9790efd0831dd70930c9fd2ea19120e9bbd060c054da3361f9425bfbb7",
+    "scripts/verify-s10-browser.py": "2f31fcf82a20bfc8da715863b385a43bcdf0f8db95d3bd199d052580447cddcd"
+  },
+  "limitations": [
+    "Local Chrome and two viewports only",
+    "Synthetic prices, no live quote or customer savings",
+    "External IdP/JWT live session unverified",
+    "No public deployment",
+    "Separate service/Docker regression suites not rerun; browser suite used actual services and Docker"
+  ]
+}

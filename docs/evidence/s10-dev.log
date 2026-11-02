@@ -1,0 +1,204 @@
+
+> data-optimizer-frontend@0.1.0 dev
+> vite --host 127.0.0.1 --port 5174
+
+
+  VITE v7.3.7  ready in 96 ms
+
+  ➜  Local:   http://127.0.0.1:5174/
+9:20:37 PM [vite] http proxy error: /ready
+Error: connect ECONNREFUSED 127.0.0.1:8010
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:2083:16)
+9:20:37 PM [vite] http proxy error: /ready
+Error: connect ECONNREFUSED 127.0.0.1:8010
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:2083:16)
+INFO:     Started server process [253001]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8010 (Press CTRL+C to quit)
+INFO:     127.0.0.1:48716 - "GET /ready HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48720 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48732 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48746 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48756 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:48766 - "GET /v1/projects/e61d6779-fc26-4348-b541-9ca396643b60/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48764 - "GET /v1/projects/e61d6779-fc26-4348-b541-9ca396643b60/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48780 - "GET /v1/assessments?project_id=e61d6779-fc26-4348-b541-9ca396643b60 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48794 - "POST /v1/projects/e61d6779-fc26-4348-b541-9ca396643b60/datasets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:48808 - "PUT /v1/uploads/2985e44c-55b4-4cd9-9d8f-63195d21b78a HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38524 - "POST /v1/uploads/2985e44c-55b4-4cd9-9d8f-63195d21b78a/finalize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38536 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38540 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38564 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38620 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38624 - "GET /v1/projects/e61d6779-fc26-4348-b541-9ca396643b60/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38622 - "GET /v1/projects/e61d6779-fc26-4348-b541-9ca396643b60/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38628 - "GET /v1/assessments?project_id=e61d6779-fc26-4348-b541-9ca396643b60 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38636 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38640 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38648 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38664 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38680 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38686 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38688 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38702 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38708 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38742 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38762 - "GET /v1/projects/e61d6779-fc26-4348-b541-9ca396643b60/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38750 - "GET /v1/projects/e61d6779-fc26-4348-b541-9ca396643b60/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38770 - "GET /v1/assessments?project_id=e61d6779-fc26-4348-b541-9ca396643b60 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38784 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38796 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38798 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38810 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38828 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38832 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:38842 - "GET /v1/projects/409a9539-ca69-4b60-982b-f25cf43e78b1/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38854 - "GET /v1/assessments?project_id=409a9539-ca69-4b60-982b-f25cf43e78b1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38840 - "GET /v1/projects/409a9539-ca69-4b60-982b-f25cf43e78b1/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38858 - "POST /v1/projects/409a9539-ca69-4b60-982b-f25cf43e78b1/datasets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:38872 - "PUT /v1/uploads/93f45570-3327-48f4-bb41-62fef32fddc1 HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38884 - "POST /v1/uploads/93f45570-3327-48f4-bb41-62fef32fddc1/finalize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38888 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38898 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38902 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44414 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44428 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44440 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44456 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44464 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44474 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44482 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2/result HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:44550 - "GET /v1/projects/409a9539-ca69-4b60-982b-f25cf43e78b1/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44538 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44570 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44540 - "GET /v1/projects/409a9539-ca69-4b60-982b-f25cf43e78b1/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44564 - "GET /v1/assessments?project_id=409a9539-ca69-4b60-982b-f25cf43e78b1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44580 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44596 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44612 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44628 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44640 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:44654 - "GET /v1/projects/a8473b33-d74c-47d9-9906-9f813df89e9b/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44656 - "GET /v1/assessments?project_id=a8473b33-d74c-47d9-9906-9f813df89e9b HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44644 - "GET /v1/projects/a8473b33-d74c-47d9-9906-9f813df89e9b/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44662 - "POST /v1/projects/a8473b33-d74c-47d9-9906-9f813df89e9b/datasets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:44674 - "PUT /v1/uploads/66a612a7-5343-4b8d-9ffc-7d83e3ff70c1 HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44690 - "POST /v1/uploads/66a612a7-5343-4b8d-9ffc-7d83e3ff70c1/finalize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44698 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44708 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44724 - "GET /v1/assessments/b11456b5-bfdf-413a-8ec3-85357e35b970 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44732 - "GET /v1/assessments/b11456b5-bfdf-413a-8ec3-85357e35b970 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45754 - "GET /v1/assessments/b11456b5-bfdf-413a-8ec3-85357e35b970 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45770 - "GET /v1/assessments/b11456b5-bfdf-413a-8ec3-85357e35b970 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45786 - "GET /v1/assessments/b11456b5-bfdf-413a-8ec3-85357e35b970 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45800 - "GET /v1/assessments/b11456b5-bfdf-413a-8ec3-85357e35b970/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45814 - "GET /v1/assessments/b11456b5-bfdf-413a-8ec3-85357e35b970/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45826 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45828 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45848 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45850 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:45866 - "GET /v1/projects/3131fcc5-76b3-4975-8b2b-7e98aa62fb07/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45868 - "GET /v1/assessments?project_id=3131fcc5-76b3-4975-8b2b-7e98aa62fb07 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45864 - "GET /v1/projects/3131fcc5-76b3-4975-8b2b-7e98aa62fb07/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45870 - "POST /v1/projects/3131fcc5-76b3-4975-8b2b-7e98aa62fb07/datasets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:45886 - "PUT /v1/uploads/c3741c7c-a2a4-4df8-863e-bf93d191aa26 HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:45898 - "POST /v1/uploads/c3741c7c-a2a4-4df8-863e-bf93d191aa26/finalize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45910 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45924 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:45938 - "GET /v1/assessments/56f90c84-7e4a-45c4-8a91-3e2847df0458 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45952 - "GET /v1/assessments/56f90c84-7e4a-45c4-8a91-3e2847df0458 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45968 - "GET /v1/assessments/56f90c84-7e4a-45c4-8a91-3e2847df0458 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45980 - "GET /v1/assessments/56f90c84-7e4a-45c4-8a91-3e2847df0458 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51908 - "GET /v1/assessments/56f90c84-7e4a-45c4-8a91-3e2847df0458 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51910 - "GET /v1/assessments/56f90c84-7e4a-45c4-8a91-3e2847df0458/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51922 - "GET /v1/assessments/56f90c84-7e4a-45c4-8a91-3e2847df0458/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51938 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51954 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51960 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51962 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51992 - "GET /v1/projects/c73b76b3-ee1c-40c9-95ee-626280312c45/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52008 - "GET /v1/assessments?project_id=c73b76b3-ee1c-40c9-95ee-626280312c45 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51976 - "GET /v1/projects/c73b76b3-ee1c-40c9-95ee-626280312c45/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52024 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52030 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52032 - "GET /v1/assessments/3ff80087-4329-4948-9b59-c49d11e8976f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52046 - "GET /v1/assessments/3ff80087-4329-4948-9b59-c49d11e8976f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52056 - "GET /v1/assessments/3ff80087-4329-4948-9b59-c49d11e8976f/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52068 - "GET /v1/assessments/3ff80087-4329-4948-9b59-c49d11e8976f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52088 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52126 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52154 - "GET /v1/assessments/3ff80087-4329-4948-9b59-c49d11e8976f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52140 - "GET /v1/projects/c73b76b3-ee1c-40c9-95ee-626280312c45/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52136 - "GET /v1/projects/c73b76b3-ee1c-40c9-95ee-626280312c45/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52148 - "GET /v1/assessments?project_id=c73b76b3-ee1c-40c9-95ee-626280312c45 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52156 - "GET /v1/assessments/3ff80087-4329-4948-9b59-c49d11e8976f/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52172 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52184 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52208 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52218 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52236 - "GET /v1/projects/1e240093-9573-4330-a594-7edee728b05e/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52246 - "GET /v1/assessments?project_id=1e240093-9573-4330-a594-7edee728b05e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52234 - "GET /v1/projects/1e240093-9573-4330-a594-7edee728b05e/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52256 - "POST /v1/projects/1e240093-9573-4330-a594-7edee728b05e/profiles HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52260 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52268 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52270 - "GET /v1/assessments/ee515141-3bce-40d0-bfd0-55cd7eab7b7f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52282 - "GET /v1/assessments/ee515141-3bce-40d0-bfd0-55cd7eab7b7f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52296 - "GET /v1/assessments/ee515141-3bce-40d0-bfd0-55cd7eab7b7f/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52306 - "GET /v1/assessments/ee515141-3bce-40d0-bfd0-55cd7eab7b7f/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52308 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52312 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52328 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52332 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52348 - "GET /v1/projects/4bd20839-c0a3-4330-a817-8fe5729a76e8/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52350 - "GET /v1/assessments?project_id=4bd20839-c0a3-4330-a817-8fe5729a76e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52344 - "GET /v1/projects/4bd20839-c0a3-4330-a817-8fe5729a76e8/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52352 - "POST /v1/projects/4bd20839-c0a3-4330-a817-8fe5729a76e8/datasets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52368 - "PUT /v1/uploads/990ecfb7-39da-410a-b9a4-e903d01d7b75 HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52372 - "POST /v1/uploads/990ecfb7-39da-410a-b9a4-e903d01d7b75/finalize HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:52388 - "POST /v1/projects/4bd20839-c0a3-4330-a817-8fe5729a76e8/datasets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52394 - "PUT /v1/uploads/d8261c17-b305-4f82-aa3a-609f46ccd755 HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52404 - "POST /v1/uploads/d8261c17-b305-4f82-aa3a-609f46ccd755/finalize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52412 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52422 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52424 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52444 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52448 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52464 - "GET /v1/projects/a934d7bf-2225-4343-bbf2-1bc14a76a0f4/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52458 - "GET /v1/projects/a934d7bf-2225-4343-bbf2-1bc14a76a0f4/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52470 - "GET /v1/assessments?project_id=a934d7bf-2225-4343-bbf2-1bc14a76a0f4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52486 - "POST /v1/projects/a934d7bf-2225-4343-bbf2-1bc14a76a0f4/datasets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52500 - "PUT /v1/uploads/25b49aa1-89e1-4841-b2c1-fd87732df73f HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52514 - "POST /v1/uploads/25b49aa1-89e1-4841-b2c1-fd87732df73f/finalize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52516 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52518 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52538 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52532 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52546 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52556 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52558 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40580 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40588 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40590 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40618 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40620 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40684 - "GET /v1/projects/a934d7bf-2225-4343-bbf2-1bc14a76a0f4/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40682 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40690 - "GET /v1/projects/a934d7bf-2225-4343-bbf2-1bc14a76a0f4/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40704 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40694 - "GET /v1/assessments?project_id=a934d7bf-2225-4343-bbf2-1bc14a76a0f4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40710 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40720 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40722 - "GET /v1/assessments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40736 - "GET /v1/assessments/d59f7aa6-b255-4922-9151-01e706ae4c29/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40738 - "GET /v1/assessments/ee515141-3bce-40d0-bfd0-55cd7eab7b7f/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40750 - "GET /v1/assessments/3ff80087-4329-4948-9b59-c49d11e8976f/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40764 - "GET /v1/assessments/56f90c84-7e4a-45c4-8a91-3e2847df0458/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40780 - "GET /v1/assessments/b11456b5-bfdf-413a-8ec3-85357e35b970/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40792 - "GET /v1/assessments/035973cb-554f-4649-8605-56cc5ae4cab2/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40804 - "GET /v1/assessments/28fd668d-1db4-4687-9460-b3e5d49a7ab4/result HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [253001]

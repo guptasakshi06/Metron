@@ -1,0 +1,383 @@
+{
+  "version": "s08.1",
+  "report_fingerprint": "b3bc9f46dfbceaa3ead1277f3d6ff15c35cf5d3987ae00bb4fc8adb558ce2983",
+  "request": {
+    "version": "s08.1",
+    "conversion": {
+      "version": 1,
+      "tenant_id": "11111111-1111-4111-8111-111111111111",
+      "assessment_id": "ee515141-3bce-40d0-bfd0-55cd7eab7b7f",
+      "source": {
+        "format": "ndjson",
+        "schema_overrides": {},
+        "csv_null_tokens": [],
+        "seed": 0,
+        "sample_rows_per_stratum": null,
+        "time_column": null,
+        "source_column": null,
+        "max_strata": 32,
+        "max_columns": 128,
+        "cardinality_capacity": 1024,
+        "include_field_names": false,
+        "redacted_fields": [],
+        "max_raw_bytes": 1048576,
+        "max_decoded_bytes": 4194304,
+        "max_record_bytes": 1048576,
+        "memory_mib": 1024,
+        "timeout_seconds": 60
+      },
+      "workload": {
+        "version": 1,
+        "dsl_version": "s04.1",
+        "queries": [
+          {
+            "id": "scan",
+            "kind": "full_scan",
+            "columns": [],
+            "predicates": [],
+            "time_range": null,
+            "group_by": [],
+            "aggregates": [],
+            "order_by": [],
+            "frequency_per_day": null,
+            "freshness_seconds": null,
+            "target_latency_seconds": null,
+            "tolerance": {
+              "absolute": "0",
+              "relative": "0"
+            }
+          }
+        ],
+        "concurrency": 1,
+        "concurrency_scope": "single_process"
+      },
+      "limits": {
+        "max_rows": 1000000,
+        "max_spill_bytes": 268435456,
+        "max_result_rows": 10000,
+        "query_memory_mib": 128,
+        "timeout_seconds": 60,
+        "memory_mib": 2048,
+        "order_required": false,
+        "original_bytes_required": false
+      },
+      "max_candidates": 8,
+      "max_partitions": 16,
+      "max_files": 32,
+      "min_partition_rows": 128,
+      "max_output_bytes": 268435456
+    },
+    "benchmark": {
+      "version": 1,
+      "repeats": 3,
+      "warmups": 0,
+      "seed": 0,
+      "max_trials": 60,
+      "assessment_seconds": 600.0,
+      "max_input_bytes": 536870912,
+      "limits": {
+        "memory_mib": 1024,
+        "cpus": 1.0,
+        "cpu_seconds": 30,
+        "wall_seconds": 45.0,
+        "scratch_mib": 64,
+        "output_bytes": 1048576,
+        "pids": 64
+      }
+    },
+    "cost_template": null,
+    "replays_per_month": null,
+    "policy": {
+      "scenario": "user_scenario",
+      "minimum_net_savings": "10",
+      "minimum_savings_fraction": "0.01",
+      "allowed_formats": null,
+      "allowed_codecs": null,
+      "retention_days": null,
+      "freshness_seconds": null,
+      "required_capabilities": [],
+      "maximum_migration_cost": null,
+      "latency_statistic": "observed_maximum"
+    },
+    "search": {
+      "seed": 42,
+      "max_trials": 8,
+      "max_seconds": 600.0,
+      "enumeration_limit": 4,
+      "exploration": 0.25
+    }
+  },
+  "evidence": "scenario_guidance",
+  "profile": {
+    "version": 1,
+    "profiler_version": "s03.1",
+    "evidence": "local_profile",
+    "raw_data_inspected_by_server": false,
+    "input_fingerprint": "01974a491f9de8f7d8790b4f999fef94b6219cd7c6246f971f1e6d6598ab1167",
+    "schema_fingerprint": "24a30133dbf5ca954f3594357f20a1ad5e3114b3d5032cab865509ebfa93539f",
+    "settings_fingerprint": "2cc5e55f25d0942219eacccfc7fcc627fb9639684da853e384d75badaa668591",
+    "profile_fingerprint": "bbdb2e66ab14429e1b7c4a9a12ff5a2cf5a7b760c7d68eb7cd01133c41dc7f42",
+    "engine_versions": {
+      "python": "3.12.3",
+      "pyarrow": "26.0.0"
+    },
+    "format": "ndjson",
+    "physical_bytes": 287,
+    "decoded_bytes": 287,
+    "file_count": 1,
+    "file_sizes": {
+      "minimum": 287,
+      "maximum": 287,
+      "mean": 287.0,
+      "histogram": [
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    "row_count": 3,
+    "profiled_rows": 3,
+    "sample_fraction": 1.0,
+    "seed": 0,
+    "sampling": "full_scan",
+    "strata_by": [],
+    "coverage": [
+      {
+        "stratum": "stratum_1",
+        "rows": 3,
+        "profiled_rows": 3
+      }
+    ],
+    "columns": [
+      {
+        "field": "column_1",
+        "schema_types": [
+          "decimal"
+        ],
+        "type_counts": {
+          "decimal": 3
+        },
+        "present": 3,
+        "missing": 0,
+        "nulls": 0,
+        "null_density": 0.0,
+        "cardinality": {
+          "value": 2,
+          "method": "exact",
+          "capacity": 1024,
+          "scope": "profiled_present_nonnull_values"
+        },
+        "widths": {
+          "minimum": 13,
+          "maximum": 13,
+          "mean": 13.0,
+          "histogram": [
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "temporal_span_seconds": null,
+        "temporal_scope": null,
+        "sensitive": false
+      },
+      {
+        "field": "column_2",
+        "schema_types": [
+          "string"
+        ],
+        "type_counts": {
+          "string": 3
+        },
+        "present": 3,
+        "missing": 0,
+        "nulls": 0,
+        "null_density": 0.0,
+        "cardinality": {
+          "value": 2,
+          "method": "exact",
+          "capacity": 1024,
+          "scope": "profiled_present_nonnull_values"
+        },
+        "widths": {
+          "minimum": 9,
+          "maximum": 9,
+          "mean": 9.0,
+          "histogram": [
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "temporal_span_seconds": null,
+        "temporal_scope": null,
+        "sensitive": false
+      },
+      {
+        "field": "column_3",
+        "schema_types": [
+          "string"
+        ],
+        "type_counts": {
+          "string": 3
+        },
+        "present": 3,
+        "missing": 0,
+        "nulls": 0,
+        "null_density": 0.0,
+        "cardinality": {
+          "value": 2,
+          "method": "exact",
+          "capacity": 1024,
+          "scope": "profiled_present_nonnull_values"
+        },
+        "widths": {
+          "minimum": 12,
+          "maximum": 12,
+          "mean": 12.0,
+          "histogram": [
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "temporal_span_seconds": null,
+        "temporal_scope": null,
+        "sensitive": false
+      },
+      {
+        "field": "column_4",
+        "schema_types": [
+          "null",
+          "string"
+        ],
+        "type_counts": {
+          "null": 2,
+          "string": 1
+        },
+        "present": 3,
+        "missing": 0,
+        "nulls": 2,
+        "null_density": 0.6666666666666666,
+        "cardinality": {
+          "value": 1,
+          "method": "exact",
+          "capacity": 1024,
+          "scope": "profiled_present_nonnull_values"
+        },
+        "widths": {
+          "minimum": 10,
+          "maximum": 15,
+          "mean": 11.666666666666666,
+          "histogram": [
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "temporal_span_seconds": null,
+        "temporal_scope": null,
+        "sensitive": false
+      },
+      {
+        "field": "column_5",
+        "schema_types": [
+          "string"
+        ],
+        "type_counts": {
+          "string": 3
+        },
+        "present": 3,
+        "missing": 0,
+        "nulls": 0,
+        "null_density": 0.0,
+        "cardinality": {
+          "value": 2,
+          "method": "exact",
+          "capacity": 1024,
+          "scope": "profiled_present_nonnull_values"
+        },
+        "widths": {
+          "minimum": 29,
+          "maximum": 29,
+          "mean": 29.0,
+          "histogram": [
+            0,
+            3,
+            0,
+            0,
+            0
+          ]
+        },
+        "temporal_span_seconds": null,
+        "temporal_scope": null,
+        "sensitive": false
+      }
+    ],
+    "row_widths": {
+      "minimum": 73,
+      "maximum": 78,
+      "mean": 74.66666666666667,
+      "histogram": [
+        0,
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "field_names_redacted": true,
+    "warnings": [
+      "metadata_may_be_sensitive_review_before_upload"
+    ]
+  },
+  "candidates": null,
+  "search": null,
+  "benchmark": null,
+  "costs": {},
+  "decision": {
+    "version": "s08.1",
+    "decision_fingerprint": "14cea739bd93e542a18918e4041aac0425924c0acba739ab8f3931894d15ae9c",
+    "outcome": "insufficient_evidence",
+    "selected_candidate_id": null,
+    "best_tested_candidate_id": null,
+    "baseline_candidate_id": null,
+    "objective": "horizon_operating_plus_once_only_migration",
+    "policy": {
+      "scenario": "user_scenario",
+      "minimum_net_savings": "10",
+      "minimum_savings_fraction": "0.01",
+      "allowed_formats": null,
+      "allowed_codecs": null,
+      "retention_days": null,
+      "freshness_seconds": null,
+      "required_capabilities": [],
+      "maximum_migration_cost": null,
+      "latency_statistic": "observed_maximum"
+    },
+    "candidates": [],
+    "tradeoff_candidate_ids": [],
+    "reason": "Supply raw dataset/workload, complete costs and evidence for required constraints.",
+    "limitations": [
+      "Best tested feasible option within bounded coverage; no global optimality claim.",
+      "Local typed load and in-memory queries; no native scans, cloud, concurrency or tail SLA proof.",
+      "Costs are forecasts from explicit assumptions and price snapshots; synthetic rates stay synthetic.",
+      "Retention/copies are declared cost assumptions, not a deployed durability guarantee.",
+      "Observed maxima and ranges describe these repeats, not population confidence intervals."
+    ],
+    "next_questions": [
+      "Provide a dataset and constrained workload for measurement."
+    ],
+    "performance_scope": "local_typed_load_and_in_memory_queries"
+  }
+}

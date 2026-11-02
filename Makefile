@@ -34,7 +34,11 @@ infra-down:
 dev:
 	UV="$(UV)" bash scripts/dev.sh
 
+contracts:
+	$(UV) run --locked --project backend python scripts/generate-frontend-contracts.py
+
 check:
+	$(UV) run --locked --project backend python scripts/generate-frontend-contracts.py --check
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend ruff check backend/src backend/tests
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend mypy --config-file backend/pyproject.toml backend/src
 	cd frontend && PATH="$(NODE_PATH):$$PATH" npm run lint && PATH="$(NODE_PATH):$$PATH" npm run typecheck
@@ -85,3 +89,7 @@ cleanup-assessments:
 
 job-metrics:
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend data-optimizer job-metrics
+
+.PHONY: contracts test-browser
+test-browser:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/verify-s10-browser.py

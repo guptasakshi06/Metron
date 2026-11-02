@@ -1,0 +1,17 @@
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend python scripts/verify-s10-browser.py
+
+Running 8 tests using 1 worker
+
+(node:253120) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/dashboard.spec.ts:156:1 › NDJSON measured change, refresh, exact API totals, keyboard and responsive layout (9.6s)
+  ✓  2 tests/dashboard.spec.ts:197:1 › already compressed input keeps current, session ownership switches clear prior results (7.1s)
+  ✓  3 tests/dashboard.spec.ts:221:3 › csv upload and real worker assessment (7.6s)
+  ✓  4 tests/dashboard.spec.ts:221:3 › parquet upload and real worker assessment (7.5s)
+  ✓  5 tests/dashboard.spec.ts:240:1 › missing data and unknown costs give actionable insufficient evidence (2.5s)
+  ✓  6 tests/dashboard.spec.ts:263:1 › reviewed metadata import preserves provenance and never invents sample benchmarks (2.5s)
+  ✓  7 tests/dashboard.spec.ts:297:1 › malformed upload and invalid workload are actionable and preserve entered fields (1.5s)
+  ✓  8 tests/dashboard.spec.ts:345:1 › active assessment cancellation survives refresh and preserves stopped status (6.1s)
+
+  8 passed (44.8s)
+Browser verification exit=0; isolated stack/resources cleaned.

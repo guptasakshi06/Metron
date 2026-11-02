@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 21:01, Asia/Kolkata
+**Last updated:** 2026-11-02 21:23, Asia/Kolkata
 **Current sprint:** None
-**Next sprint:** S10
-**MVP status:** S01 through S09 complete; MVP implementation in progress
+**Next sprint:** S11
+**MVP status:** S01 through S10 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -249,7 +249,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S07 | Versioned pricing and total cost calculations | S06 | completed | 70 S07 tests, 261 backend + 3 frontend total; full check/build and extracted-wheel cost CLI reconciliation; see docs/evidence/s07-verification.md |
 | S08 | Evidence based ranking and adaptive experiment selection | S07 | completed | 37 S08 tests, 298 backend + 3 frontend total; 10 Docker tests, packaged real CLI and resume; see docs/evidence/s08-verification.md |
 | S09 | Asynchronous assessments and complete API integration | S08 | completed | 303 backend + 3 frontend; 31 full service tests + final operational CLI test; 10 Docker tests, real HTTP/RQ crash/cancel flow and package checks; see docs/evidence/s09-verification.md |
-| S10 | Complete assessment dashboard | S09 | not_started | None |
+| S10 | Complete assessment dashboard | S09 | completed | 305 backend + 4 frontend; 8 real browser/service/worker/Docker flows, exact displayed API totals, desktop/narrow QA and cleanup; see docs/evidence/s10-verification.md |
 | S11 | Structured AI intake and grounded explanations | S10 | not_started | None |
 | S12 | Reproducible reports and migration handoff exports | S11 | not_started | None |
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
@@ -691,21 +691,21 @@ Record endpoints, worker startup, queue/recovery semantics, quotas, migrations a
 
 ### S10 Complete assessment dashboard
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S09  
 **Outcome:** Let a user run and understand the real assessment from the browser.  
 **Expected code and document areas:** frontend/src/; frontend/tests/; backend/src/data_optimizer/api/; docs/user-flow.md
 
 #### Tasks
 
-- [ ] S10.01 Build project/context intake with progressive requirements and explicit unknown values. Use backend-generated types or a checked contract-sharing approach.
-- [ ] S10.02 Build bounded file upload with progress, validation feedback, schema clarification and a metadata-only report option. Explain raw-data retention before transfer.
-- [ ] S10.03 Provide workload-template editing and performance/cost assumptions. Validate errors inline and preserve entered inputs when requests fail.
-- [ ] S10.04 Implement assessment creation, honest stage progress, cancellation and recovery after page refresh. Use polling initially; add streaming only if justified.
-- [ ] S10.05 Build comparison views showing baseline, tested candidates, feasibility reasons, physical bytes, observed performance, itemized costs and migration economics.
-- [ ] S10.06 Visually distinguish sample measurements, projections, synthetic pricing and observed production outcomes. Missing values must not render as zero.
-- [ ] S10.07 Show keep_current and insufficient_evidence as first-class result flows with useful next actions. Include links to raw evidence summaries and reproducibility metadata.
-- [ ] S10.08 Verify keyboard access, readable labels, responsive layout, loading/empty/error states and session/ownership behavior. Test against actual backend services, not only mocked responses.
+- [x] S10.01 Build project/context intake with progressive requirements and explicit unknown values. Use backend-generated types or a checked contract-sharing approach.
+- [x] S10.02 Build bounded file upload with progress, validation feedback, schema clarification and a metadata-only report option. Explain raw-data retention before transfer.
+- [x] S10.03 Provide workload-template editing and performance/cost assumptions. Validate errors inline and preserve entered inputs when requests fail.
+- [x] S10.04 Implement assessment creation, honest stage progress, cancellation and recovery after page refresh. Use polling initially; add streaming only if justified.
+- [x] S10.05 Build comparison views showing baseline, tested candidates, feasibility reasons, physical bytes, observed performance, itemized costs and migration economics.
+- [x] S10.06 Visually distinguish sample measurements, projections, synthetic pricing and observed production outcomes. Missing values must not render as zero.
+- [x] S10.07 Show keep_current and insufficient_evidence as first-class result flows with useful next actions. Include links to raw evidence summaries and reproducibility metadata.
+- [x] S10.08 Verify keyboard access, readable labels, responsive layout, loading/empty/error states and session/ownership behavior. Test against actual backend services, not only mocked responses.
 
 #### Acceptance gates
 
@@ -723,18 +723,19 @@ Record browser verification, routes, accessibility issues, screenshots only if u
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S10.01 after its dependencies are verified.
+- Started: 2026-11-02 21:04, Asia/Kolkata
+- Updated: 2026-11-02 21:23, Asia/Kolkata
+- Completed: 2026-11-02 21:23, Asia/Kolkata
+- Branch and commit if available: `main`, clean start/final HEAD `0b2d086` (S09). No staging, commit, push or history change; S10 changes remain uncommitted.
+- Delivered behavior: Real browser project/context intake, explicit unknown requirements, retained-copy upload consent/progress/finalization/deletion, reviewed local metadata import and startup guidance; workload templates plus schema/workload/performance/cost JSON editing; generated executable backend TypeScript contracts with drift gate and bounded authenticated preflight; durable/idempotent submission, actual stage/count polling, refresh recovery, active cancellation/history; baseline/candidate feasibility, measured bytes/local load-plus-query timings, exact itemized cost/migration/net/payback/coverage/provenance views; keep_current/insufficient_evidence flows, synthetic/projection/production-evidence distinctions; responsive native controls, focus/skip link and isolated local/JWT session boundaries.
+- Files changed: `frontend/src/App.tsx`, `Results.tsx`, `api.ts`, `styles.css`, `contracts.generated.ts`, `demo-request.json`, `App.test.tsx`; frontend package/lock/config and `tests/dashboard.spec.ts`, `playwright.config.ts`; `backend/src/data_optimizer/api/dashboard.py`, `api/main.py`, `backend/tests/test_dashboard.py`; `scripts/generate-frontend-contracts.py`, `verify-s10-browser.py`; Makefile, README, .gitignore, `docs/user-flow.md`, decision 0010, S10 evidence and this handoff. Build refreshed tracked `frontend/tsconfig.tsbuildinfo`.
+- Setup and run commands: Installed locked Playwright 1.64.1 and @types/node 24.19.2 as development dependencies using bundled Node/npm. Existing `make setup`; `make infra-up`, `make migrate`, `make seed-local`, `make storage-init`, `make benchmark-image`, `make dev`, with `make dispatch-jobs` and `make worker` in separate terminals. Dashboard `/` has four anchored sections at local port 5173. New `make contracts` and `make test-browser` entry points; browser verification requires installed Chrome and local infra/image and starts isolated ports 8010/5174. API adds public non-secret `GET /v1/dashboard/config` and owned `POST /v1/dashboard/validate` (512 KiB cap).
+- Verification commands and outcomes: `UV_OFFLINE=1 make check` passed generator drift, Ruff, strict mypy 79 files, ESLint/TypeScript. `UV_OFFLINE=1 make test` passed 305 backend + 4 frontend; final frontend `npm --prefix frontend test -- --run` with bundled Node passed four after final session changes. `UV_OFFLINE=1 make build` passed wheel/sdist and Vite (263.31 kB JS, 80.06 kB gzip). Final `UV_OFFLINE=1 make test-browser` passed all eight actual Chrome/API/PostgreSQL/MinIO/Redis/RQ/Docker flows in 44.8s, command exit 0 and explicit post-cleanup record. Exact displayed bytes, horizon/recurring/migration/net totals and expanded line items matched API strings. Real NDJSON/gzip/CSV/Parquet, metadata/startup, refresh, active cancellation, tenant switch/404, malformed upload and invalid request recovery passed. Desktop 1440x1000 and narrow 390x844 screenshots inspected; no page-wide overflow/JS errors, first-Tab skip link verified. Script Ruff, final generator check, source/report fingerprints and `git diff --check` passed. Runner deleted isolated schema/bucket/queue/workspace; local Compose project stopped with volumes preserved and no labeled benchmark containers left.
+- Evidence and report paths: `docs/evidence/s10-verification.md`, `s10-verification-results.json`, `s10-browser-results.json`, `s10-run-status.json`, saved check/test/build/browser/service logs, four actual API reports and desktop/narrow screenshots. Python 3.12.3, Node 24.22.2, npm 11.19.1, uv 0.13.6, Chrome 155.0.8059.79. Local 287-byte synthetic NDJSON selected 138-byte gzip under amplified invented rates; compressed baseline kept current. Costs are modeled synthetic inputs, never live/customer savings.
+- Decisions and deviations: D025 / `docs/decisions/0010-s10-dashboard.md`. Keep React/Vite and polling; use Pydantic-generated executable types plus server preflight instead of duplicating validation rules. Defaults leave prices unknown; optional synthetic example imports assumptions only. Versioned per-demo sessionStorage retains draft/IDs/idempotency for refresh; raw files/profile reports and verified tokens stay in memory. JWT mode accepts verified-token entry; external login redirect/refresh integration is unverified. Advanced schema/workload/cost editing stays technical JSON rather than inferring semantics. No stack/backend dependency change.
+- Blockers or unverified checks: No S10 acceptance blocker. Existing TestClient deprecation and Node color warning remain. Intermediate browser label ambiguity/fingerprint overflow fixed; an intermediate passing-run tool termination code was resolved by final explicit cleanup/exit recording and command exit 0. Separate 32-service/10-Docker suites not rerun; browser tests executed real corresponding services/workers. No external IdP, live prices/invoices, customer/pilot/production observations, cloud/concurrency/tail/cold-cache or public deployment claim. Keyboard/two viewports verified, not a comprehensive screen-reader/cross-browser accessibility audit. Packaged report exports/migration instructions remain S12, observations S13; S11 not started.
+- Completion checklist: All eight tasks/three gates passed with actual browser-to-worker evidence; generated contracts and exact displayed calculations checked; full check/test/build plus final browser suite passed; limitations/defaults and user guide documented; unrelated data/history preserved; ledger/current/next/date/decisions/blockers/history reconciled. No staging/commit/push/deployment/paid provisioning/messages.
+- Resume from: Start S11.01 after reading this handoff, `docs/user-flow.md` and decision 0010. Reuse the checked executable request/results, owned polling/history, explicit unknowns and authoritative metric components. Add optional structured intake/grounded explanations without changing stored calculations or requiring a provider key. Do not start S12/post-MVP work in the next sprint chat.
 
 ### S11 Structured AI intake and grounded explanations
 
@@ -977,11 +978,13 @@ This checklist is a reusable template. Copy its result into the active Execution
 
 | D024 | 2026-11-02 | Durable tenant-owned assessment outbox, JSON RQ delivery and fenced local recovery | Reuse real S08 evidence without lost dispatch, duplicate valid trials or false provenance; see decision 0009 and assessment runbook |
 
+| D025 | 2026-11-02 | Pydantic-generated dashboard contracts, bounded preflight, explicit evidence and scoped refresh recovery | Keep real UI calculations aligned with backend semantics and unknown/synthetic/provenance boundaries; see decision 0010 and user flow |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S10. S01 through S09 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S11. S01 through S10 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
@@ -1119,6 +1122,18 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 - D024/0009 records single-host shared-workspace and pre-publication retry boundaries. Monitored disk quota is not a hard filesystem quota. No production/cloud/customer/live-price claim or S10 implementation. Existing TestClient warning and one intermediate low-memory-test diagnostic failure (later full suites passed unchanged) documented; S14 retains resource calibration.
 - Started/final main at `cc002b0`; no agent staging/commit/push or production actions. Local project services stopped without deleting volumes; no benchmark containers remain. All prior history/source data preserved.
 - Handoff reconciled at 2026-11-02 21:01 (Asia/Kolkata): S09 completed, Current None, Next S10. Resume the assessment dashboard in the next implementation chat.
+
+### S10 start on 2026-11-02
+
+- Read handoff/architecture and inspected clean main; S09 code present. S10 marked in_progress before implementation. Resume at checked contracts and browser intake; no S11 work.
+
+### S10 completion on 2026-11-02
+
+- Implemented S10.01–S10.08 after reading handoff/architecture and inspecting clean main at `0b2d086`; preserved all history/source data and made no commit/push.
+- Delivered the actual assessment dashboard, generated request/result/profile types and authenticated bounded preflight, reviewed upload/metadata/context/workload/cost intake, idempotent async runs/cancel/refresh/history and exact comparison/economics/raw evidence, with scoped local/JWT sessions and responsive native controls.
+- Final check/test/build passed: 305 backend + 4 frontend tests; final frontend four passed after session changes. Final actual browser suite passed 8/8 in 44.8s with command exit 0 and explicit cleanup record. Real raw formats/gzip, keep_current, missing input/metadata provenance, refresh, active cancellation, cross-tenant 404, malformed upload/invalid JSON/query recovery and exact displayed costs/line items verified. Desktop/narrow screenshots manually inspected after fixing labels/fingerprint overflow. See `docs/evidence/s10-verification.md` and D025/0010.
+- Runner cleaned isolated schema/bucket/queue/workspace and processes. Stopped local project services without deleting volumes; no benchmark containers remain. Local Chrome/two viewports only; live IdP/prices/customer/production validation and broad accessibility audit remain unverified. No S11 implementation.
+- Handoff reconciled at 2026-11-02 21:23 (Asia/Kolkata): S10 completed, Current None, Next S11. Next chat starts optional structured AI intake and grounded explanations while preserving the deterministic no-key flow.
 
 ### Template for subsequent session entries
 

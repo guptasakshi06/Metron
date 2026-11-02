@@ -1,0 +1,14 @@
+
+> data-optimizer-frontend@0.1.0 test
+> vitest --run
+
+
+ RUN  v3.2.7 /home/ubuntu/Documents/ChatGPT/Data Optimizer/frontend
+
+ ✓ src/App.test.tsx (4 tests) 173ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  21:19:50
+   Duration  740ms (transform 93ms, setup 31ms, collect 112ms, tests 173ms, environment 228ms, prepare 71ms)
+

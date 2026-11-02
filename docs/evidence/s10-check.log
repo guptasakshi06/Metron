@@ -1,0 +1,14 @@
+.tools/uv-bin/uv run --locked --project backend python scripts/generate-frontend-contracts.py --check
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend ruff check backend/src backend/tests
+All checks passed!
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend mypy --config-file backend/pyproject.toml backend/src
+Success: no issues found in 79 source files
+cd frontend && PATH="/home/ubuntu/Documents/ChatGPT/Data Optimizer/.tools/node24/bin:$PATH" npm run lint && PATH="/home/ubuntu/Documents/ChatGPT/Data Optimizer/.tools/node24/bin:$PATH" npm run typecheck
+
+> data-optimizer-frontend@0.1.0 lint
+> eslint .
+
+
+> data-optimizer-frontend@0.1.0 typecheck
+> tsc --noEmit
+

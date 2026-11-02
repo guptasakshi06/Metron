@@ -2,9 +2,9 @@
 
 Data Optimizer compares analytical dataset representations against a stated workload. It is designed to recommend the best tested feasible option, explain its evidence and preserve unknowns. This repository is being implemented one sprint at a time; the current sprint is recorded in [SPRINT_HANDOFF.md](SPRINT_HANDOFF.md).
 
-## Current implementation: S07
+## Current implementation: S10
 
-The application has versioned contracts, real health/readiness checks, tenant-scoped project and dataset metadata, authenticated bounded uploads for CSV, NDJSON and Parquet, structural validation, private MinIO object storage, immutable dataset versions, retention/deletion recovery, bounded local typed profiling, reproducible sampling, metadata-only exports and reviewed tenant-scoped profile import. The frontend is still a connectivity shell; assessment, recommendation and assessment-report workflows are scheduled for later sprints. It does not display fabricated assessment results.
+The application has versioned contracts, real health/readiness checks, tenant-scoped project and dataset metadata, authenticated bounded uploads for CSV, NDJSON and Parquet, structural validation, private MinIO object storage, immutable dataset versions, retention/deletion recovery, bounded local typed profiling, reproducible sampling, metadata-only exports and reviewed tenant-scoped profile import. The dashboard now supports project intake, reviewed uploads or metadata, workload/schema/cost editing, asynchronous assessments, cancellation/refresh recovery, baseline comparison and itemized evidence. Recommendations use real local worker measurements; pricing is unknown by default or explicitly synthetic/user supplied. Reports and migration export bundles remain S12.
 
 S04 adds a validated analytical workload DSL, parameterized execution against a fixed
 in-memory DuckDB dataset, exact typed cross-format integrity checks preserving duplicate
@@ -23,7 +23,7 @@ S07 adds immutable synthetic offline price snapshots, reconciled itemized costs,
 space/copy accounting, migration economics, explicit unknowns and scenario ranges. Run
 `data-optimizer cost --request examples/s07-cost-request.json --output /tmp/s07-cost.json`;
 see [pricing method, billing boundaries and saved benchmark adapter](docs/pricing-method.md).
-Server assessment orchestration remains S09.
+S08 ranking and S09 durable asynchronous orchestration are implemented; see the sections below.
 
 ### Runtime versions
 
@@ -43,7 +43,7 @@ The script verifies the official Node.js archive against the release checksum an
 
 ```bash
 export PATH="$PWD/.tools/node24/bin:$PWD/.tools/uv-bin:$PATH"
-make infra-up       # optional; needs Docker Engine and Compose v2 or legacy docker-compose
+make infra-up       # required for assessments; Docker Engine + Compose
 make dev            # API http://127.0.0.1:8000 and frontend http://127.0.0.1:5173
 ```
 
@@ -67,19 +67,21 @@ curl -i http://127.0.0.1:8000/ready
 curl -s http://127.0.0.1:8000/v1/contracts
 ```
 
-The frontend fetches those actual routes through its Vite development proxy. A failed API connection and a reachable API whose dependencies are down appear as different states.
+The dashboard uses the Vite `/api` proxy. Connection failures, authorization/expiry and backend dependency errors are actionable in the workspace; the system endpoints above provide per-service readiness diagnostics.
 
 ### Developer commands
 
 ```bash
 make setup       # locked Python sync and npm ci
-make check       # Ruff, mypy, ESLint and TypeScript
-make test        # backend contract/API checks and frontend status checks
+make check       # generated contract drift, Ruff, mypy, ESLint and TypeScript
+make test        # backend contract/API checks and frontend component checks
 make test-integration # real PostgreSQL/MinIO tests; not run by make test
 make benchmark-image # build the locked local Linux benchmark image
 make test-benchmark # real Docker benchmark and isolation tests; not run by make test
 make build       # Python wheel/sdist and Vite production output
-make demo        # exits nonzero until the measured assessment pipeline exists
+make demo        # packaged measured CLI demonstration, synthetic prices
+make contracts   # regenerate frontend types from executable backend models
+make test-browser # real isolated browser/API/RQ/Docker flows; requires Chrome + local infra
 ```
 
 See [the ingestion runbook](docs/runbooks/ingestion.md) for API examples, the local identity boundary, file validation and retention cleanup. The runbook uses the synthetic fixture at `examples/s02-events.csv`.
@@ -131,4 +133,21 @@ and expose owned status, recommendations and raw JSON evidence. See the
 [assessment runbook](docs/runbooks/assessments.md) for endpoint examples, idempotency, quotas,
 retry/cancellation/retention semantics and restart commands. `make job-metrics` reports
 operational counts; `make cleanup-assessments` removes expired/deleted private job artifacts.
-The assessment dashboard remains S10.
+The S10 dashboard is available at the local frontend URL. See the [browser user flow](docs/user-flow.md).
+
+
+## Assessment dashboard (S10)
+
+After infrastructure/migrations/seed/storage initialization, build `make benchmark-image`
+and run `make dev`, `make dispatch-jobs`, and `make worker` in separate terminals. Open
+[the dashboard](http://127.0.0.1:5173), create a project, review retention before uploading
+a copy, edit the workload/schema and cost assumptions, and run an assessment. Local-only
+Alice/Bob identities are selectable; configured JWT mode instead accepts a verified token
+in memory. Costs remain unknown unless explicitly supplied; the optional synthetic example
+is invented and clearly labeled. The result includes measured local sample bytes/timings,
+feasibility and complete modeled line items, including no-change and missing-evidence paths.
+
+The [dashboard guide](docs/user-flow.md) documents metadata review, draft/session privacy,
+refresh/cancellation, schema clarification and raw evidence. [S10 verification](docs/evidence/s10-verification.md)
+records the real-service browser checks and responsive screenshots. External login-provider
+validation, live prices, production measurements and public deployment remain unverified.
