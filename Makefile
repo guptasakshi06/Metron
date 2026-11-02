@@ -93,3 +93,7 @@ job-metrics:
 .PHONY: contracts test-browser
 test-browser:
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/verify-s10-browser.py
+
+.PHONY: test-assistance-browser
+test-assistance-browser:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/verify-s11-browser.py

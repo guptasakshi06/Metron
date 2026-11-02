@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 21:23, Asia/Kolkata
+**Last updated:** 2026-11-02 22:20, Asia/Kolkata
 **Current sprint:** None
-**Next sprint:** S11
-**MVP status:** S01 through S10 complete; MVP implementation in progress
+**Next sprint:** S12
+**MVP status:** S01 through S11 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -250,12 +250,12 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S08 | Evidence based ranking and adaptive experiment selection | S07 | completed | 37 S08 tests, 298 backend + 3 frontend total; 10 Docker tests, packaged real CLI and resume; see docs/evidence/s08-verification.md |
 | S09 | Asynchronous assessments and complete API integration | S08 | completed | 303 backend + 3 frontend; 31 full service tests + final operational CLI test; 10 Docker tests, real HTTP/RQ crash/cancel flow and package checks; see docs/evidence/s09-verification.md |
 | S10 | Complete assessment dashboard | S09 | completed | 305 backend + 4 frontend; 8 real browser/service/worker/Docker flows, exact displayed API totals, desktop/narrow QA and cleanup; see docs/evidence/s10-verification.md |
-| S11 | Structured AI intake and grounded explanations | S10 | not_started | None |
+| S11 | Structured AI intake and grounded explanations | S10 | completed | 337 backend + 7 frontend, 42 service tests, 2 real browser flows, package smoke; see docs/evidence/s11-verification.md |
 | S12 | Reproducible reports and migration handoff exports | S11 | not_started | None |
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S10 is the next unfinished sprint. S01 through S09 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S12 is the next unfinished sprint. S01 through S11 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -739,21 +739,21 @@ Record browser verification, routes, accessibility issues, screenshots only if u
 
 ### S11 Structured AI intake and grounded explanations
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S10  
 **Outcome:** Use a language model to reduce user effort while preserving deterministic evidence and a usable offline path.  
 **Expected code and document areas:** backend/src/data_optimizer/{intake,llm,explanations}; frontend/src/; backend/tests/; docs/ai-boundaries.md
 
 #### Tasks
 
-- [ ] S11.01 Define a provider-neutral structured interface for extracting proposed requirements and generating questions/explanations. Keep provider credentials server-side and optional for local deterministic workflows.
-- [ ] S11.02 Check official provider API documentation at implementation time. Select a supported structured-output API and configure model, timeout, token limits and per-assessment usage budgets.
-- [ ] S11.03 Extract proposed fields from the startup description, mark assumptions and ask only consequential missing questions. Let the user confirm inferred requirements before benchmarking.
-- [ ] S11.04 Ground recommendation explanations in immutable result/evidence IDs. Render authoritative numbers from calculated fields so generated prose cannot introduce competing financial values.
-- [ ] S11.05 Send approved summaries instead of raw customer records. Treat uploaded text and query comments as untrusted data; do not grant tool execution or unrestricted data access.
-- [ ] S11.06 Validate responses against typed schemas and allowed candidate/requirement references. Handle invalid output, missing keys, timeout, budget exhaustion and provider unavailability with an honest fallback.
-- [ ] S11.07 Expose edit/confirm controls in the dashboard and explain evidence limitations in plain language. Preserve the original user input and accepted requirements version.
-- [ ] S11.08 Evaluate extraction, question relevance, fabricated-claim rejection and instruction-like file content with deterministic fixtures; use optional live smoke tests only when credentials are available.
+- [x] S11.01 Define a provider-neutral structured interface for extracting proposed requirements and generating questions/explanations. Keep provider credentials server-side and optional for local deterministic workflows.
+- [x] S11.02 Check official provider API documentation at implementation time. Select a supported structured-output API and configure model, timeout, token limits and per-assessment usage budgets.
+- [x] S11.03 Extract proposed fields from the startup description, mark assumptions and ask only consequential missing questions. Let the user confirm inferred requirements before benchmarking.
+- [x] S11.04 Ground recommendation explanations in immutable result/evidence IDs. Render authoritative numbers from calculated fields so generated prose cannot introduce competing financial values.
+- [x] S11.05 Send approved summaries instead of raw customer records. Treat uploaded text and query comments as untrusted data; do not grant tool execution or unrestricted data access.
+- [x] S11.06 Validate responses against typed schemas and allowed candidate/requirement references. Handle invalid output, missing keys, timeout, budget exhaustion and provider unavailability with an honest fallback.
+- [x] S11.07 Expose edit/confirm controls in the dashboard and explain evidence limitations in plain language. Preserve the original user input and accepted requirements version.
+- [x] S11.08 Evaluate extraction, question relevance, fabricated-claim rejection and instruction-like file content with deterministic fixtures; use optional live smoke tests only when credentials are available.
 
 #### Acceptance gates
 
@@ -771,18 +771,19 @@ Record provider setup, model configuration, budgets, prompt/schema versions, fal
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S11.01 after its dependencies are verified.
+- Started: 2026-11-02, Asia/Kolkata
+- Updated: 2026-11-02 22:20, Asia/Kolkata
+- Completed: 2026-11-02 22:20, Asia/Kolkata
+- Branch and commit if available: `main`, clean start/final HEAD `82cfeba` (S10). No staging/commit/push/history changes; S11 remains uncommitted.
+- Delivered behavior: Provider-neutral structured JSON interface and optional server-only OpenAI Responses adapter; bounded strict schema/summary/output/time/usage handling; conservative source-cited retention/day and freshness/second extraction plus consequential missing questions; explicit summary approval, editable proposals and immutable accepted request versions linked to assessments; validated candidate/evidence/reason selection rendered with checked text and existing calculated metrics; raw files/query text/schema/financial values excluded from explanation prompts; deterministic offline and all controlled failure fallbacks; scoped refresh recovery and confirmation-change checks.
+- Files changed: New `backend/src/data_optimizer/{intake,llm,explanations}/`, `api/assistance.py`, migration `0006_structured_assistance.sql`; `api/{main,assessments}.py`, `config.py`, `jobs/models.py`; unit and service assistance tests; `frontend/src/{Intake,Explanation}.tsx`, `Intake.test.tsx`, `App.tsx`, `api.ts`, generated contracts, browser spec/config; contract generator and S11 browser/package scripts; `.env.example`, Makefile, README, user flow, AI boundary guide, decision 0011, S11 evidence and this handoff. Build refreshes tracked frontend tsbuildinfo. No runtime dependency/lockfile change.
+- Setup and run commands: Existing locked `make setup`; `make infra-up`, `make migrate`, `make seed-local`, `make storage-init`, `make dev` with dispatcher/worker as documented. Optional server `LLM_PROVIDER=openai` and private `LLM_API_KEY`; default disabled, model `gpt-5.4-mini-2026-03-17`. 15-second transport operation timeout/elapsed stream checks; 800 output tokens, 32768 input bytes, four calls and 100000 pessimistic token reservations per scope. Intake budget is project-wide; explanations are per assessment. Prompt/schema version `s11.1`. No automatic provider call without approved summary fingerprint.
+- Verification commands and outcomes: Final `UV_OFFLINE=1 make check` passed drift/Ruff/strict mypy 88 files/ESLint/TypeScript. Final `UV_OFFLINE=1 make test` passed 337 backend + 7 frontend, including 32 S11 schema/extraction/grounding/transport cases and three S11 UI tests. `UV_OFFLINE=1 make test-integration` passed all 42 real service tests (10 S11) in 47.62s. Final `UV_OFFLINE=1 make test-assistance-browser` passed both real Chrome/API/PostgreSQL/MinIO/Redis/worker/Docker flows in 12.2s with exit 0 and cleanup. `UV_OFFLINE=1 make build` passed wheel/sdist/Vite; extracted-wheel `uv run --locked --project backend python scripts/verify-s11-package.py` passed six migrations, assistance OpenAPI routes and provider schema outside source tree. Script Ruff and diff whitespace checks passed. Synthetic secret markers absent from browser bundle and S11 logs.
+- Evidence and report paths: `docs/evidence/s11-verification.md`, `s11-verification-results.json`, `s11-package-results.json`, saved check/test/integration/build/browser logs and browser results/cleanup status; actual measured-change/startup reports and desktop/narrow screenshots. Real measured fixture and displayed horizon totals reconciled, original description/edited confirmation/version history preserved, stale changes require reconfirmation, cross-tenant/expiry/DB immutability/concurrent usage quotas verified. Optional provider responses are mocked, not live.
+- Decisions and deviations: D026 / `docs/decisions/0011-s11-structured-assistance.md`. Use existing HTTPX in Python, strict structured selections and checked text instead of unconstrained prose or a JavaScript AI SDK. AI can prioritize only locally validated explicit fields/questions/cards; broader requirements remain manual. All authoritative numbers stay in existing calculated result components. Usage reservations include failures and persist across restart; they are admission bounds, not actual billing. Fixed destination/no redirects/retries/tools, 128 KiB response limit and summary review. Details in `docs/ai-boundaries.md`.
+- Blockers or unverified checks: No S11 local acceptance blocker. No configured key: live provider smoke `not_run`; actual provider account/model/schema acceptance, quality/latency/billing/retention remain unverified. Only two explicit extraction fields; no general natural-language requirement inference claim. Transport uses operation timeouts plus elapsed checks, not a hard end-to-end deadline. Existing TestClient deprecation/Node color warnings remain. Initial test basename, helper-export and package route-introspection issues were fixed before final passing checks. Separate sandbox suite not rerun; real Docker assessments ran in service/browser suites. No live prices/customer/pilot/production/cloud performance claim, public deployment or paid provisioning. S12 not started.
+- Completion checklist: All eight S11 tasks and three local gates have concrete evidence; full checks/test/build and related service/browser/package paths pass; defaults/official sources/limitations documented; source/history preserved; ledger/current/next/date/decisions/blockers/history reconciled. Services stopped without deleting volumes; no labeled benchmark containers remain.
+- Resume from: Start S12.01 after reading this handoff, decision 0011 and AI boundary guide. Export immutable S08/S09 report/requirements/confirmation provenance and existing calculated values; generate migration commands only from validated templates, with integrity/canary/rollback instructions and tenant-owned expiring access. No S13 or post-MVP work in the S12 chat.
 
 ### S12 Reproducible reports and migration handoff exports
 
@@ -980,11 +981,13 @@ This checklist is a reusable template. Copy its result into the active Execution
 
 | D025 | 2026-11-02 | Pydantic-generated dashboard contracts, bounded preflight, explicit evidence and scoped refresh recovery | Keep real UI calculations aligned with backend semantics and unknown/synthetic/provenance boundaries; see decision 0010 and user flow |
 
+| D026 | 2026-11-02 | Optional structured selections, approved minimal summaries, immutable requirement confirmation and durable usage reservations | Keep inference reviewable and numbers/execution authoritative; preserve no-key workflow and reject fabricated references/claims; see decision 0011 |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S11. S01 through S10 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S12. S01 through S11 local acceptance gates are complete; optional live AI integration, external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
@@ -1134,6 +1137,18 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 - Final check/test/build passed: 305 backend + 4 frontend tests; final frontend four passed after session changes. Final actual browser suite passed 8/8 in 44.8s with command exit 0 and explicit cleanup record. Real raw formats/gzip, keep_current, missing input/metadata provenance, refresh, active cancellation, cross-tenant 404, malformed upload/invalid JSON/query recovery and exact displayed costs/line items verified. Desktop/narrow screenshots manually inspected after fixing labels/fingerprint overflow. See `docs/evidence/s10-verification.md` and D025/0010.
 - Runner cleaned isolated schema/bucket/queue/workspace and processes. Stopped local project services without deleting volumes; no benchmark containers remain. Local Chrome/two viewports only; live IdP/prices/customer/production validation and broad accessibility audit remain unverified. No S11 implementation.
 - Handoff reconciled at 2026-11-02 21:23 (Asia/Kolkata): S10 completed, Current None, Next S11. Next chat starts optional structured AI intake and grounded explanations while preserving the deterministic no-key flow.
+
+### S11 start on 2026-11-02
+
+- Read handoff/architecture and S10 decision/user flow; clean main at `82cfeba` with S10 code present. S11 marked in_progress before implementation.
+- Resume at typed provider boundary, summary approval, immutable confirmation/version history and grounded explanations; no S12 work.
+
+### S11 completion on 2026-11-02
+
+- Completed S11.01–S11.08 on main at `82cfeba`, preserving prior code/history and making no commit/push. Added optional provider-neutral strict intake/evidence-card selection, explicit summary review and edited version confirmation, immutable assessment provenance, durable concurrent usage budgets and deterministic fallback. No new runtime dependency or S12 work.
+- Passed final check, full 337 backend + 7 frontend tests, all 42 service tests, two real browser/worker/Docker flows and build/extracted-wheel smoke with six migrations. Verified edited input/version preservation, refresh and reconfirmation, exact displayed API totals, cross-tenant/expiry/immutable records and no report mutation. See `docs/evidence/s11-verification.md`.
+- Configured-provider/schema/transport/grounding tests use deterministic mocks only. No key is configured; live provider smoke is not_run. Explicit retention/day and freshness/second extraction only, other fields manual. No provider/customer/billing/production result is invented. D026/decision 0011 and `docs/ai-boundaries.md` record defaults/privacy/limits.
+- Isolated browser/service resources cleaned; project services stopped without volume deletion and no benchmark containers remain. Handoff reconciled at 2026-11-02 22:20 (Asia/Kolkata): S11 completed, Current None, Next S12. Next chat implements reproducible reports and migration handoff exports.
 
 ### Template for subsequent session entries
 

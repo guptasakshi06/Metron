@@ -1,0 +1,40 @@
+{
+  "sprint": "S11",
+  "status": "passed",
+  "python": "3.12.3",
+  "check": "passed: generated contracts, Ruff, strict mypy (88 source files), ESLint, TypeScript",
+  "unit_tests": {
+    "backend": 337,
+    "frontend": 7
+  },
+  "service_tests": 42,
+  "s11_service_tests": 10,
+  "browser_tests": 2,
+  "s11_schema_transport_grounding_tests": 32,
+  "build": "Python sdist/wheel and Vite passed",
+  "packaged_smoke": {
+    "status": "passed",
+    "packaged_migrations": 6,
+    "model": "gpt-5.4-mini-2026-03-17",
+    "assistance_routes": true,
+    "wheel_sha256": "46f52e548f2465fa671c1e5346872a32d3952a6da7558ad5922d347cc73c28c9"
+  },
+  "live_provider": "not_run: no configured key; disabled local default",
+  "provider_tests": "deterministic MockTransport and mocked structured-provider responses only",
+  "separate_benchmark_suite": "not_run: sandbox code unchanged; actual Docker assessments exercised through service/browser suites",
+  "source_sha256": {
+    "backend/src/data_optimizer/llm/provider.py": "e1fde2a2c94b693aa909c1fa44354b6e2f61961610c92eb841a450d314bb1508",
+    "backend/src/data_optimizer/llm/service.py": "eec446426c9ff07aa5b215e1eb2eceb61022ad37d70c4b29d6daa9a476dec4eb",
+    "backend/src/data_optimizer/api/assistance.py": "a4aaad3a00d7de90c479936bb7ba0a52f8605c3491bea02ece7d9881ff75dff2",
+    "backend/migrations/0006_structured_assistance.sql": "83a62d1edf629350042ae4ba35394cf98da28103494ce636726c1870ae42b541",
+    "docs/evidence/s11-measured-change-report.json": "b7caef909cdc316e042da7a6112055efed96bfaacced03aa8cd324848e6ebe4b",
+    "docs/evidence/s11-startup-report.json": "e26c25184c4541f3aff7bfb4c619546cccbe3bfd0d150817a693ba41ff0a910f"
+  },
+  "limitations": [
+    "explicit retention/day and freshness/second extraction only; other fields manual",
+    "AI selects checked proposals/questions/cards; no free-form numeric claims or execution",
+    "transport operation timeouts with elapsed-stream checks; not a strict end-to-end deadline",
+    "no live provider quality, account, latency, token billing, customer or production validation"
+  ],
+  "synthetic_secret_marker_scan": "passed: browser bundle and saved S11 logs"
+}

@@ -14,6 +14,7 @@ class Submission(Model):
     project_id: UUID
     dataset_id: UUID | None = None
     profile_id: UUID | None = None
+    intake_confirmation_id: UUID | None = None
     request: AssessmentRequest
 
     @model_validator(mode="after")

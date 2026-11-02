@@ -151,3 +151,12 @@ The [dashboard guide](docs/user-flow.md) documents metadata review, draft/sessio
 refresh/cancellation, schema clarification and raw evidence. [S10 verification](docs/evidence/s10-verification.md)
 records the real-service browser checks and responsive screenshots. External login-provider
 validation, live prices, production measurements and public deployment remain unverified.
+
+### Optional structured assistance
+
+S11 adds review/edit/confirm intake and grounded evidence cards. The full assessment
+works with `LLM_PROVIDER=disabled`. To enable explicitly approved provider requests,
+configure server-only `LLM_PROVIDER=openai` and `LLM_API_KEY` after running `make migrate`.
+See [AI boundaries and setup](docs/ai-boundaries.md) for model, limits, privacy and
+fallback behavior. Run `make test-assistance-browser` for isolated real-service flows;
+live provider behavior is separately unverified.

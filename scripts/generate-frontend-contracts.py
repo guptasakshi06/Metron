@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from data_optimizer.intake.models import IntakeResult
 from data_optimizer.optimization.assessment import AssessmentReport, AssessmentRequest
 from data_optimizer.profiling.models import ProfileReport
 
@@ -61,6 +62,7 @@ def generated() -> str:
         (AssessmentRequest, "Input", "validation"),
         (AssessmentReport, "Result", "serialization"),
         (ProfileReport, "Local", "serialization"),
+        (IntakeResult, "Assist", "serialization"),
     ]:
         schema = model.model_json_schema(mode=mode)
         for name, node in {**schema.get("$defs", {}), model.__name__: schema}.items():

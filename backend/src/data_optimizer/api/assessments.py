@@ -13,6 +13,7 @@ from pydantic import ValidationError
 from data_optimizer.auth.dependencies import identity_dependency
 from data_optimizer.auth.identity import Identity
 from data_optimizer.config import Settings
+from data_optimizer.intake.service import requirements_fingerprint
 from data_optimizer.jobs.models import Submission, bounded_request
 from data_optimizer.profiling.models import fingerprint
 from data_optimizer.storage.s3 import S3Storage
@@ -44,6 +45,7 @@ def summary(row: dict[str, Any]) -> dict[str, Any]:
             "dataset_id",
             "profile_id",
             "requirements_id",
+            "intake_confirmation_id",
             "status",
             "progress",
             "attempts",
@@ -56,6 +58,22 @@ def summary(row: dict[str, Any]) -> dict[str, Any]:
             "input_fingerprint",
         )
     }
+
+
+def load_result(config: Settings, assessment_id: UUID, identity: Identity) -> bytes:
+    import hashlib
+
+    row = owned(config, identity.tenant_id, assessment_id)
+    if row["result_key"] is None:
+        raise HTTPException(409, "result is not available; inspect status and progress")
+    body = S3Storage(config).get(row["result_key"])
+    try:
+        data: bytes = body.read(67_108_865)
+    finally:
+        body.close()
+    if len(data) != row["result_bytes"] or hashlib.sha256(data).hexdigest() != row["result_sha256"]:
+        raise HTTPException(503, "result integrity check failed")
+    return data
 
 
 def build_assessments_router(config: Settings) -> APIRouter:
@@ -125,6 +143,16 @@ def build_assessments_router(config: Settings) -> APIRouter:
                 if not profile:
                     raise HTTPException(404, "profile not found")
                 input_hash = profile["profile_fingerprint"]
+            if payload.intake_confirmation_id:
+                confirmation = db.execute(
+                    "SELECT requirements_fingerprint FROM intake_confirmations WHERE "
+                    "tenant_id=%s AND project_id=%s AND id=%s",
+                    (identity.tenant_id, payload.project_id, payload.intake_confirmation_id),
+                ).fetchone()
+                if not confirmation:
+                    raise HTTPException(404, "intake confirmation not found")
+                if confirmation["requirements_fingerprint"] != requirements_fingerprint(normalized):
+                    raise HTTPException(409, "requirements changed; review and confirm again")
             count = db.execute(
                 "SELECT count(*) AS n FROM assessments WHERE tenant_id=%s AND "
                 "status IN ('queued','profiling','benchmarking','scoring') AND expires_at>now()",
@@ -155,8 +183,8 @@ def build_assessments_router(config: Settings) -> APIRouter:
             )
             row = db.execute(
                 """INSERT INTO assessments (id,tenant_id,project_id,dataset_id,profile_id,
-                requirements_id,idempotency_key,input_fingerprint,request_fingerprint,request,
-                status,expires_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,'queued',
+                requirements_id,intake_confirmation_id,idempotency_key,input_fingerprint,request_fingerprint,request,
+                status,expires_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,'queued',
                 COALESCE(%s,now()+(%s * interval '1 day'))) RETURNING *""",
                 (
                     assessment,
@@ -165,6 +193,7 @@ def build_assessments_router(config: Settings) -> APIRouter:
                     payload.dataset_id,
                     payload.profile_id,
                     requirements,
+                    payload.intake_confirmation_id,
                     idempotency_key,
                     input_hash,
                     digest,
@@ -216,29 +245,11 @@ def build_assessments_router(config: Settings) -> APIRouter:
             )
         return summary(owned(config, identity.tenant_id, assessment_id))
 
-    def result(assessment_id: UUID, identity: Identity) -> bytes:
-        import hashlib
-
-        row = owned(config, identity.tenant_id, assessment_id)
-        if row["result_key"] is None:
-            raise HTTPException(409, "result is not available; inspect status and progress")
-        body = S3Storage(config).get(row["result_key"])
-        try:
-            data: bytes = body.read(67_108_865)
-        finally:
-            body.close()
-        if (
-            len(data) != row["result_bytes"]
-            or hashlib.sha256(data).hexdigest() != row["result_sha256"]
-        ):
-            raise HTTPException(503, "result integrity check failed")
-        return data
-
     @router.get("/{assessment_id}/result")
     def raw_result(
         assessment_id: UUID, identity: Annotated[Identity, Depends(verified)]
     ) -> Response:
-        return Response(result(assessment_id, identity), media_type="application/json")
+        return Response(load_result(config, assessment_id, identity), media_type="application/json")
 
     @router.get("/{assessment_id}/recommendations")
     def recommendations(
@@ -246,7 +257,7 @@ def build_assessments_router(config: Settings) -> APIRouter:
     ) -> dict[str, Any]:
         import json
 
-        data = json.loads(result(assessment_id, identity))
+        data = json.loads(load_result(config, assessment_id, identity))
         return {
             "assessment_id": assessment_id,
             "decision": data["decision"],

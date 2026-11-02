@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "packaged_migrations": 6,
+  "model": "gpt-5.4-mini-2026-03-17",
+  "assistance_routes": true,
+  "wheel_sha256": "46f52e548f2465fa671c1e5346872a32d3952a6da7558ad5922d347cc73c28c9"
+}

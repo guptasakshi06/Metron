@@ -937,3 +937,22 @@ export type LocalProfileReport = {
   "field_names_redacted": boolean;
   "warnings": Array<"csv_text_requires_explicit_overrides" | "nested_values_are_opaque" | "mixed_types_require_schema_review" | "sample_statistics_not_population_estimates" | "metadata_may_be_sensitive_review_before_upload" | "sensitive_statistics_redacted" | "timestamps_have_mixed_awareness">;
 }
+
+export type AssistProposedField = {
+  "field": "retention_days" | "freshness_seconds";
+  "value": number;
+  "source_quote": string;
+}
+
+export type AssistIntakeResult = {
+  "version"?: "s11.1";
+  "id": string;
+  "original_description": string;
+  "fields": Array<AssistProposedField>;
+  "questions": Record<string, string>;
+  "summary": Record<string, unknown>;
+  "summary_fingerprint": string;
+  "source": "deterministic" | "provider";
+  "status": string;
+  "assumption"?: string;
+}

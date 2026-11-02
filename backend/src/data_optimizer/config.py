@@ -8,6 +8,7 @@ from pydantic import (
     HttpUrl,
     PostgresDsn,
     RedisDsn,
+    SecretStr,
     ValidationInfo,
     field_validator,
     model_validator,
@@ -52,6 +53,15 @@ class Settings(BaseSettings):
     max_query_seconds: int = Field(default=60, gt=0, le=3600)
     max_assessment_seconds: int = Field(default=900, gt=0, le=7200)
     max_worker_memory_mib: int = Field(default=2048, gt=0)
+
+    llm_provider: Literal["disabled", "openai"] = "disabled"
+    llm_api_key: SecretStr | None = None
+    llm_model: str = Field(default="gpt-5.4-mini-2026-03-17", min_length=1, max_length=100)
+    llm_timeout_seconds: float = Field(default=15, ge=1, le=30)
+    llm_max_output_tokens: int = Field(default=800, ge=128, le=2000)
+    llm_max_input_bytes: int = Field(default=32768, ge=1024, le=65536)
+    llm_calls_per_scope: int = Field(default=4, ge=1, le=10)
+    llm_token_budget_per_scope: int = Field(default=100000, ge=1024, le=1000000)
 
     assessment_work_dir: str = ".data-optimizer-jobs"
     assessment_queue: str = "data-optimizer"

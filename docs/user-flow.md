@@ -98,3 +98,19 @@ an ephemeral PostgreSQL schema, bucket, queue and workspace, then runs Playwrigh
 services/workers. It removes its resources and stops its processes, preserving local volumes.
 It does not start or stop infrastructure automatically. See
 [S10 verification](evidence/s10-verification.md) for actual results and limitations.
+
+## Optional requirement and explanation assistance (S11)
+
+After selecting a project, **Review requirement proposals** extracts explicitly stated
+retention/freshness and asks consequential missing questions. Review source passages,
+edit values or clear them to unknown, then **Confirm and apply reviewed requirements**.
+The original description and accepted version are preserved. Policy/workload changes
+require another confirmation. Manual editing and assessment submission remain usable
+without assistance. Optional AI requires approving the displayed summary first; it
+never receives raw files or query text. Missing keys or provider failures retain the
+local workflow.
+
+Results include evidence-linked guidance. Optional AI can prioritize verified evidence
+cards; financial values still come exclusively from calculated result fields. Coverage
+limitations remain visible for every outcome. See [AI boundaries](ai-boundaries.md)
+for the exact provider setup, supported extraction syntax, budgets and API paths.

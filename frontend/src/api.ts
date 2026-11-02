@@ -134,3 +134,18 @@ export class Api {
 export const pretty = (v: unknown) => JSON.stringify(v, null, 2);
 export const errorText = (e: unknown) =>
   e instanceof Error ? e.message : "Request failed. Retry.";
+
+export const requirementsKey = (request: InputAssessmentRequest) =>
+  pretty({ policy: request.policy, workload: request.conversion?.workload ?? null });
+
+export function assistanceStatus(status: string): string {
+  return ({
+    not_requested: "Local guidance is ready.", completed: "AI selection was checked against the evidence.",
+    disabled: "Optional AI is disabled.", missing_key: "No AI provider key is configured.",
+    timeout: "The AI provider timed out.", provider_unavailable: "The AI provider is unavailable.",
+    invalid_output: "The AI response could not be verified.",
+    incomplete_or_refused: "The AI provider did not return a complete answer.",
+    budget_exhausted: "The AI usage budget has been reached.",
+    input_budget_exhausted: "This summary exceeds the configured AI input limit.",
+  } as Record<string, string>)[status] ?? "Local guidance remains available.";
+}

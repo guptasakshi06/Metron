@@ -12,6 +12,9 @@ import type { LocalProfileReport } from "./contracts.generated";
 import { Api, errorText, pretty, terminal } from "./api";
 import demo from "./demo-request.json";
 import Results from "./Results";
+import Intake from "./Intake";
+import { requirementsKey } from "./api";
+import Explanation from "./Explanation";
 
 function stored(key: string) {
   try {
@@ -190,6 +193,16 @@ function Dashboard({
   const [requestText, setRequestText] = useState(
     () => (!token && stored(`do:v1:${scope}:draft`)) || pretty(baseRequest),
   );
+  const [acceptedIntake, setAcceptedIntake] = useState<{ id: string; key: string } | null>(() => {
+    if (token) return null;
+    try {
+      const saved = JSON.parse(stored(`do:v1:${scope}:intake`));
+      return saved?.projectId === projectId && typeof saved?.id === "string" && typeof saved?.key === "string"
+        ? { id: saved.id, key: saved.key } : null;
+    } catch { return null; }
+  });
+  const latestDraft = useRef(requestText);
+  latestDraft.current = requestText;
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -338,6 +351,8 @@ function Dashboard({
   }
   function selectProject(id: string) {
     setProjectId(id);
+    setAcceptedIntake(null);
+    if (!token) save(`do:v1:${scope}:intake`, "");
     setDatasetId("");
     setProfileId("");
     setDatasets([]);
@@ -416,6 +431,8 @@ function Dashboard({
   async function run() {
     if (!request || parseError)
       throw new Error("Correct the request JSON first.");
+    if (acceptedIntake && acceptedIntake.key !== requirementsKey(request))
+      throw new Error("Requirements changed after confirmation. Review and confirm them again.");
     const validation = await api.call<{
       valid: boolean;
       issues: { path: string; code: string }[];
@@ -428,6 +445,7 @@ function Dashboard({
       );
     const payload = {
       project_id: projectId,
+      intake_confirmation_id: acceptedIntake?.id ?? null,
       dataset_id: mode === "raw" ? datasetId : null,
       profile_id: mode === "metadata" ? profileId : null,
       request: validation.request,
@@ -567,6 +585,19 @@ function Dashboard({
           </form>
         </div>
       </section>
+      {projectId && <Intake key={projectId} api={api} projectId={projectId}
+        context={projects.find(p => p.project_id === projectId)?.business_context ?? ""}
+        request={request} onConfirm={(next, id, before) => {
+          try {
+            if (pretty(JSON.parse(latestDraft.current)) !== before) {
+              setError("The draft changed during confirmation. Review and confirm the current requirements again.");
+              return;
+            }
+          } catch { return; }
+          const accepted = { id, key: requirementsKey(next) };
+          editRequest(next); setAcceptedIntake(accepted);
+          if (!token) save(`do:v1:${scope}:intake`, pretty({ ...accepted, projectId }));
+        }} />}
       <fieldset disabled={!projectId || !!busy} className="panel" id="input">
         <legend>02 / Dataset evidence</legend>
         <h2>Choose what you share</h2>
@@ -1148,7 +1179,11 @@ function Dashboard({
             </details>
           </>
         )}
-        {report && <Results report={report} />}
+        {report && <>
+          <Explanation key={assessmentId + report.report_fingerprint} api={api}
+            assessmentId={assessmentId} fingerprint={report.report_fingerprint} />
+          <Results report={report} />
+        </>}
       </section>
     </main>
   );

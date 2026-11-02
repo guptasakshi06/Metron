@@ -1,0 +1,75 @@
+
+> data-optimizer-frontend@0.1.0 dev
+> vite --host 127.0.0.1 --port 5174
+
+
+  VITE v7.3.7  ready in 108 ms
+
+  ➜  Local:   http://127.0.0.1:5174/
+10:18:23 PM [vite] http proxy error: /ready
+Error: connect ECONNREFUSED 127.0.0.1:8010
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:2083:16)
+10:18:23 PM [vite] http proxy error: /ready
+Error: connect ECONNREFUSED 127.0.0.1:8010
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:2083:16)
+INFO:     Started server process [323461]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8010 (Press CTRL+C to quit)
+INFO:     127.0.0.1:52268 - "GET /ready HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52270 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52276 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52294 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52296 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52312 - "GET /v1/projects/210dde52-a8b9-4ec1-b8cb-cf4c82021aed/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52322 - "GET /v1/assessments?project_id=210dde52-a8b9-4ec1-b8cb-cf4c82021aed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52298 - "GET /v1/projects/210dde52-a8b9-4ec1-b8cb-cf4c82021aed/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52334 - "POST /v1/projects/210dde52-a8b9-4ec1-b8cb-cf4c82021aed/datasets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52346 - "PUT /v1/uploads/43e85848-49c4-497f-b8cf-bef582af1285 HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52354 - "POST /v1/uploads/43e85848-49c4-497f-b8cf-bef582af1285/finalize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52364 - "POST /v1/projects/210dde52-a8b9-4ec1-b8cb-cf4c82021aed/intake HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52374 - "POST /v1/projects/210dde52-a8b9-4ec1-b8cb-cf4c82021aed/intake/074c8966-09ef-4210-a1b7-375c1f570711/refine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52390 - "POST /v1/projects/210dde52-a8b9-4ec1-b8cb-cf4c82021aed/intake/67eabe4a-f1eb-47f0-b0d8-f84efb10c804/confirm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52414 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52470 - "GET /v1/projects/210dde52-a8b9-4ec1-b8cb-cf4c82021aed/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52446 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52458 - "GET /v1/projects/210dde52-a8b9-4ec1-b8cb-cf4c82021aed/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52478 - "GET /v1/assessments?project_id=210dde52-a8b9-4ec1-b8cb-cf4c82021aed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52482 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52494 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52496 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52508 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52524 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37292 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37308 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37318 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37324 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37328 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37330 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37346 - "POST /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37348 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37350 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37352 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37366 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37380 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37384 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:37398 - "GET /v1/projects/16289061-f6f2-44f3-8e05-38dffd0520c5/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37402 - "GET /v1/assessments?project_id=16289061-f6f2-44f3-8e05-38dffd0520c5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37394 - "GET /v1/projects/16289061-f6f2-44f3-8e05-38dffd0520c5/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37406 - "POST /v1/projects/16289061-f6f2-44f3-8e05-38dffd0520c5/intake HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37412 - "POST /v1/projects/16289061-f6f2-44f3-8e05-38dffd0520c5/intake/a8297fd4-a7b6-4cdf-a4dc-56bbacec0f2a/confirm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37424 - "POST /v1/projects/16289061-f6f2-44f3-8e05-38dffd0520c5/intake/a8297fd4-a7b6-4cdf-a4dc-56bbacec0f2a/confirm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37440 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37444 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:37458 - "GET /v1/assessments/bd5c73ca-3f30-486f-b3fc-96b2011e54d9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37464 - "GET /v1/assessments/bd5c73ca-3f30-486f-b3fc-96b2011e54d9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37474 - "GET /v1/assessments/bd5c73ca-3f30-486f-b3fc-96b2011e54d9/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37482 - "GET /v1/assessments/bd5c73ca-3f30-486f-b3fc-96b2011e54d9/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37484 - "GET /v1/assessments/bd5c73ca-3f30-486f-b3fc-96b2011e54d9/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37496 - "GET /v1/assessments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37510 - "GET /v1/assessments/bd5c73ca-3f30-486f-b3fc-96b2011e54d9/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37520 - "GET /v1/assessments/682c15c7-9094-457b-83ec-5949a59b4130/result HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [323461]

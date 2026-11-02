@@ -6,7 +6,7 @@ export default defineConfig({
   expect: { timeout: 15_000 },
   reporter: [
     ["list"],
-    ["json", { outputFile: "../docs/evidence/s10-browser-results.json" }],
+    ["json", { outputFile: `../docs/evidence/${process.env.BROWSER_EVIDENCE_PREFIX ?? "s10"}-browser-results.json` }],
   ],
   use: {
     actionTimeout: 20_000,
