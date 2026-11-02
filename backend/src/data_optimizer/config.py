@@ -53,6 +53,14 @@ class Settings(BaseSettings):
     max_assessment_seconds: int = Field(default=900, gt=0, le=7200)
     max_worker_memory_mib: int = Field(default=2048, gt=0)
 
+    assessment_work_dir: str = ".data-optimizer-jobs"
+    assessment_queue: str = "data-optimizer"
+    max_active_assessments_per_tenant: int = Field(default=2, ge=1, le=20)
+    max_job_attempts: int = Field(default=3, ge=1, le=5)
+    job_lease_seconds: int = Field(default=30, ge=5, le=300)
+    max_job_output_bytes: int = Field(default=268_435_456, ge=1024)
+    max_job_workspace_bytes: int = Field(default=2_147_483_648, ge=1048576)
+
     @field_validator("max_decompressed_bytes")
     @classmethod
     def decompressed_cap_covers_raw_cap(cls, value: int, info: ValidationInfo) -> int:

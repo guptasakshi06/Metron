@@ -15,6 +15,8 @@ from data_optimizer.economics.commands import add_commands as add_cost_commands
 from data_optimizer.economics.commands import run as run_cost
 from data_optimizer.integrity.commands import add_commands as add_integrity_commands
 from data_optimizer.integrity.commands import run as run_integrity
+from data_optimizer.jobs.commands import add_commands as add_job_commands
+from data_optimizer.jobs.commands import run as run_job
 from data_optimizer.optimization.commands import add_commands as add_assessment_commands
 from data_optimizer.optimization.commands import run as run_assessment
 from data_optimizer.profiling.commands import add_commands, run
@@ -38,7 +40,11 @@ def main(argv: Sequence[str] | None = None) -> None:
     add_benchmark_commands(commands)
     add_cost_commands(commands)
     add_assessment_commands(commands)
+    add_job_commands(commands)
     args = parser.parse_args(argv)
+    if args.command in {"worker", "dispatch-jobs", "cleanup-assessments", "job-metrics"}:
+        run_job(args)
+        return
     if args.command == "assess":
         run_assessment(args, parser)
         return

@@ -72,3 +72,16 @@ benchmark-image:
 
 test-benchmark:
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend pytest -m benchmark_sandbox backend/tests/test_benchmark_sandbox.py
+
+.PHONY: worker dispatch-jobs cleanup-assessments job-metrics
+worker:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend data-optimizer worker
+
+dispatch-jobs:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend data-optimizer dispatch-jobs
+
+cleanup-assessments:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend data-optimizer cleanup-assessments
+
+job-metrics:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend data-optimizer job-metrics

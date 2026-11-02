@@ -13,3 +13,5 @@ build/
 .env.*
 !.env.example
 .data-optimizer-tmp/
+
+.data-optimizer-jobs/

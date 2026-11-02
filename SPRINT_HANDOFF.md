@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 19:37, Asia/Kolkata
+**Last updated:** 2026-11-02 21:01, Asia/Kolkata
 **Current sprint:** None
-**Next sprint:** S09
-**MVP status:** S01 through S08 complete; MVP implementation in progress
+**Next sprint:** S10
+**MVP status:** S01 through S09 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -248,14 +248,14 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S06 | Bounded benchmark execution and evidence capture | S05 | completed | 191 backend + 3 frontend tests, 9 real Docker tests, extracted-wheel CLI fresh/warm matrix and resource evidence; see execution record |
 | S07 | Versioned pricing and total cost calculations | S06 | completed | 70 S07 tests, 261 backend + 3 frontend total; full check/build and extracted-wheel cost CLI reconciliation; see docs/evidence/s07-verification.md |
 | S08 | Evidence based ranking and adaptive experiment selection | S07 | completed | 37 S08 tests, 298 backend + 3 frontend total; 10 Docker tests, packaged real CLI and resume; see docs/evidence/s08-verification.md |
-| S09 | Asynchronous assessments and complete API integration | S08 | not_started | None |
+| S09 | Asynchronous assessments and complete API integration | S08 | completed | 303 backend + 3 frontend; 31 full service tests + final operational CLI test; 10 Docker tests, real HTTP/RQ crash/cancel flow and package checks; see docs/evidence/s09-verification.md |
 | S10 | Complete assessment dashboard | S09 | not_started | None |
 | S11 | Structured AI intake and grounded explanations | S10 | not_started | None |
 | S12 | Reproducible reports and migration handoff exports | S11 | not_started | None |
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S09 is the next unfinished sprint. S01 through S08 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S10 is the next unfinished sprint. S01 through S09 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -643,21 +643,21 @@ Record objective settings, materiality defaults, optimizer strategy/version, sup
 
 ### S09 Asynchronous assessments and complete API integration
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S08  
 **Outcome:** Expose the working core through durable asynchronous jobs with correct retries and cancellation.  
 **Expected code and document areas:** backend/src/data_optimizer/{api,jobs,db,workers}; backend/migrations/; infra/compose.yaml; backend/tests/integration/
 
 #### Tasks
 
-- [ ] S09.01 Extend migrations for assessments, profiles, candidates, experiments, price snapshots and recommendations with immutable input/requirements references.
-- [ ] S09.02 Implement assessment creation returning 202, status/progress reads, recommendation retrieval and cancellation. Define request validation, idempotency keys and conflict responses.
-- [ ] S09.03 Run the existing core via Redis/RQ workers using PostgreSQL as the durable business-state record. Use a transactional dispatch/outbox or documented equivalent recovery mechanism to avoid lost jobs.
-- [ ] S09.04 Implement stage checkpoints, bounded retries, leases/heartbeats or equivalent stale-job detection. Retrying a stage must not duplicate valid trials or billed work.
-- [ ] S09.05 Propagate cancellation to active sandbox processes and prevent queued follow-up stages. Retain trustworthy partial evidence with an explicit stopped status.
-- [ ] S09.06 Make progress reflect actual completed work and stage state. Handle needs_input, quota failures, temporary dependency outages and budget-limited partial results.
-- [ ] S09.07 Apply tenant ownership to all assessment endpoints and artifacts. Introduce per-tenant active-job quotas and fair worker admission.
-- [ ] S09.08 Add structured operational logs/metrics without raw records or credentials. Provide restart/recovery and expired-artifact cleanup commands.
+- [x] S09.01 Extend migrations for assessments, profiles, candidates, experiments, price snapshots and recommendations with immutable input/requirements references.
+- [x] S09.02 Implement assessment creation returning 202, status/progress reads, recommendation retrieval and cancellation. Define request validation, idempotency keys and conflict responses.
+- [x] S09.03 Run the existing core via Redis/RQ workers using PostgreSQL as the durable business-state record. Use a transactional dispatch/outbox or documented equivalent recovery mechanism to avoid lost jobs.
+- [x] S09.04 Implement stage checkpoints, bounded retries, leases/heartbeats or equivalent stale-job detection. Retrying a stage must not duplicate valid trials or billed work.
+- [x] S09.05 Propagate cancellation to active sandbox processes and prevent queued follow-up stages. Retain trustworthy partial evidence with an explicit stopped status.
+- [x] S09.06 Make progress reflect actual completed work and stage state. Handle needs_input, quota failures, temporary dependency outages and budget-limited partial results.
+- [x] S09.07 Apply tenant ownership to all assessment endpoints and artifacts. Introduce per-tenant active-job quotas and fair worker admission.
+- [x] S09.08 Add structured operational logs/metrics without raw records or credentials. Provide restart/recovery and expired-artifact cleanup commands.
 
 #### Acceptance gates
 
@@ -675,18 +675,19 @@ Record endpoints, worker startup, queue/recovery semantics, quotas, migrations a
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S09.01 after its dependencies are verified.
+- Started: 2026-11-02 (Asia/Kolkata)
+- Updated: 2026-11-02 21:01 (Asia/Kolkata)
+- Completed: 2026-11-02 21:01 (Asia/Kolkata)
+- Branch and commit if available: `main`, clean start and final HEAD `cc002b0` (S08). No agent staging/commit/push/history change. S09 changes remain uncommitted.
+- Delivered behavior: Immutable tenant/project/input/requirements assessment records and append-only fingerprinted server profiles, candidate/experiment/price/recommendation evidence; HTTP 202 submission, idempotent replay/409 conflict, owned list/status/recommendations/result/cancel; PostgreSQL transactional dispatch intent with Redis/RQ JSON delivery, reconciliation and fenced attempts; stage checkpoints, heartbeats, bounded retry/restart and verified trial reuse; actual cancellation through profiling/candidate/conversion/Docker stages; true stage/completion counts, needs_input and explicit reader/quota reasons; active-tenant quota/fair admission; private MinIO result hashes, copy retention/deletion and scoped scratch/container cleanup; safe operational logs and metrics/recovery commands. Raw server profiles explicitly identify server inspection; metadata imports cannot assert server provenance.
+- Files changed: `backend/migrations/0005_assessments.sql`; `backend/src/data_optimizer/jobs/`, `api/assessments.py`, `api/main.py`, `api/profiles.py`, `config.py`, `cli.py`, `optimization/assessment.py`, `conversion/service.py`, `profiling/{models,service,commands}.py`, `sandbox/docker.py`; dependency/uv/image locks; `backend/tests/test_jobs.py`, `test_profiling.py`, integration fixture and assessment tests; `scripts/verify-s09-package.py`; `.env.example`, `.gitignore`, Makefile, README; decision 0009, assessment runbook and S09 evidence files; this handoff.
+- Setup and run commands: `.tools/uv-bin/uv add --project backend 'rq>=2.6,<3'` locked RQ 2.12.0/croniter 6.2.4. Existing `make setup`; `make infra-up`; `make migrate`; `make seed-local`; `make storage-init`; `make benchmark-image`; `make dev`. Run `make dispatch-jobs` and `make worker` in separate terminals at the same root/config/workspace. One-shot recovery: `data-optimizer dispatch-jobs --once`, `data-optimizer worker --once`. `make job-metrics`, `make cleanup-expired`, `make cleanup-assessments`; stop project infrastructure with `make infra-down` without `-v`. No public/paid resource was provisioned.
+- Verification commands and outcomes: Final `UV_OFFLINE=1 make check` passed Ruff, strict mypy (78 files), ESLint/TypeScript. Final `UV_OFFLINE=1 make test` passed 303 backend + 3 frontend tests. Final full `UV_OFFLINE=1 make test-integration` passed all 31 then-present tests in 38.60s, including 13 S09 tests; the additional final targeted `test_operational_commands_report_real_state_and_cleanup` passed in 0.49s (real metrics/cleanup/dispatch CLI). `UV_OFFLINE=1 make benchmark-image` rebuilt the final hash-locked image; final `UV_OFFLINE=1 make test-benchmark` passed all 10 Docker tests in 28.09s. Final `UV_OFFLINE=1 make build` passed wheel/sdist and Vite. `UV_OFFLINE=1 .tools/uv-bin/uv run --locked --project backend python scripts/verify-s09-package.py` passed four CLI commands outside the source tree and all five packaged migrations. Script Ruff passed. Tests use actual isolated PostgreSQL/MinIO/Redis, subprocess RQ, loopback HTTP and Docker, not fabricated results. Project-local services/network stopped without deleting volumes; benchmark-container listing empty.
+- Evidence and report paths: `docs/evidence/s09-verification.md`, `s09-verification-results.json`, `s09-package-results.json` and five saved check/test/service/Docker/build logs; reproducible assertions in `backend/tests/integration/test_assessments.py` (14 S09 service tests total). Actual raw fixture completes four measured configurations under amplified invented prices. SIGKILL recovery retains a published matrix hash and twelve unique candidate/repeat pairs with two attempts. Active-container cancellation, lost queue-list reconciliation, transient storage retry, provenance/spoof rejection, cross-tenant/quota/expiry/deletion and operational CLI verified. Python 3.12.3/RQ 2.12.0/Arrow 26.0.0/DuckDB 1.5.6. Final image and source/wheel hashes recorded in evidence.
+- Decisions and deviations: D024 / decision 0009. Reuse existing core/contracts and imported profiles rather than separate mutable result schemas. `assessments` is the transactional outbox with periodic reconciliation; PostgreSQL leases/session locks, not RQ status, own business recovery. Queue messages contain only UUIDs with JSON serialization. Default two active/one running assessment per tenant, three attempts, 30-second leases, one-second heartbeat, two-second dispatcher. Shared private host workspace enables S08 reuse; result JSON is hash-bound in MinIO. Per-configuration output cap 256 MiB and monitored workspace cap 2 GiB supplement existing limits. Worker/direct local commands remain separate from API; production needs enforced OS/socket separation. See runbook for working HTTP request templates and status semantics.
+- Blockers or unverified checks: No S09 acceptance blocker. Local single-host shared-workspace topology only; no multi-host failover, exactly-once execution before durable trial publication, hard filesystem-wide quota, external IdP, real provider/catalog/customer/cloud performance or public deployment claim. Existing TestClient deprecation warning remains. One intermediate 128 MiB profiling quota test returned a generic parsing error; isolated diagnostics/test and subsequent full suites passed without weakening expectations. Exact intermittent cause unproven; S14 retains capacity/resource calibration. Source systems unchanged; dashboard remains S10, reports/migration bundles S12.
+- Completion checklist: All eight S09 tasks and three gates passed with actual evidence; full checks/tests/build, real HTTP/worker/storage/restart/cancel and final Docker/package checks recorded; limitations and defaults documented; source/history preserved; ledger/current/next/date/decisions/history reconciled. No agent commit/push/deployment/messages.
+- Resume from: Start S10.01 after reading this handoff, decision 0009 and `docs/runbooks/assessments.md`. Build the real dashboard against the S09 endpoints and immutable executable `AssessmentRequest`; start both dispatcher and worker alongside API/frontend, preserve null/unknown/synthetic/provenance and stopped/partial distinctions. No S11 or post-MVP work in the S10 chat.
 
 ### S10 Complete assessment dashboard
 
@@ -974,11 +975,13 @@ This checklist is a reusable template. Copy its result into the active Execution
 
 | D023 | 2026-11-02 | Tested feasibility/horizon ranking, explicit materiality and resumable finite sequential exploration | Preserve evidence/unknowns/baseline, avoid duplicate successful trials and keep heuristic predictions separate; see decision 0008 and decision method |
 
+| D024 | 2026-11-02 | Durable tenant-owned assessment outbox, JSON RQ delivery and fenced local recovery | Reuse real S08 evidence without lost dispatch, duplicate valid trials or false provenance; see decision 0009 and assessment runbook |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S09. S01 through S08 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S10. S01 through S09 acceptance gates are complete; external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
@@ -1104,6 +1107,18 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 - Final check passed; full tests passed 298 backend + 3 frontend, including 37 S08 cases. All 10 actual Docker tests passed; final focused reuse test passed after stricter cached-lineage validation. Build and final packaged demo passed five real/guidance/resume cases. Saved final raw results and source hashes in `docs/evidence/s08-*`; no benchmark containers remain.
 - Actual tiny raw fixture selected validated gzip under explicitly invented amplified prices; already-compressed input kept baseline. Metadata/startup and unknown usage abstained. No live provider/customer/cloud performance/savings claim. Methods/decisions/boundaries recorded in decision 0008 and `docs/decision-method.md`.
 - Started clean main at `3f5e1b0`; no agent staging/commit/push or production actions. Preserved all prior history/source data. Handoff reconciled at 2026-11-02 19:37 (Asia/Kolkata): S08 completed, Current None, Next S09. Stop here; next chat begins asynchronous service integration.
+
+### S09 start on 2026-11-02
+
+- Read handoff, architecture and current code; clean main at `cc002b0`. Marked S09 in_progress before implementation. Resume at durable schema, bounded request policy and API-to-worker integration. No S10 work.
+
+### S09 completion on 2026-11-02
+
+- Completed S09.01–S09.08: immutable tenant-owned asynchronous API, durable PostgreSQL dispatch intent, Redis/RQ workers, checkpoint/lease/retry recovery, active cancellation, truthful progress/provenance, quotas/fair admission, private result persistence and operational cleanup/metrics.
+- Final check/test/build passed (303 backend + 3 frontend); full 31 service tests plus final additional operational CLI test passed; final rebuilt-image Docker suite passed all 10. Real loopback HTTP upload-to-result, work-horse SIGKILL recovery with unchanged published evidence, twelve unique resumed trials, active Docker cancellation and cross-tenant/expiry controls verified. Packaged four commands/five migrations outside repo passed. See `docs/evidence/s09-verification.md`.
+- D024/0009 records single-host shared-workspace and pre-publication retry boundaries. Monitored disk quota is not a hard filesystem quota. No production/cloud/customer/live-price claim or S10 implementation. Existing TestClient warning and one intermediate low-memory-test diagnostic failure (later full suites passed unchanged) documented; S14 retains resource calibration.
+- Started/final main at `cc002b0`; no agent staging/commit/push or production actions. Local project services stopped without deleting volumes; no benchmark containers remain. All prior history/source data preserved.
+- Handoff reconciled at 2026-11-02 21:01 (Asia/Kolkata): S09 completed, Current None, Next S10. Resume the assessment dashboard in the next implementation chat.
 
 ### Template for subsequent session entries
 

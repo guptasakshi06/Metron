@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import uuid
 from collections.abc import Iterator
+from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import psycopg
@@ -16,7 +17,7 @@ from data_optimizer.storage.s3 import S3Storage
 
 
 @pytest.fixture
-def services() -> Iterator[tuple[Settings, TestClient]]:
+def services(tmp_path: Path) -> Iterator[tuple[Settings, TestClient]]:
     schema = f"s02_{uuid.uuid4().hex}"
     bucket = f"data-optimizer-test-{uuid.uuid4().hex[:16]}"
     parts = urlsplit(str(settings.database_url))
@@ -25,6 +26,8 @@ def services() -> Iterator[tuple[Settings, TestClient]]:
     url = urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment))
     config = Settings(
         database_url=url,
+        assessment_work_dir=str(tmp_path / "jobs"),
+        assessment_queue="test-" + uuid.uuid4().hex,
         s3_bucket=bucket,
         max_raw_upload_bytes=4096,
         max_decompressed_bytes=16384,

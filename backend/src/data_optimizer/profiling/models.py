@@ -131,8 +131,8 @@ class Coverage(Model):
 class ProfileReport(Model):
     version: Literal[1] = 1
     profiler_version: Literal["s03.1"] = "s03.1"
-    evidence: Literal["local_profile"] = "local_profile"
-    raw_data_inspected_by_server: Literal[False] = False
+    evidence: Literal["local_profile", "server_profile"] = "local_profile"
+    raw_data_inspected_by_server: bool = False
     input_fingerprint: Digest
     schema_fingerprint: Digest
     settings_fingerprint: Digest
@@ -168,6 +168,8 @@ class ProfileReport(Model):
 
     @model_validator(mode="after")
     def coherent(self) -> ProfileReport:
+        if self.raw_data_inspected_by_server != (self.evidence == "server_profile"):
+            raise ValueError("inconsistent profile execution provenance")
         if set(self.engine_versions) != {"python", "pyarrow"} or any(
             len(v) > 64 for v in self.engine_versions.values()
         ):
@@ -218,3 +220,11 @@ def validate_report(data: bytes) -> ProfileReport:
     if report_digest(report) != report.profile_fingerprint:
         raise ValueError("profile fingerprint mismatch")
     return report
+
+
+def server_profile(report: ProfileReport) -> ProfileReport:
+    """Called only by code that actually inspected raw data in the server worker."""
+    marked = report.model_copy(
+        update={"evidence": "server_profile", "raw_data_inspected_by_server": True}
+    )
+    return marked.model_copy(update={"profile_fingerprint": report_digest(marked)})

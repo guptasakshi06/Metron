@@ -7,6 +7,8 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
+from collections.abc import Callable
 from pathlib import Path
 
 from data_optimizer.profiling.engine import input_digest
@@ -43,7 +45,13 @@ def write_report(path: Path, report: ProfileReport) -> None:
         Path(temporary).unlink(missing_ok=True)
 
 
-def profile_file(path: Path, options: ProfileOptions, cache: Path | None = None) -> ProfileReport:
+def profile_file(
+    path: Path,
+    options: ProfileOptions,
+    cache: Path | None = None,
+    *,
+    cancelled: Callable[[], bool] | None = None,
+) -> ProfileReport:
     original = input_digest(path, options.max_raw_bytes)
     import platform
 
@@ -68,7 +76,7 @@ def profile_file(path: Path, options: ProfileOptions, cache: Path | None = None)
         environment = dict(os.environ)
         environment.update(OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", ARROW_NUM_THREADS="1")
         try:
-            process = subprocess.run(
+            process = subprocess.Popen(
                 [
                     sys.executable,
                     "-m",
@@ -76,19 +84,36 @@ def profile_file(path: Path, options: ProfileOptions, cache: Path | None = None)
                     str(path.resolve()),
                     str(output),
                 ],
-                input=options.model_dump_json().encode(),
+                stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
-                timeout=options.timeout_seconds + 2,
-                check=False,
                 env=environment,
             )
+            deadline = time.monotonic() + options.timeout_seconds + 2
+            first = True
+            try:
+                while True:
+                    if cancelled and cancelled():
+                        raise ProfileError("assessment_cancelled")
+                    if time.monotonic() >= deadline:
+                        raise ProfileError("profile_time_quota")
+                    try:
+                        stdout, _ = process.communicate(
+                            input=options.model_dump_json().encode() if first else None, timeout=0.1
+                        )
+                        break
+                    except subprocess.TimeoutExpired:
+                        first = False
+            finally:
+                if process.poll() is None:
+                    process.kill()
+                process.communicate()
         except subprocess.TimeoutExpired:
             raise ProfileError("profile_time_quota") from None
         if process.returncode != 0:
             raise ProfileError("profile_resource_quota")
         try:
-            response = json.loads(process.stdout)
+            response = json.loads(stdout)
         except ValueError:
             raise ProfileError("profile_worker_failed") from None
         if "error" in response:

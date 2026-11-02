@@ -4,11 +4,14 @@ from collections.abc import Mapping
 from datetime import UTC, datetime
 from uuid import uuid4
 
+import psycopg
+from botocore.exceptions import BotoCoreError, ClientError
 from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from data_optimizer import __version__
+from data_optimizer.api.assessments import build_assessments_router
 from data_optimizer.api.datasets import build_datasets_router
 from data_optimizer.api.probes import Probe, dependency_report
 from data_optimizer.api.profiles import build_profiles_router
@@ -23,6 +26,7 @@ def create_app(
 ) -> FastAPI:
     """Build an API instance; optional probes support isolated readiness tests."""
     application = FastAPI(title="Data Optimizer API", version=__version__)
+    application.include_router(build_assessments_router(config))
     application.include_router(build_projects_router(config))
     application.include_router(build_profiles_router(config))
     application.include_router(build_datasets_router(config))
@@ -41,6 +45,16 @@ def create_app(
         return ReadinessResponse(
             status="ready" if is_ready else "not_ready", dependencies=dependencies
         )
+
+    @application.exception_handler(psycopg.Error)
+    @application.exception_handler(BotoCoreError)
+    @application.exception_handler(ClientError)
+    async def dependency_error_handler(request: Request, exc: Exception) -> JSONResponse:
+        del request, exc
+        return JSONResponse(status_code=503, content=ErrorEnvelope(
+            code="dependency_unavailable", message="A required service is temporarily unavailable.",
+            request_id=uuid4(),
+        ).model_dump(mode="json"))
 
     @application.exception_handler(RequestValidationError)
     async def validation_error_handler(

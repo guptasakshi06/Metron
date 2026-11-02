@@ -38,6 +38,8 @@ def build_profiles_router(config: Settings) -> APIRouter:
         try:
             payload = ProfileImport.model_validate_json(bytes(content))
             report = payload.report
+            if report.evidence != "local_profile" or report.raw_data_inspected_by_server:
+                raise ValueError("only reviewed local profiles may be imported")
             if report_digest(report) != report.profile_fingerprint:
                 raise ValueError()
             if payload.reviewed_fingerprint != report.profile_fingerprint:

@@ -120,11 +120,16 @@ def worker(
         process.communicate()
 
 
-def list_candidates(path: Path, request: ConversionRequest) -> CandidateList:
+def list_candidates(
+    path: Path,
+    request: ConversionRequest,
+    *,
+    cancelled: Callable[[], bool] | None = None,
+) -> CandidateList:
     request = ConversionRequest.model_validate(request.model_dump())
     before = input_digest(path, request.source.max_raw_bytes)
     with tempfile.TemporaryDirectory(prefix="data-optimizer-candidates-") as temporary:
-        result = worker(path, Path(temporary), request, None, "")
+        result = worker(path, Path(temporary), request, None, "", cancelled=cancelled)
     if result.get("status"):
         raise ProfileError(result.get("reasons", ["candidate_generation_failed"])[0])
     candidates = CandidateList.model_validate(result)

@@ -122,3 +122,13 @@ Omit the source, or use `--metadata REVIEWED_PROFILE.json`, for scenario guidanc
 savings. Exit 1 saves an insufficient-evidence report. See [decision method](docs/decision-method.md)
 for requirements, materiality, adaptive search and checkpoints. `make demo` builds and runs the
 packaged three-path local demonstration into a new temporary evidence directory.
+
+## Asynchronous assessments (S09)
+
+Run `make migrate`, then start `make dispatch-jobs` and `make worker` in separate terminals
+while `make dev` runs the API/frontend. Uploads can now complete real background assessments
+and expose owned status, recommendations and raw JSON evidence. See the
+[assessment runbook](docs/runbooks/assessments.md) for endpoint examples, idempotency, quotas,
+retry/cancellation/retention semantics and restart commands. `make job-metrics` reports
+operational counts; `make cleanup-assessments` removes expired/deleted private job artifacts.
+The assessment dashboard remains S10.

@@ -51,6 +51,8 @@ def create_arguments(image: str, name: str, snapshot: Path, limits: SandboxLimit
         name,
         "--label",
         "data-optimizer.benchmark=true",
+        "--label",
+        "data-optimizer.job=" + os.environ.get("DATA_OPTIMIZER_JOB_SCOPE", "local-cli"),
         "--network",
         "none",
         "--read-only",

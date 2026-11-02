@@ -1,0 +1,11 @@
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend pytest -m benchmark_sandbox backend/tests/test_benchmark_sandbox.py
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.7.0
+rootdir: /home/ubuntu/Documents/ChatGPT/Data Optimizer/backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 10 items
+
+backend/tests/test_benchmark_sandbox.py ..........                       [100%]
+
+============================= 10 passed in 28.09s ==============================

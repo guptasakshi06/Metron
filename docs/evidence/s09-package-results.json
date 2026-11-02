@@ -1,0 +1,6 @@
+{
+  "wheel_sha256": "ca892f04565bb223316c06c59eb188058bf149b650719d9a448aa646bafcbe0c",
+  "outside_repository_cli_commands": 4,
+  "packaged_migrations": 5,
+  "status": "passed"
+}

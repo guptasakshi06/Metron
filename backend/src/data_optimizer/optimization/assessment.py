@@ -6,6 +6,7 @@ import fcntl
 import os
 import tempfile
 import time
+from collections.abc import Callable
 from functools import partial
 from pathlib import Path
 from typing import Literal
@@ -23,7 +24,7 @@ from data_optimizer.economics.service import calculate
 from data_optimizer.optimization.search import SearchBudget, SearchState, SearchTrial, ask, tell
 from data_optimizer.pricing.models import Amount, Contract
 from data_optimizer.profiling.engine import input_digest
-from data_optimizer.profiling.models import Digest, ProfileReport, fingerprint
+from data_optimizer.profiling.models import Digest, ProfileReport, fingerprint, server_profile
 from data_optimizer.profiling.service import profile_file, read_report
 from data_optimizer.recommendations.models import Decision, DecisionPolicy
 from data_optimizer.recommendations.service import decide
@@ -100,8 +101,8 @@ def load_session(path: Path, identity: str) -> Session:
     return session
 
 
-def expired(deadline: float) -> bool:
-    return time.monotonic() >= deadline
+def expired(deadline: float, cancelled: Callable[[], bool] | None = None) -> bool:
+    return time.monotonic() >= deadline or bool(cancelled and cancelled())
 
 
 def cost_reports(
@@ -129,12 +130,21 @@ def assess(
     request: AssessmentRequest,
     *,
     metadata: Path | None = None,
+    cancelled: Callable[[], bool] | None = None,
+    progress: Callable[[str, Session | None], None] | None = None,
+    server_execution: bool = False,
 ) -> AssessmentReport:
     request = AssessmentRequest.model_validate(request.model_dump())
     if source is not None and metadata is not None:
         raise ValueError("choose_raw_or_metadata_input")
     profile = None
     session = None
+
+    def notify(stage: str, current: Session | None = None) -> None:
+        if progress:
+            progress(stage, current)
+
+    notify("profiling")
     if source is None:
         profile = read_report(metadata) if metadata else None
     else:
@@ -156,8 +166,10 @@ def assess(
             if path.exists():
                 session = load_session(path, identity)
             else:
-                profile = profile_file(source, request.conversion.source)
-                candidates = list_candidates(source, request.conversion)
+                profile = profile_file(source, request.conversion.source, cancelled=cancelled)
+                if server_execution:
+                    profile = server_profile(profile)
+                candidates = list_candidates(source, request.conversion, cancelled=cancelled)
                 configurations = tuple(
                     c.configuration for c in candidates.candidates if c.status == "eligible"
                 )
@@ -169,6 +181,9 @@ def assess(
                         identity=identity, budget=request.search, configurations=configurations
                     ),
                 )
+                checkpoint(path, session)
+            if server_execution and session.profile.evidence != "server_profile":
+                session = session.model_copy(update={"profile": server_profile(session.profile)})
                 checkpoint(path, session)
             # Charge pending interrupted work (including downtime) conservatively on resume.
             if session.active_started_at is not None:
@@ -184,7 +199,10 @@ def assess(
                     }
                 )
                 checkpoint(path, session)
+            notify("benchmarking", session)
             while True:
+                if cancelled and cancelled():
+                    break
                 search = ask(session.search)
                 session = session.model_copy(update={"search": search})
                 checkpoint(path, session)
@@ -202,7 +220,7 @@ def assess(
                         root / "artifacts",
                         request.conversion,
                         proposal.configuration,
-                        cancelled=partial(expired, deadline),
+                        cancelled=partial(expired, deadline, cancelled),
                     )
                     session = session.model_copy(
                         update={
@@ -227,7 +245,7 @@ def assess(
                             directories,
                             request.benchmark,
                             previous=matrix,
-                            cancelled=partial(expired, deadline),
+                            cancelled=partial(expired, deadline, cancelled),
                         )
                         write_report(saved, matrix, directories + (source,))
                     session = session.model_copy(update={"benchmark": matrix})
@@ -258,12 +276,14 @@ def assess(
                     }
                 )
                 checkpoint(path, session)
+                notify("benchmarking", session)
             # Detect any source changes between stages, not only inside individual workers.
             if session.candidates.input_fingerprint != input_digest(
                 source, request.conversion.source.max_raw_bytes
             ):
                 raise ValueError("assessment_source_changed")
             profile = session.profile
+    notify("scoring", session)
     matrix = session.benchmark if session else None
     costs = cost_reports(request, matrix)
     report = AssessmentReport(

@@ -129,7 +129,7 @@ def test_cache_requires_input_and_settings_and_engine_match(
     options = ProfileOptions(format="csv")
     first = profile_file(path, options, cache)
     with patch(
-        "data_optimizer.profiling.service.subprocess.run", side_effect=AssertionError("rerun")
+        "data_optimizer.profiling.service.subprocess.Popen", side_effect=AssertionError("rerun")
     ):
         assert profile_file(path, options, cache) == first
     second = profile_file(path, options.model_copy(update={"seed": 1}), cache)
@@ -308,7 +308,7 @@ def test_worker_timeout_is_a_quota_failure(fixtures: dict[str, Path]) -> None:
     import subprocess
 
     with patch(
-        "data_optimizer.profiling.service.subprocess.run",
+        "data_optimizer.profiling.service.subprocess.Popen",
         side_effect=subprocess.TimeoutExpired("worker", 1),
     ):
         with pytest.raises(ProfileError, match="profile_time_quota"):
@@ -347,3 +347,11 @@ def test_cli_import_connection_failure_is_sanitized(
     message = capsys.readouterr().err
     assert "metadata_api_unreachable" in message
     assert "SENSITIVE_TRANSPORT_DETAIL" not in message
+
+
+def test_active_profile_cancellation_stops_child_and_preserves_source(fixtures):
+    path = fixtures["ndjson"]
+    original = path.read_bytes()
+    with pytest.raises(ProfileError, match="assessment_cancelled"):
+        profile_file(path, ProfileOptions(format="ndjson"), cancelled=lambda: True)
+    assert path.read_bytes() == original

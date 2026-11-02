@@ -1,0 +1,51 @@
+{
+  "sprint": "S09",
+  "environment": {
+    "python": "3.12.3",
+    "rq": "2.12.0",
+    "pyarrow": "26.0.0",
+    "duckdb": "1.5.6"
+  },
+  "checks": {
+    "make_check": "passed",
+    "backend_tests": 303,
+    "frontend_tests": 3,
+    "full_service_suite_tests": 31,
+    "final_operational_cli_smoke_tests": 1,
+    "actual_docker_tests": 10,
+    "build": "passed",
+    "packaged_migrations": 5,
+    "outside_repository_cli_help_commands": 4
+  },
+  "actual_paths": [
+    "loopback HTTP upload/finalize/create/poll/recommendation/result",
+    "RQ subprocess and PostgreSQL/MinIO persistence",
+    "work-horse SIGKILL and unchanged published matrices; twelve unique trial pairs",
+    "active Docker cancellation and no follow-up configurations",
+    "idempotency, tenant access/quota, per-tenant admission and lost Redis queue reconciliation",
+    "transient storage retry, metadata provenance/spoof rejection, reader clarification/quota, deletion/expiry cleanup",
+    "real operational CLI metrics and cleanup"
+  ],
+  "benchmark_image": "sha256:c870f0d43bc38227568597123a76e587230aecec3b66fcdc5dbc30cb2ed6d09d",
+  "source_sha256": {
+    "backend/migrations/0005_assessments.sql": "376e68c1b145c0b30b1b4ffab9075818eefcacc5c55c458e21d73444d533a531",
+    "backend/src/data_optimizer/api/assessments.py": "f13f168d9518ac009d5314a0d10c5d0e70c2253bcd1b5b5f6730e594e8564989",
+    "backend/src/data_optimizer/api/profiles.py": "087146b63b40fe6326cf0447489751434853902b460f4f8324807d748b6a5d5a",
+    "backend/src/data_optimizer/jobs/__init__.py": "f229338366d7b1f3be78cb49f777b80517827a6668ba04db77f4b4b8807e2e8a",
+    "backend/src/data_optimizer/jobs/commands.py": "1a2ec1c5afbc0c85da249bb8517002f590bb82b5ffc6c1ea7d331a0d6750ae6e",
+    "backend/src/data_optimizer/jobs/models.py": "923fa83c2bdd0794872bb0bebbc48bed328bc668be1d4c707787874d8dcba74e",
+    "backend/src/data_optimizer/jobs/service.py": "d62f05ce0b8956e7f0e82df87928bede01f918ec3b6d57ab44f97e8c87415c57",
+    "backend/src/data_optimizer/jobs/worker.py": "2d9068b863dc2c00ed133326d3749d7324bda1b21e990ffe13f1f5fbe879b654",
+    "backend/src/data_optimizer/optimization/assessment.py": "9baaae88da12956484911cdaf549b6b9c320ef7c38cdb017d232949f490f4142",
+    "backend/src/data_optimizer/profiling/models.py": "74999241e3b2ee48862f9ee710916a5f8937758f8283d33b97dd43d0e69749fb",
+    "backend/tests/integration/test_assessments.py": "c23dfd46a0d3bf83fd36240e9ebdcf01e6057ac213dd95bea90e395d844dd011",
+    "backend/tests/test_jobs.py": "c3bf30b1430c39270e2df51570eee1119a81dbb0d408c050af98c248972e0ad5"
+  },
+  "limits": [
+    "local shared-workspace single-host topology",
+    "no exactly-once guarantee before durable measurement publication",
+    "workspace quota monitored, not a hard host filesystem quota",
+    "no public deployment, external IdP, live catalog/customer/cloud result"
+  ],
+  "intermediate_failure": "One intermediate full unit run reported invalid_structure_or_unsupported_type in the existing 128 MiB quota test. Isolated quota rerun and subsequent full suites passed; test not weakened. Resource calibration remains S14."
+}

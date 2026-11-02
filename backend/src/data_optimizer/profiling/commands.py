@@ -55,7 +55,7 @@ def run(args: argparse.Namespace, parser: argparse.ArgumentParser) -> None:
             if args.command == "profile-review":
                 print(
                     f"Rows: {report.row_count}; profiled: {report.profiled_rows}; "
-                    f"columns: {len(report.columns)}; evidence: local_profile\n"
+                    f"columns: {len(report.columns)}; evidence: {report.evidence}\n"
                     "Review the JSON for sensitive metadata. "
                     "Raw data was not inspected by a server.\n"
                     f"Review fingerprint: {report.profile_fingerprint}"
