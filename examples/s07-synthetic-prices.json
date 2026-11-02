@@ -1,0 +1,108 @@
+{
+  "version": "s07.1",
+  "provider": "synthetic-offline-example",
+  "region": "synthetic-local",
+  "currency": "USD",
+  "effective_at": "2026-11-02T00:00:00Z",
+  "retrieved_at": "2026-11-02T00:00:00Z",
+  "source": "synthetic",
+  "source_references": [
+    "examples/s07-synthetic-prices.json"
+  ],
+  "assumptions": [
+    "All rates invented for deterministic arithmetic, no live price retrieval.",
+    "Flat linear rates, decimal GB=1000000000 bytes; zero metadata explicitly assumed in this illustration."
+  ],
+  "rates": [
+    {
+      "id": "storage",
+      "unit": "GB_month",
+      "amount": "0.1",
+      "per_quantity": "1",
+      "source": {
+        "kind": "synthetic",
+        "reference": "examples/s07-synthetic-prices.json",
+        "note": "Invented arithmetic fixture; not a provider quote."
+      },
+      "minimum_object_bytes": 0,
+      "minimum_duration_days": 0,
+      "discount_fraction": "0",
+      "discount_assumption": "No discount in this synthetic fixture."
+    },
+    {
+      "id": "compute",
+      "unit": "compute_hour",
+      "amount": "1",
+      "per_quantity": "1",
+      "source": {
+        "kind": "synthetic",
+        "reference": "examples/s07-synthetic-prices.json",
+        "note": "Invented arithmetic fixture; not a provider quote."
+      },
+      "minimum_object_bytes": 0,
+      "minimum_duration_days": 0,
+      "discount_fraction": "0",
+      "discount_assumption": "No discount in this synthetic fixture."
+    },
+    {
+      "id": "requests",
+      "unit": "request",
+      "amount": "0.001",
+      "per_quantity": "1000",
+      "source": {
+        "kind": "synthetic",
+        "reference": "examples/s07-synthetic-prices.json",
+        "note": "Invented arithmetic fixture; not a provider quote."
+      },
+      "minimum_object_bytes": 0,
+      "minimum_duration_days": 0,
+      "discount_fraction": "0",
+      "discount_assumption": "No discount in this synthetic fixture."
+    },
+    {
+      "id": "transfer",
+      "unit": "GB",
+      "amount": "0.1",
+      "per_quantity": "1",
+      "source": {
+        "kind": "synthetic",
+        "reference": "examples/s07-synthetic-prices.json",
+        "note": "Invented arithmetic fixture; not a provider quote."
+      },
+      "minimum_object_bytes": 0,
+      "minimum_duration_days": 0,
+      "discount_fraction": "0",
+      "discount_assumption": "No discount in this synthetic fixture."
+    },
+    {
+      "id": "labor",
+      "unit": "hour",
+      "amount": "50",
+      "per_quantity": "1",
+      "source": {
+        "kind": "synthetic",
+        "reference": "examples/s07-synthetic-prices.json",
+        "note": "Invented arithmetic fixture; not a provider quote."
+      },
+      "minimum_object_bytes": 0,
+      "minimum_duration_days": 0,
+      "discount_fraction": "0",
+      "discount_assumption": "No discount in this synthetic fixture."
+    },
+    {
+      "id": "service",
+      "unit": "month",
+      "amount": "0",
+      "per_quantity": "1",
+      "source": {
+        "kind": "synthetic",
+        "reference": "examples/s07-synthetic-prices.json",
+        "note": "Invented arithmetic fixture; not a provider quote."
+      },
+      "minimum_object_bytes": 0,
+      "minimum_duration_days": 0,
+      "discount_fraction": "0",
+      "discount_assumption": "No discount in this synthetic fixture."
+    }
+  ]
+}

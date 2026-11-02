@@ -12,6 +12,8 @@ import time
 from collections.abc import Callable
 from pathlib import Path
 
+from pydantic import BaseModel
+
 from data_optimizer.benchmarking.models import (
     BenchmarkReport,
     BenchmarkRequest,
@@ -265,7 +267,7 @@ def benchmark(
     )
 
 
-def write_report(path: Path, report: BenchmarkReport, sources: tuple[Path, ...]) -> None:
+def write_report(path: Path, report: BaseModel, sources: tuple[Path, ...]) -> None:
     if any(path.resolve().is_relative_to(p.resolve()) for p in sources):
         raise ValueError("report_must_preserve_artifacts")
     path.parent.mkdir(parents=True, exist_ok=True)

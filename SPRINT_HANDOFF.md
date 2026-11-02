@@ -9,8 +9,8 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 02:47, Asia/Kolkata
-**Current sprint:** None
+**Last updated:** 2026-11-02 18:57, Asia/Kolkata
+**Current sprint:** S07
 **Next sprint:** S07
 **MVP status:** S01 through S06 complete; MVP implementation in progress
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
@@ -246,7 +246,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S04 | Workload specifications and semantic integrity checks | S03 | completed | 60 S04 tests, full check/test/build, real CLI pass/rejection and packaged worker; see execution record and docs/evidence/s04-verification.md |
 | S05 | Candidate generation and lossless conversion | S04 | completed | 25 conversion tests, full check/test/build, real CLI matrix/reuse and packaged worker; see docs/evidence/s05-verification.md |
 | S06 | Bounded benchmark execution and evidence capture | S05 | completed | 191 backend + 3 frontend tests, 9 real Docker tests, extracted-wheel CLI fresh/warm matrix and resource evidence; see execution record |
-| S07 | Versioned pricing and total cost calculations | S06 | not_started | None |
+| S07 | Versioned pricing and total cost calculations | S06 | in_progress | Contracts and local cost calculator in progress; see execution record |
 | S08 | Evidence based ranking and adaptive experiment selection | S07 | not_started | None |
 | S09 | Asynchronous assessments and complete API integration | S08 | not_started | None |
 | S10 | Complete assessment dashboard | S09 | not_started | None |
@@ -255,7 +255,7 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S13 | Savings observations and manual reassessment | S12 | not_started | None |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S07 is the next unfinished sprint. S01 through S06 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S07 is active and remains the next unfinished sprint. S01 through S06 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -547,7 +547,7 @@ Record hardware/environment, limits, cache procedure, metric coverage, benchmark
 
 ### S07 Versioned pricing and total cost calculations
 
-**Status:** not_started  
+**Status:** in_progress  
 **Dependencies:** S06  
 **Outcome:** Calculate auditable costs, space changes and migration economics with explicit assumptions.  
 **Expected code and document areas:** backend/src/data_optimizer/{pricing,economics}; backend/tests/unit/; docs/pricing-method.md; examples/
@@ -579,10 +579,10 @@ Record supported cost components, catalog provenance, unsupported tariffs, round
 
 #### Execution record
 
-- Started:
-- Updated:
+- Started: 2026-11-02 18:57 (Asia/Kolkata)
+- Updated: 2026-11-02 18:57 (Asia/Kolkata)
 - Completed:
-- Branch and commit if available:
+- Branch and commit if available: `main`, `b26425b`; clean worktree inspected. No commit/push authorized.
 - Delivered behavior:
 - Files changed:
 - Setup and run commands:
@@ -590,7 +590,7 @@ Record supported cost components, catalog provenance, unsupported tariffs, round
 - Evidence and report paths:
 - Decisions and deviations:
 - Blockers or unverified checks:
-- Resume from: Start S07.01 after its dependencies are verified.
+- Resume from: S07.01 immutable price and economics models, then deterministic cost engine/CLI, arithmetic boundary tests, synthetic reconciliation and packaged CLI evidence. Preserve S06 metric limitations; do not start S08.
 
 ### S08 Evidence based ranking and adaptive experiment selection
 
@@ -1074,6 +1074,11 @@ If a new blocker appears, record the affected sprint, exact failing action, evid
 - Decision D021/0006 records the actual boundary and metric limits. No cold-cache, native pushdown, tail/concurrency/cloud, supported-capacity, customer or savings claim. No service integration rerun or crash/daemon-loss cleanup test; normal cleanup leaves no labeled containers.
 - Initial clean `main` at `d150931` had commit subject `S06` but no S06 benchmark code. Followed actual tree and canonical handoff; no agent commit/push, deployment/provisioning or history change.
 - Handoff reconciled: S06 completed; Current sprint None; Next sprint S07. Resume versioned pricing and economics in the next implementation chat.
+
+### S07 start on 2026-11-02
+
+- Selected S07 after reading the handoff/architecture and inspecting clean `main` at `b26425b`. S06 implementation and saved real local benchmark evidence are present.
+- Marked in_progress before implementation at 2026-11-02 18:57 (Asia/Kolkata). Resume at immutable synthetic pricing and itemized economics; no live provider or customer claim.
 
 ### Template for subsequent session entries
 

@@ -11,6 +11,8 @@ from data_optimizer.conversion.commands import add_commands as add_conversion_co
 from data_optimizer.conversion.commands import run as run_conversion
 from data_optimizer.db.migrations import migrate
 from data_optimizer.db.seed import seed_local
+from data_optimizer.economics.commands import add_commands as add_cost_commands
+from data_optimizer.economics.commands import run as run_cost
 from data_optimizer.integrity.commands import add_commands as add_integrity_commands
 from data_optimizer.integrity.commands import run as run_integrity
 from data_optimizer.profiling.commands import add_commands, run
@@ -32,7 +34,11 @@ def main(argv: Sequence[str] | None = None) -> None:
     add_integrity_commands(commands)
     add_conversion_commands(commands)
     add_benchmark_commands(commands)
+    add_cost_commands(commands)
     args = parser.parse_args(argv)
+    if args.command == "cost":
+        run_cost(args, parser)
+        return
     if args.command == "benchmark":
         run_benchmark(args, parser)
         return
