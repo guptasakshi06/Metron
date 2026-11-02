@@ -1,0 +1,113 @@
+
+> data-optimizer-frontend@0.1.0 dev
+> vite --host 127.0.0.1 --port 5174
+
+
+  VITE v7.3.7  ready in 99 ms
+
+  ➜  Local:   http://127.0.0.1:5174/
+10:56:02 PM [vite] http proxy error: /ready
+Error: connect ECONNREFUSED 127.0.0.1:8010
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:2083:16)
+10:56:02 PM [vite] http proxy error: /ready
+Error: connect ECONNREFUSED 127.0.0.1:8010
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:2083:16)
+INFO:     Started server process [427437]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8010 (Press CTRL+C to quit)
+INFO:     127.0.0.1:43958 - "GET /ready HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43966 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43992 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44004 - "POST /v1/projects HTTP/1.1" 201 Created
+INFO:     127.0.0.1:44030 - "GET /v1/projects/94e8501a-3001-4518-b6ab-b59fc047fdbd/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44036 - "GET /v1/assessments?project_id=94e8501a-3001-4518-b6ab-b59fc047fdbd HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44016 - "GET /v1/projects/94e8501a-3001-4518-b6ab-b59fc047fdbd/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44038 - "POST /v1/projects/94e8501a-3001-4518-b6ab-b59fc047fdbd/datasets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:44052 - "PUT /v1/uploads/3578492c-c274-4391-87c5-1065af5896ca HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44064 - "POST /v1/uploads/3578492c-c274-4391-87c5-1065af5896ca/finalize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44072 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44080 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44090 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44104 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44112 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44114 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45034 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45048 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45064 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45094 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45092 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45080 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45106 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45112 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45126 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45134 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45146 - "POST /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45174 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45158 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45180 - "POST /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45210 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45194 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45212 - "POST /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45220 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45218 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45232 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45238 - "POST /v1/migration-plans/7422924a-2a1f-4e06-b180-4c5e82f20110/observations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45246 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45244 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45256 - "GET /v1/migration-plans/7422924a-2a1f-4e06-b180-4c5e82f20110/history HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45272 - "POST /v1/migration-plans/7422924a-2a1f-4e06-b180-4c5e82f20110/observations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45288 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45276 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45300 - "GET /v1/migration-plans/7422924a-2a1f-4e06-b180-4c5e82f20110/history HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45310 - "POST /v1/migration-plans/7422924a-2a1f-4e06-b180-4c5e82f20110/observations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45316 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45312 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45332 - "GET /v1/migration-plans/7422924a-2a1f-4e06-b180-4c5e82f20110/history HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45340 - "POST /v1/migration-plans/7422924a-2a1f-4e06-b180-4c5e82f20110/observations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45362 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45354 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45374 - "POST /v1/migration-plans/7422924a-2a1f-4e06-b180-4c5e82f20110/observations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45390 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45386 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45406 - "POST /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45428 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45412 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45452 - "GET /v1/dashboard/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45540 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45512 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45520 - "GET /v1/projects/94e8501a-3001-4518-b6ab-b59fc047fdbd/profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45516 - "GET /v1/projects/94e8501a-3001-4518-b6ab-b59fc047fdbd/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45524 - "GET /v1/assessments?project_id=94e8501a-3001-4518-b6ab-b59fc047fdbd HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45556 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45582 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45568 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45586 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45580 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45600 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45612 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45626 - "GET /v1/migration-plans/7422924a-2a1f-4e06-b180-4c5e82f20110/history HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45632 - "POST /v1/dashboard/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45646 - "POST /v1/assessments HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:45662 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45670 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57194 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57208 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57210 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57216 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57236 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57222 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57262 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591/migration-plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57274 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591/explanation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57246 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57276 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57290 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57292 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591/comparison HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57310 - "GET /v1/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57326 - "GET /v1/assessments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57340 - "GET /v1/assessments/024e45ed-8ba4-4873-9d6c-7404ae5e2591/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "GET /v1/assessments/73cdf1cd-88b5-4013-b78d-89586dcb5ed3/result HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [427437]

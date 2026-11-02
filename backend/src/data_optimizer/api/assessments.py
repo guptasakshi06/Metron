@@ -98,9 +98,12 @@ def build_assessments_router(config: Settings) -> APIRouter:
             )
         except (ValueError, ValidationError):
             raise HTTPException(422, "invalid assessment request") from None
-        digest = fingerprint(
-            {**payload.model_dump(mode="json"), "request": normalized.model_dump(mode="json")}
-        )
+        submitted = payload.model_dump(mode="json")
+        # Keep pre-S13 idempotency digests stable for ordinary submissions.
+        if payload.reassessment_of is None:
+            submitted.pop("reassessment_of")
+            submitted.pop("reassessment_reason")
+        digest = fingerprint({**submitted, "request": normalized.model_dump(mode="json")})
         with psycopg.connect(str(config.database_url), row_factory=dict_row) as db:
             # Tenant row lock serializes quota admission and duplicate creation.
             db.execute("SELECT id FROM tenants WHERE id=%s FOR UPDATE", (identity.tenant_id,))
@@ -120,6 +123,12 @@ def build_assessments_router(config: Settings) -> APIRouter:
             ).fetchone()
             if not project:
                 raise HTTPException(404, "project not found")
+            if payload.reassessment_of:
+                previous = owned(config, identity.tenant_id, payload.reassessment_of)
+                if previous["project_id"] != payload.project_id:
+                    raise HTTPException(422, "reassessment must remain in the same project")
+                if previous["result_key"] is None:
+                    raise HTTPException(409, "previous assessment has no completed evidence")
             input_hash = fingerprint(["startup", payload.project_id.hex])
             expires = None
             if payload.dataset_id:
@@ -207,6 +216,13 @@ def build_assessments_router(config: Settings) -> APIRouter:
                 "resource_id,action) VALUES (%s,%s,%s,'assessment',%s,'created')",
                 (uuid4(), identity.tenant_id, identity.principal_id, assessment),
             )
+            if payload.reassessment_of:
+                db.execute(
+                    "INSERT INTO reassessment_links "
+                    "(tenant_id,assessment_id,previous_assessment_id,reason) VALUES (%s,%s,%s,%s)",
+                    (identity.tenant_id, assessment, payload.reassessment_of,
+                     payload.reassessment_reason),
+                )
             assert row
             return {**summary(row), "reused": False}
 

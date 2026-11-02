@@ -9,10 +9,10 @@ This is the canonical implementation plan and progress record for Data Optimizer
 **Repository instructions:** `AGENTS.md`  
 **Architecture reference:** `docs/ARCHITECTURE.md`  
 **Plan created:** 2026-11-01, Asia/Kolkata  
-**Last updated:** 2026-11-02 22:39, Asia/Kolkata
+**Last updated:** 2026-11-02 23:00, Asia/Kolkata
 **Current sprint:** None
-**Next sprint:** S13
-**MVP status:** S01 through S12 complete; MVP implementation in progress
+**Next sprint:** S14
+**MVP status:** S01 through S13 complete; S14 integrated evaluation/release readiness remains
 **Verified repository state at planning:** No application files and no Git commits. Do not assume this remains true in later chats.
 
 User operating model: one sprint per new chat. When the user supplies this handoff for execution without naming a sprint, resume an in-progress sprint; otherwise execute the first eligible unfinished MVP sprint in dependency order. Do the implementation, run appropriate verification and update this same file before ending. Do not merely produce another plan. Stop after that sprint unless the user explicitly requests more.
@@ -252,10 +252,10 @@ Sprints are execution units, not promises that a whole unit fits a single model 
 | S10 | Complete assessment dashboard | S09 | completed | 305 backend + 4 frontend; 8 real browser/service/worker/Docker flows, exact displayed API totals, desktop/narrow QA and cleanup; see docs/evidence/s10-verification.md |
 | S11 | Structured AI intake and grounded explanations | S10 | completed | 337 backend + 7 frontend, 42 service tests, 2 real browser flows, package smoke; see docs/evidence/s11-verification.md |
 | S12 | Reproducible reports and migration handoff exports | S11 | completed | 352 backend + 7 frontend; 44 service + final 2 report tests, actual Chrome downloads and extracted-wheel reproduction/migration; see docs/evidence/s12-verification.md |
-| S13 | Savings observations and manual reassessment | S12 | not_started | None |
+| S13 | Savings observations and manual reassessment | S12 | completed | 25 new calculation/validation cases; 377 backend + 7 frontend, 47 real service tests, complete browser reconciliation/reassessment and package checks; see docs/evidence/s13-verification.md |
 | S14 | Integrated evaluation and local release readiness | S13 | not_started | None |
 
-**Selection now:** S13 is the next unfinished sprint. S01 through S12 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
+**Selection now:** S14 is the next unfinished sprint. S01 through S13 are complete. After S14 is verified, set Next sprint to `COMPLETE_MVP` and stop. Do not start the post-MVP backlog without a new request.
 
 ## Detailed sprint instructions
 ### S01 Project foundation and executable contracts
@@ -835,21 +835,21 @@ Record report schemas, download APIs, tested reproduction steps and any user act
 
 ### S13 Savings observations and manual reassessment
 
-**Status:** not_started  
+**Status:** completed
 **Dependencies:** S12  
 **Outcome:** Track adoption and observed outcomes without confusing lower usage with optimization savings.  
 **Expected code and document areas:** backend/src/data_optimizer/{observations,economics,api}; backend/migrations/; frontend/src/; backend/tests/
 
 #### Tasks
 
-- [ ] S13.01 Persist versioned migration plans with proposed/planned/deployed/reverted states, adopted configuration, deployment date and original evidence references.
-- [ ] S13.02 Accept validated manual observation uploads or entry for retained bytes, logical volume, query mix, access rates, itemized costs, currency and measurement period. Record source and coverage.
-- [ ] S13.03 Compute workload-adjusted baseline estimates using the original representation/cost assumptions under comparable observed usage. Label the counterfactual baseline as modeled.
-- [ ] S13.04 Show actual costs, projected costs, modeled savings and cumulative migration-adjusted benefit separately. Handle missing bills, currency mismatch, negative outcomes and partial periods.
-- [ ] S13.05 Provide a savings history view with clear units, dates and attribution assumptions. Manual input must remain identified as user supplied rather than provider verified.
-- [ ] S13.06 Add a deliberate reassess action that creates a new immutable assessment when data/workload/prices change and compares versions without modifying old evidence.
-- [ ] S13.07 Calculate drift signals from supported metadata and explain when prior recommendations may be stale. Do not create scheduled external notifications in this sprint.
-- [ ] S13.08 Document how to reconcile observations with bills and how to mark a change reverted. Keep input/edit audit history.
+- [x] S13.01 Persist versioned migration plans with proposed/planned/deployed/reverted states, adopted configuration, deployment date and original evidence references.
+- [x] S13.02 Accept validated manual observation uploads or entry for retained bytes, logical volume, query mix, access rates, itemized costs, currency and measurement period. Record source and coverage.
+- [x] S13.03 Compute workload-adjusted baseline estimates using the original representation/cost assumptions under comparable observed usage. Label the counterfactual baseline as modeled.
+- [x] S13.04 Show actual costs, projected costs, modeled savings and cumulative migration-adjusted benefit separately. Handle missing bills, currency mismatch, negative outcomes and partial periods.
+- [x] S13.05 Provide a savings history view with clear units, dates and attribution assumptions. Manual input must remain identified as user supplied rather than provider verified.
+- [x] S13.06 Add a deliberate reassess action that creates a new immutable assessment when data/workload/prices change and compares versions without modifying old evidence.
+- [x] S13.07 Calculate drift signals from supported metadata and explain when prior recommendations may be stale. Do not create scheduled external notifications in this sprint.
+- [x] S13.08 Document how to reconcile observations with bills and how to mark a change reverted. Keep input/edit audit history.
 
 #### Acceptance gates
 
@@ -867,18 +867,19 @@ Record observation provenance, normalization assumptions, history APIs, supporte
 
 #### Execution record
 
-- Started:
-- Updated:
-- Completed:
-- Branch and commit if available:
-- Delivered behavior:
-- Files changed:
-- Setup and run commands:
-- Verification commands and outcomes:
-- Evidence and report paths:
-- Decisions and deviations:
-- Blockers or unverified checks:
-- Resume from: Start S13.01 after its dependencies are verified.
+- Started: 2026-11-02 22:42 (Asia/Kolkata)
+- Updated: 2026-11-02 23:00 (Asia/Kolkata)
+- Completed: 2026-11-02 23:00 (Asia/Kolkata)
+- Branch and commit if available: `main`, clean start/final HEAD `67a9b05` (S12). No agent staging, commit, push or history change; S13 changes remain uncommitted.
+- Delivered behavior: Tenant-owned append-only adoption plans fixed to original assessment/report/selected configuration, optimistic proposed/planned/deployed/reverted versions and dates; bounded reviewed manual observation entry/upload with usage, bytes, query mix, itemized costs, source/coverage/currency/period and immutable revisions/exclusions/actor audit; original-price comparable-usage modeled baseline with period line amounts, explicit actual/projection/modeled savings/cumulative actual-migration-adjusted benefit, negative/null outcomes and no provider-verified attribution; exact API history dashboard, advisory metadata drift and deliberate same-project immutable reassessment/comparison through the real existing worker pipeline.
+- Files changed: New `backend/src/data_optimizer/observations/`, `api/observations.py`, migration `0008_observations.sql`, unit/service observation tests; `api/{main,assessments}.py`, `jobs/models.py`; frontend `Savings.tsx`, `App.tsx`, `Results.tsx`, generated contracts/build info, browser observation spec; contract generator, `verify-s13-browser.py`, `verify-s13-package.py`, Makefile, README, user-flow guide; `examples/s13-{adoption,observation}.json`; observation runbook, decision 0013, S13 evidence and this handoff. No runtime dependency/lockfile/stack change.
+- Setup and run commands: Existing locked setup; `make infra-up`, `make migrate`, `make seed-local`, `make storage-init`, `make dev` plus existing dispatcher/worker. Actual default development migration applied pending 0004–0008; isolated fixtures applied all eight on empty schemas. Dashboard manual JSON is reviewable before submit; examples are explicitly synthetic. APIs: POST/GET `/v1/assessments/{id}/migration-plan`; POST `/v1/migration-plans/{id}/observations`; GET `/v1/migration-plans/{id}/history`; paired `reassessment_of`/`reassessment_reason` on existing submission and GET `/v1/assessments/{id}/comparison`. Full contracts/units/version conflicts/reverts in `docs/runbooks/observations.md`.
+- Verification commands and outcomes: Final `make check` passed drift/Ruff/strict mypy 99 files/ESLint/TypeScript; `make test` passed 377 backend + 7 frontend (25 new S13 arithmetic/validation cases). Final sequential `make test-integration` passed all 47 actual service tests in 79.22s, including three S13 flows with multi-period aggregation, conflicts, ownership, expiry/deletion, database immutability and actual worker evidence. `make test-observations-browser` passed one complete real Chrome/API/PostgreSQL/MinIO/Redis/RQ/Docker scenario in 20.5s, exit 0 and cleanup; exact UI/API amounts, growth, lower usage zero attribution, negative/missing/currency/revert/refresh/tenant/reassessment paths checked. Final `make build` passed wheel/sdist/Vite. `.tools/uv-bin/uv run --locked --project backend python scripts/verify-s13-package.py` passed extracted-wheel contracts/routes/eight checksummed migrations outside checkout. Targeted `pytest -q backend/tests/test_observations.py --tb=short` passed 25; targeted service file passed three before final multi-period assertion, then all three passed full final suite. Script Ruff, desktop/narrow visual QA and diff whitespace checks passed. No new capacity claim or separate sandbox-suite run; actual Docker trials ran in service/browser flows.
+- Evidence and report paths: `docs/evidence/s13-verification.md`, `s13-verification-results.json`, package/browser results and cleanup status, exact command/service/build logs, `s13-browser-history.json`, `s13-browser-comparison.json`, actual `s13-measured-change-report.json`, desktop/narrow screenshots. Synthetic arithmetic includes lower usage baseline/actual 75/75 => zero, growth 600/100 => 500, negative 200/1100 => -900 and partial period 100/100 => zero; no real invoice or production observation. Original report bytes unchanged through edits, reversion and reassessment.
+- Decisions and deviations: D028 / `docs/decisions/0013-s13-observations.md`. Reuse S07 original tariffs/footprint/copies and S09 owned assessment pipeline; no generalized billing connector. Model version `s13.linear_usage_v1`: explicit 30-day months, linear logical-volume/object scaling, same-mix replay CPU scaling, independently supplied other access quantities, fixed commitments unchanged. Preserve original projection separately; missing bills/usage, schema/mix/currency mismatch, unsupported billing minima or out-of-range modeled quantities suppress attribution. Cumulative scope is latest non-excluded disjoint recorded periods, gaps unestimated and actual migration cost deducted once. Thresholds: 20% volume/replay/retained-byte divergence, schema/input/mix changes and 90-day price age, all advisory. Preserve pre-S13 ordinary idempotency digests. No scheduler or external notifications.
+- Blockers or unverified checks: No S13 acceptance blocker. Original assessment/input retention/deletion still gates history and reassessment comparison (default seven days); choose suitable explicit upload retention. Long-term metadata-only history after raw expiry is not implemented, and raw retention is never silently extended. Linear shape/selectivity/compression/object topology, 30-day proration and original-rate attribution are unvalidated models; no FX, unsupported minima topology or missing-cost inference. Manual sources remain user supplied, not provider verified. Existing Starlette/Node warnings and favicon 404 remain. Initial browser selector/React-key/overflow issues corrected; favicon-only console error excluded explicitly. Concurrent service/browser run produced one queued direct-execution failure under shared demo-tenant advisory locks; final sequential full suite passed 47/47. No live AI/prices/IdP/bills, customer/pilot/production/cloud/concurrency/tail/cold-cache, paid/public deployment or production reader-switch claim. S14 not started.
+- Completion checklist: All eight tasks and three local gates have concrete evidence; full checks/tests/build plus related service/browser/package paths pass; original inputs/history and unrelated changes preserved; methods, commands, limitations, ledger/current/next/date/decisions/blockers/session history reconciled. Isolated test resources removed; local services stopped without volume deletion; labeled benchmark listing empty. No commit/push or external messages.
+- Resume from: Start S14.01 after reading this handoff, decision 0013 and `docs/runbooks/observations.md`. Run integrated held-out evaluation and local release-readiness work, retaining honest sample/synthetic/manual/model boundaries and retention limits. Run browser/service workers sequentially on the shared demo-tenant database. Do not start post-MVP work.
 
 ### S14 Integrated evaluation and local release readiness
 
@@ -986,11 +987,13 @@ This checklist is a reusable template. Copy its result into the active Execution
 
 | D027 | 2026-11-02 | Portable calculated reports, typed source-preserving reproduction and authenticated expiring download grants | Keep evidence/costs immutable, omit unnecessary prose, reject mismatches and require deliberate reader canary/rollback; see decision 0012 and report runbook |
 
+| D028 | 2026-11-02 | Append-only user-supplied adoption/observation history, comparable-usage modeled attribution and deliberate immutable reassessment | Separate actual costs from original projections and adjusted counterfactuals, preserve evidence/audit, reject overlap/conflicts and avoid false savings attribution; see decision 0013 and observation runbook |
+
 Append significant decisions with the affected sprint and a concrete reason. When superseding a decision, preserve its history and link the replacement.
 
 ## Current blockers and open questions
 
-No known blocker prevents S13. S01 through S12 local acceptance gates are complete; optional live AI integration, external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
+No known blocker prevents S14. S01 through S13 local acceptance gates are complete; optional live AI integration, external identity provider, public deployment and production object-store behavior remain unverified and outside the completed local sprint scope.
 
 | Item | Treatment |
 | --- | --- |
@@ -1201,3 +1204,14 @@ After working, give the user a concise message containing the sprint ID, deliver
 The canonical next-chat instruction remains:
 
 > Read this handoff, execute the next unfinished sprint, verify it and update this file before finishing.
+
+### S13 start on 2026-11-02 22:42
+
+- Inspected clean Git state and S12 contracts. S13 in_progress before implementation.
+
+### S13 completion on 2026-11-02 23:00
+
+- Completed S13.01–S13.08 with immutable adoption/observation revisions, original-evidence models, exact history UI, drift signals and deliberate versioned reassessment. No real deployment or provider bill verification was asserted.
+- Verification: full check/build, 377 backend + 7 frontend, 47 sequential service tests, complete real browser flow and extracted-wheel/eight-migration smoke passed. Evidence: `docs/evidence/s13-verification.md`.
+- Lower usage fixture yields zero adjusted savings; negative, missing bill, currency mismatch, partial periods, reverts and original-report immutability verified. Original retention gates remain explicit. Shared demo-tenant advisory locks require service/browser tests to run sequentially.
+- Project services stopped, volumes retained, isolated resources removed and labeled containers absent. Handoff reconciled: Current None, Next S14; MVP not yet declared complete. No commit/push, deployment, paid provisioning, messages or post-MVP implementation.

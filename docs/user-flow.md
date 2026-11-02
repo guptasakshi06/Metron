@@ -114,3 +114,14 @@ Results include evidence-linked guidance. Optional AI can prioritize verified ev
 cards; financial values still come exclusively from calculated result fields. Coverage
 limitations remain visible for every outcome. See [AI boundaries](ai-boundaries.md)
 for the exact provider setup, supported extraction syntax, budgets and API paths.
+
+## Adoption history and manual reassessment
+
+Saved results include **Adoption & savings history**. A tested change can be recorded as
+proposed, planned, deployed and reverted; each save appends an immutable version. Manual
+observation JSON entry or reviewed upload records dated usage, copies, itemized bills and
+coverage. The history separates actual, original projected and modeled adjusted totals,
+preserves negative/unknown outcomes and supports revisions/exclusions with audit history.
+**Prepare reassessment** loads the old request for review; **Run assessment** deliberately
+creates a new evidence version. See [the full runbook](runbooks/observations.md) before
+interpreting modeled savings or recording a real deployment/revert.

@@ -101,3 +101,7 @@ test-assistance-browser:
 .PHONY: test-reports-browser
 test-reports-browser:
 	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/verify-s12-browser.py
+
+.PHONY: test-observations-browser
+test-observations-browser:
+	UV_CACHE_DIR="$(LOCAL_TOOLS)/uv-cache" $(UV) run --locked --project backend python scripts/verify-s13-browser.py

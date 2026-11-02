@@ -2,7 +2,7 @@
 
 from uuid import UUID
 
-from pydantic import model_validator
+from pydantic import Field, model_validator
 
 from data_optimizer.config import Settings
 from data_optimizer.optimization.assessment import AssessmentRequest
@@ -15,6 +15,8 @@ class Submission(Model):
     dataset_id: UUID | None = None
     profile_id: UUID | None = None
     intake_confirmation_id: UUID | None = None
+    reassessment_of: UUID | None = None
+    reassessment_reason: str | None = Field(default=None, min_length=1, max_length=2000)
     request: AssessmentRequest
 
     @model_validator(mode="after")
@@ -23,6 +25,8 @@ class Submission(Model):
             raise ValueError("choose_one_input")
         if self.dataset_id and not self.request.conversion:
             raise ValueError("dataset_requires_conversion")
+        if (self.reassessment_of is None) != (self.reassessment_reason is None):
+            raise ValueError("reassessment_requires_parent_and_reason")
         return self
 
 

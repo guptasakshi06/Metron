@@ -13,6 +13,7 @@ import { Api, errorText, pretty, terminal } from "./api";
 import demo from "./demo-request.json";
 import Results from "./Results";
 import Handoff from "./Handoff";
+import Savings from "./Savings";
 import Intake from "./Intake";
 import { requirementsKey } from "./api";
 import Explanation from "./Explanation";
@@ -214,6 +215,17 @@ function Dashboard({
   );
   const [status, setStatus] = useState<Status | null>(null);
   const [report, setReport] = useState<ResultAssessmentReport | null>(null);
+  const [reassessment, setReassessment] = useState<{id: string; reason: string} | null>(() => {
+    if (token) return null;
+    try {
+      const prior = JSON.parse(stored(`do:v1:${scope}:reassessment`));
+      return prior?.projectId === projectId && typeof prior.id === "string" && typeof prior.reason === "string"
+        ? {id: prior.id, reason: prior.reason} : null;
+    } catch { return null; }
+  });
+  useEffect(() => {
+    if (!token) save(`do:v1:${scope}:reassessment`, reassessment ? pretty({...reassessment, projectId}) : "");
+  }, [token, scope, reassessment, projectId]);
   const [pollError, setPollError] = useState("");
   const [pollRetry, setPollRetry] = useState(0);
   const [issues, setIssues] = useState<{ path: string; code: string }[]>([]);
@@ -352,6 +364,7 @@ function Dashboard({
   }
   function selectProject(id: string) {
     setProjectId(id);
+    setReassessment(null);
     setAcceptedIntake(null);
     if (!token) save(`do:v1:${scope}:intake`, "");
     setDatasetId("");
@@ -450,6 +463,8 @@ function Dashboard({
       dataset_id: mode === "raw" ? datasetId : null,
       profile_id: mode === "metadata" ? profileId : null,
       request: validation.request,
+      reassessment_of: reassessment?.id ?? null,
+      reassessment_reason: reassessment?.reason ?? null,
     };
     const json = pretty(payload);
     // Retain the same key on transport errors, including refresh, so retries cannot duplicate work.
@@ -471,6 +486,7 @@ function Dashboard({
       "Idempotency-Key": pending.key,
     });
     selectAssessment(s.id);
+    setReassessment(null);
     setStatus(s);
     setAssessments((prev) => [s, ...prev.filter((a) => a.id !== s.id)]);
     submission.current = null;
@@ -1016,6 +1032,8 @@ function Dashboard({
             ? "Cost assumptions are active. The synthetic example uses invented amplified storage prices and explicitly zero non-storage usage. Edit all quantities, rates, copies and migration assumptions in JSON for your scenario. This is not a provider quote or observed saving."
             : "Pricing and migration costs are unknown. You can measure bytes and workload timings, but a cost recommendation needs explicit assumptions."}
         </p>
+        {reassessment && <p role="status">Reassessing <code>{reassessment.id}</code>: {reassessment.reason}
+          <button onClick={() => setReassessment(null)}>Cancel reassessment draft</button></p>}
         <details open>
           <summary>Schema, workload & cost editor (JSON)</summary>
           <p>
@@ -1184,6 +1202,17 @@ function Dashboard({
           <Explanation key={assessmentId + report.report_fingerprint} api={api}
             assessmentId={assessmentId} fingerprint={report.report_fingerprint} />
           <Results report={report} />
+          <Savings key={"savings:" + assessmentId + report.report_fingerprint} api={api}
+            assessmentId={assessmentId} report={report} onReassess={reason => {
+              setReassessment({id: assessmentId, reason});
+              editRequest(report.request);
+              setAcceptedIntake(null);
+              if (!token) save(`do:v1:${scope}:intake`, "");
+              setDatasetId(status?.dataset_id ?? ""); setProfileId(status?.profile_id ?? "");
+              setMode(status?.dataset_id ? "raw" : status?.profile_id ? "metadata" : "startup");
+              setNotice("Reassessment prepared. Review data, workload and prices, then Run assessment.");
+              document.getElementById("requirements")?.scrollIntoView();
+            }} />
           <Handoff key={assessmentId} api={api} assessmentId={assessmentId} />
         </>}
       </section>

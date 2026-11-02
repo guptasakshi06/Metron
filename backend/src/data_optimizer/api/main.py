@@ -15,6 +15,7 @@ from data_optimizer.api.assessments import build_assessments_router
 from data_optimizer.api.assistance import build_assistance_router
 from data_optimizer.api.dashboard import build_dashboard_router
 from data_optimizer.api.datasets import build_datasets_router
+from data_optimizer.api.observations import build_observations_router
 from data_optimizer.api.probes import Probe, dependency_report
 from data_optimizer.api.profiles import build_profiles_router
 from data_optimizer.api.projects import build_projects_router
@@ -31,6 +32,7 @@ def create_app(
     application = FastAPI(title="Data Optimizer API", version=__version__)
     application.include_router(build_dashboard_router(config))
     application.include_router(build_reports_router(config))
+    application.include_router(build_observations_router(config))
     application.include_router(build_assistance_router(config))
     application.include_router(build_assessments_router(config))
     application.include_router(build_projects_router(config))

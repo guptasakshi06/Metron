@@ -1,0 +1,14 @@
+INFO assessment_stage id=73cdf1cd-88b5-4013-b78d-89586dcb5ed3 stage=profiling trials=0
+INFO assessment_stage id=73cdf1cd-88b5-4013-b78d-89586dcb5ed3 stage=benchmarking trials=0
+INFO assessment_stage id=73cdf1cd-88b5-4013-b78d-89586dcb5ed3 stage=benchmarking trials=1
+INFO assessment_stage id=73cdf1cd-88b5-4013-b78d-89586dcb5ed3 stage=benchmarking trials=2
+INFO assessment_stage id=73cdf1cd-88b5-4013-b78d-89586dcb5ed3 stage=benchmarking trials=3
+INFO assessment_stage id=73cdf1cd-88b5-4013-b78d-89586dcb5ed3 stage=benchmarking trials=4
+INFO assessment_stage id=73cdf1cd-88b5-4013-b78d-89586dcb5ed3 stage=scoring trials=4
+INFO assessment_stage id=024e45ed-8ba4-4873-9d6c-7404ae5e2591 stage=profiling trials=0
+INFO assessment_stage id=024e45ed-8ba4-4873-9d6c-7404ae5e2591 stage=benchmarking trials=0
+INFO assessment_stage id=024e45ed-8ba4-4873-9d6c-7404ae5e2591 stage=benchmarking trials=1
+INFO assessment_stage id=024e45ed-8ba4-4873-9d6c-7404ae5e2591 stage=benchmarking trials=2
+INFO assessment_stage id=024e45ed-8ba4-4873-9d6c-7404ae5e2591 stage=benchmarking trials=3
+INFO assessment_stage id=024e45ed-8ba4-4873-9d6c-7404ae5e2591 stage=benchmarking trials=4
+INFO assessment_stage id=024e45ed-8ba4-4873-9d6c-7404ae5e2591 stage=scoring trials=4

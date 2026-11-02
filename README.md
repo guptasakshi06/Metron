@@ -181,3 +181,12 @@ input, workload, engine and benchmark-environment compatibility, then runs the r
 `sh /tmp/new-handoff/migrate.sh SOURCE NEW_WORKSPACE NEW_RESULT.json` deliberately creates
 and validates a local copy for a tested `change`; it preserves originals and switches no reader.
 See [export/reproduction guide](docs/runbooks/reports.md) for APIs, validation, canary and rollback.
+
+## Adoption and observed outcomes
+
+S13 adds append-only adoption plans, reviewed manual observation JSON entry/upload, separate
+actual/projection/modeled savings history, drift signals and deliberate immutable reassessment.
+Start in **Adoption & savings history** on a saved assessment. These are user-supplied records
+and comparable-usage models, never provider-verified savings. See the
+[observation runbook](docs/runbooks/observations.md) for units, assumptions, reconciliation,
+reverts and APIs. `make test-observations-browser` exercises the real local stack.

@@ -1,0 +1,10 @@
+{
+  "expected_version": 0,
+  "state": "proposed",
+  "reference_logical_bytes": 287,
+  "deployed_at": null,
+  "reverted_at": null,
+  "actual_migration_cost": null,
+  "source": "Synthetic example; no actual adoption",
+  "note": "Review and validate before recording any real reader change"
+}

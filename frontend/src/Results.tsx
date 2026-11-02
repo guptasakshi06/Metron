@@ -30,7 +30,7 @@ export default function Results({
             : "Uploaded sample · local worker"}
         </span>
         <span>Costs: modeled projections</span>
-        <span>Production observations: unavailable</span>
+        <span>Assessment snapshot · observations in adoption history</span>
       </div>
       {prices.map((s) => (
         <div className="notice" key={s.name}>

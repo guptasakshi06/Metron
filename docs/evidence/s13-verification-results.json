@@ -1,0 +1,39 @@
+{
+  "sprint": "S13",
+  "status": "completed",
+  "checked_at": "2026-11-02T23:00:32.807346+05:30",
+  "git_head": "67a9b057815327e524b24d51254c08d58d38746e",
+  "checks": "passed",
+  "unit_tests": {
+    "backend": 377,
+    "frontend": 7,
+    "new_arithmetic_validation_cases": 25
+  },
+  "service_tests": {
+    "passed": 47,
+    "seconds": "79.22",
+    "final_run": "sequential"
+  },
+  "browser": {
+    "passed": 1,
+    "seconds": "20.5",
+    "real_services_and_worker_and_docker": true,
+    "manual_observations": "synthetic_user_supplied_not_provider_verified"
+  },
+  "build": "passed",
+  "package": {
+    "status": "passed",
+    "packaged_migrations": 8,
+    "migration_sha256": "79d6ee21eaff5616ce96daf5c4dd2c122702c8f6567b036b21b62a976823269d",
+    "owned_history_routes": [
+      "/v1/assessments/{assessment_id}/comparison",
+      "/v1/assessments/{assessment_id}/migration-plan",
+      "/v1/migration-plans/{plan_id}/history",
+      "/v1/migration-plans/{plan_id}/observations"
+    ],
+    "wheel_sha256": "5ec02d763faba2983dd9b9680f39bbbaa16dc5623d97d8d05ffec9fdea851d78"
+  },
+  "production_reader_changed": false,
+  "live_provider_bills_verified": false,
+  "next_sprint": "S14"
+}

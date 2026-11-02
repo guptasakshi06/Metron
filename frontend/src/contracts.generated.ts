@@ -956,3 +956,34 @@ export type AssistIntakeResult = {
   "status": string;
   "assumption"?: string;
 }
+
+export type AdoptionPlanInput = {
+  "expected_version": number;
+  "state"?: "proposed" | "planned" | "deployed" | "reverted";
+  "reference_logical_bytes": number;
+  "deployed_at"?: string | null;
+  "reverted_at"?: string | null;
+  "actual_migration_cost"?: number | string | null;
+  "source": string;
+  "note": string;
+}
+
+export type ObservedObservationInput = {
+  "observation_id"?: string | null;
+  "expected_version"?: number;
+  "period_start": string;
+  "period_end": string;
+  "currency": string;
+  "schema_fingerprint"?: string | null;
+  "input_fingerprint"?: string | null;
+  "retained_bytes"?: number | null;
+  "logical_volume_bytes"?: number | null;
+  "workload_replays"?: number | string | null;
+  "query_mix"?: Record<string, number | string>;
+  "access_quantities"?: Record<string, number | string | null>;
+  "itemized_costs"?: Record<string, number | string | null>;
+  "coverage": string;
+  "source": string;
+  "note": string;
+  "excluded"?: boolean;
+}

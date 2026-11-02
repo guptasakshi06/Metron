@@ -1,0 +1,2 @@
+UV_CACHE_DIR=".tools/uv-cache" .tools/uv-bin/uv run --locked --project backend data-optimizer migrate
+Applied 5 migration(s): 0004_local_profiles.sql, 0005_assessments.sql, 0006_structured_assistance.sql, 0007_report_downloads.sql, 0008_observations.sql

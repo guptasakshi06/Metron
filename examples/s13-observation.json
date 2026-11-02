@@ -1,0 +1,47 @@
+{
+  "expected_version": 0,
+  "period_start": "2026-09-01T00:00:00Z",
+  "period_end": "2026-10-01T00:00:00Z",
+  "currency": "USD",
+  "retained_bytes": 138,
+  "logical_volume_bytes": 287,
+  "workload_replays": "100",
+  "query_mix": {
+    "scan": "0.166666666667",
+    "ids": "0.166666666667",
+    "filter": "0.166666666667",
+    "nulls": "0.166666666667",
+    "time": "0.166666666667",
+    "groups": "0.166666666667"
+  },
+  "access_quantities": {
+    "storage": "0",
+    "query_compute": "0",
+    "transform_compute": "0",
+    "read_requests": "0",
+    "write_requests": "0",
+    "retrieval": "0",
+    "network": "0",
+    "backups": "0",
+    "replicas": "0",
+    "maintenance": "0",
+    "service": "0"
+  },
+  "itemized_costs": {
+    "storage": "13.8",
+    "query_compute": "0",
+    "transform_compute": "0",
+    "read_requests": "0",
+    "write_requests": "0",
+    "retrieval": "0",
+    "network": "0",
+    "backups": "0",
+    "replicas": "0",
+    "maintenance": "0",
+    "service": "0"
+  },
+  "source": "Synthetic offline manual-observation example; no real bill",
+  "coverage": "Invented complete equivalent copy/cost boundary for the tiny example",
+  "note": "Illustrative manual entry only; never provider verified or a production observation",
+  "excluded": false
+}
